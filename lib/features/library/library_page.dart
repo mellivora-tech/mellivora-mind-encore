@@ -388,22 +388,22 @@ class _AudioItemTileState extends ConsumerState<_AudioItemTile>
           child: Row(
             children: [
               // ── Cover placeholder (56×56) ──
+              // #40: Use ClipRRect + ColoredBox for lightweight thumbnail placeholder
               Stack(
                 children: [
-                  Container(
-                    width: 56,
-                    height: 56,
-                    decoration: BoxDecoration(
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: const ColoredBox(
                       color: _kBgLayer2,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        _formatDuration(item.durationMs),
-                        style: const TextStyle(
-                          color: _kTextSecondary,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                      child: SizedBox(
+                        width: 56,
+                        height: 56,
+                        child: Center(
+                          child: Icon(
+                            Icons.headphones,
+                            color: _kTextSecondary,
+                            size: 22,
+                          ),
                         ),
                       ),
                     ),

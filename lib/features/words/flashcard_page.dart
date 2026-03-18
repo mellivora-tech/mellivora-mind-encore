@@ -17,8 +17,12 @@ const _kGreen = Color(0xFF4CAF50);
 const _kRed = Color(0xFFE57373);
 
 /// #33: Flashcard page with 3D flip animation + Ebbinghaus review queue.
+/// #37: Supports optional [wordIds] for targeted practice mode.
 class FlashcardPage extends ConsumerStatefulWidget {
-  const FlashcardPage({super.key});
+  /// If non-null, only review these specific words (targeted practice).
+  final List<String>? wordIds;
+
+  const FlashcardPage({super.key, this.wordIds});
 
   @override
   ConsumerState<FlashcardPage> createState() => _FlashcardPageState();
@@ -40,7 +44,16 @@ class _FlashcardPageState extends ConsumerState<FlashcardPage> {
 
   Future<void> _loadQueue() async {
     final repo = ref.read(reviewRepositoryProvider);
-    final queue = await repo.getTodayReviewQueue();
+    final wordIds = widget.wordIds;
+
+    List<ReviewItem> queue;
+    if (wordIds != null && wordIds.isNotEmpty) {
+      // #37: Targeted practice mode — load only specified words
+      queue = await repo.getReviewQueueForWords(wordIds);
+    } else {
+      queue = await repo.getTodayReviewQueue();
+    }
+
     if (mounted) {
       setState(() {
         _queue = queue;
@@ -90,7 +103,10 @@ class _FlashcardPageState extends ConsumerState<FlashcardPage> {
         backgroundColor: _kBgLayer1,
         foregroundColor: _kTextPrimary,
         title: _loading || _finished
-            ? const Text('复习', style: TextStyle(fontSize: 18))
+            ? Text(
+                widget.wordIds != null ? '专项练习' : '复习',
+                style: const TextStyle(fontSize: 18),
+              )
             : Text(
                 '${_currentIndex + 1} / ${_queue.length}',
                 style: const TextStyle(color: _kText70, fontSize: 16),

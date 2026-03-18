@@ -136,6 +136,45 @@ class ReviewRepository {
     ));
   }
 
+  /// #37: Get review queue for specific word IDs (targeted practice).
+  Future<List<ReviewItem>> getReviewQueueForWords(List<String> wordIds) async {
+    final items = <ReviewItem>[];
+    for (final wordId in wordIds) {
+      final vocab = await (_db.select(_db.vocabulary)
+            ..where((t) => t.id.equals(wordId)))
+          .getSingleOrNull();
+      if (vocab == null) continue;
+
+      final schedule = await (_db.select(_db.reviewSchedule)
+            ..where((t) => t.wordId.equals(wordId)))
+          .getSingleOrNull();
+
+      String sourceSentence = '';
+      if (vocab.sourceOffsetMs > 0) {
+        final transcript = await (_db.select(_db.transcripts)
+              ..where((t) =>
+                  t.audioId.equals(vocab.audioId) &
+                  t.startMs.isSmallerOrEqualValue(vocab.sourceOffsetMs) &
+                  t.endMs.isBiggerOrEqualValue(vocab.sourceOffsetMs)))
+            .getSingleOrNull();
+        sourceSentence = transcript?.text_ ?? '';
+      }
+
+      items.add(ReviewItem(
+        vocab: vocab,
+        schedule: schedule ??
+            ReviewScheduleData(
+              wordId: wordId,
+              nextReviewAt: DateTime.now(),
+              reviewCount: 0,
+              lastResult: '',
+            ),
+        sourceSentence: sourceSentence,
+      ));
+    }
+    return items;
+  }
+
   /// Get review count for today.
   Future<int> getTodayReviewCount() async {
     final now = DateTime.now();

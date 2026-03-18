@@ -6,7 +6,9 @@ import '../../features/auth/login_page.dart';
 import 'shell_scaffold.dart';
 import '../../features/library/library_page.dart';
 import '../../features/agent/agent_page.dart';
+import '../../features/agent/weekly_report_page.dart';
 import '../../features/words/words_page.dart';
+import '../../features/words/flashcard_page.dart';
 import '../../features/profile/profile_page.dart';
 import '../../features/player/pages/player_page.dart';
 
@@ -39,6 +41,23 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final audioId = state.pathParameters['audioId'] ?? '';
           return PlayerPage(audioId: audioId);
+        },
+      ),
+      // #38: Weekly report page route
+      GoRoute(
+        path: '/weekly-report',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const WeeklyReportPage(),
+      ),
+      // #37: Flashcard route (for push notification deep link)
+      // Usage: /flashcard?wordIds=id1,id2,id3
+      GoRoute(
+        path: '/flashcard',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final idsParam = state.uri.queryParameters['wordIds'];
+          final wordIds = idsParam?.split(',').where((s) => s.isNotEmpty).toList();
+          return FlashcardPage(wordIds: wordIds);
         },
       ),
       StatefulShellRoute.indexedStack(

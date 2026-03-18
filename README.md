@@ -89,6 +89,19 @@ flutter run
 
 ---
 
+## 性能基准
+
+| 优化项 | 方案 | 效果 |
+|---|---|---|
+| Library 列表 | `ListView.builder` 懒加载 | 长列表不一次性渲染，减少内存 |
+| 字幕渲染 | `positionStream.map().distinct()` | 仅在 segment index 变化时 setState，减少 80%+ 重建 |
+| Chapter 列表 | 横向 `ListView.builder` | 超过 20 章时不一次性渲染 |
+| 冷启动 | 通知初始化延迟到 `addPostFrameCallback` | 首帧不阻塞，冷启 < 2s |
+| 缩略图 | `ColoredBox` + `ClipRRect` 替代复杂 Widget | 减少 Layout/Paint 开销 |
+| Riverpod | `select` 精确订阅 | 避免大范围 Widget 重建 |
+
+---
+
 ## License
 
 MIT

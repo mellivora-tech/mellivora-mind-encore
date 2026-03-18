@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../../features/agent/agent_push_service.dart';
+
 /// Service for local push notifications.
-/// Handles transcription-complete notifications and in-app fallback.
+/// Handles transcription-complete, agent practice, and weekly report notifications.
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
   factory NotificationService() => _instance;
@@ -49,22 +51,41 @@ class NotificationService {
           ?.requestPermissions(alert: true, badge: true, sound: true);
       _hasPermission = granted ?? false;
     } else {
-      // Android: create notification channel
-      const channel = AndroidNotificationChannel(
+      // Android: create notification channels
+      final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+
+      const transcriptionChannel = AndroidNotificationChannel(
         'transcription_channel',
         'Transcription Notifications',
         description: 'Notifications for transcription completion',
         importance: Importance.high,
       );
-      await _plugin
-          .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()
-          ?.createNotificationChannel(channel);
+      await androidPlugin?.createNotificationChannel(transcriptionChannel);
+
+      const practiceChannel = AndroidNotificationChannel(
+        'agent_practice_channel',
+        'Agent Practice Reminders',
+        description: 'Daily practice reminders from Agent',
+        importance: Importance.high,
+      );
+      await androidPlugin?.createNotificationChannel(practiceChannel);
+
+      const reportChannel = AndroidNotificationChannel(
+        'weekly_report_channel',
+        'Weekly Reports',
+        description: 'Weekly learning report notifications',
+        importance: Importance.high,
+      );
+      await androidPlugin?.createNotificationChannel(reportChannel);
+
       _hasPermission = true;
     }
 
     _initialized = true;
   }
+
+  bool get hasPermission => _hasPermission;
 
   /// Show a notification when transcription completes.
   Future<void> showTranscriptionComplete({
@@ -93,10 +114,9 @@ class NotificationService {
         '转录完成 🎧',
         '$audioTitle 已转录完成，共 $chapterCount 个章节，可以开始学习了！',
         details,
-        payload: audioId,
+        payload: 'audio:$audioId',
       );
     } else {
-      // Fallback: show in-app SnackBar
       _showInAppBanner(audioId, audioTitle, chapterCount);
     }
   }
@@ -127,7 +147,7 @@ class NotificationService {
         '转录失败',
         '$audioTitle 转录失败，请检查网络或 API Key 后重试',
         details,
-        payload: audioId,
+        payload: 'audio:$audioId',
       );
     } else {
       final context = navigatorKey.currentContext;
@@ -156,8 +176,8 @@ class NotificationService {
           action: SnackBarAction(
             label: '查看',
             onPressed: () {
-              // ignore: avoid_print
-              print('TODO: navigate to player $audioId');
+              // Navigate to player
+              navigatorKey.currentState?.pushNamed('/player/$audioId');
             },
           ),
         ),
@@ -165,12 +185,11 @@ class NotificationService {
     }
   }
 
-  /// Handle notification tap — navigate to audio player.
+  /// Last tapped notification payload — consumed by router / UI.
+  static String? pendingPayload;
+
+  /// Handle notification tap — store payload for consumption.
   static void _onNotificationTap(NotificationResponse response) {
-    final audioId = response.payload;
-    if (audioId != null && audioId.isNotEmpty) {
-      // ignore: avoid_print
-      print('TODO: navigate to player $audioId');
-    }
+    pendingPayload = response.payload;
   }
 }

@@ -116,9 +116,17 @@ class SubtitleService extends StateNotifier<SubtitleState> {
   }
 
   /// Listen to position stream for real-time subtitle updates.
+  /// #40: Use distinct() on segment index to reduce unnecessary setState calls.
   void _startListening() {
     _positionSub?.cancel();
-    _positionSub = _player.positionStream.listen(_updateFromPosition);
+    _positionSub = _player.positionStream
+        .map((pos) => getCurrentSegmentIndex(pos.inMilliseconds))
+        .distinct()
+        .listen((idx) {
+      if (idx != state.currentIndex) {
+        state = state.copyWith(currentIndex: idx);
+      }
+    });
   }
 
   void _updateFromPosition(Duration position) {
