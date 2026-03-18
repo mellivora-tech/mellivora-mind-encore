@@ -1,0 +1,46 @@
+name: mellivora_english_app
+description: 像听音乐一样学英语 — Flutter 跨平台 APP
+version: 0.1.0+1
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: '>=3.19.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # 音频播放
+  just_audio: ^0.9.40
+  audio_service: ^0.18.13
+
+  # 本地存储
+  sqflite: ^2.3.3+1
+  path: ^1.9.0
+
+  # 状态管理
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+  # 网络
+  dio: ^5.4.3+1
+
+  # 工具
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.9
+  freezed: ^2.5.2
+  json_serializable: ^6.8.0
+  riverpod_generator: ^2.4.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/audio/
+    - assets/icons/
