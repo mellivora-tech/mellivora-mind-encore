@@ -42,6 +42,13 @@ dependencies:
   # 文件选择
   file_picker: ^8.0.0+1
 
+  # 通知
+  flutter_local_notifications: ^17.0.0
+
+  # 后台任务 & 持久化
+  shared_preferences: ^2.2.3
+  flutter_background_service: ^5.0.5
+
   # 工具
   freezed_annotation: ^2.4.1
   json_annotation: ^4.9.0

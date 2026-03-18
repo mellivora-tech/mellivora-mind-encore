@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/database/app_database.dart';
+import '../../core/services/transcription_queue.dart';
 import 'library_provider.dart';
 
 class LibraryPage extends ConsumerWidget {
@@ -120,13 +121,20 @@ class _EmptyState extends StatelessWidget {
   }
 }
 
-class _AudioItemTile extends StatelessWidget {
+class _AudioItemTile extends ConsumerWidget {
   final AudioItem item;
 
   const _AudioItemTile({required this.item});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final progressAsync = ref.watch(transcriptionProgressProvider);
+
+    // Check if this item has active progress
+    final progress = progressAsync.whenOrNull(
+      data: (p) => p.audioId == item.id ? p : null,
+    );
+
     return ListTile(
       leading: Container(
         width: 48,
@@ -145,12 +153,73 @@ class _AudioItemTile extends StatelessWidget {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      subtitle: Text(_formatDuration(item.durationMs)),
-      trailing: _StatusLabel(status: item.transcriptionStatus),
+      subtitle: _buildSubtitle(progress),
+      trailing: _buildTrailing(context, ref, progress),
       onTap: () {
-        print('TODO: open player for ${item.id}');
+        if (item.transcriptionStatus == 'error') {
+          // Retry: re-enqueue
+          ref.read(transcriptionQueueProvider).enqueue(item.id);
+        } else {
+          // ignore: avoid_print
+          print('TODO: open player for ${item.id}');
+        }
       },
     );
+  }
+
+  Widget _buildSubtitle(TranscriptionProgress? progress) {
+    if (progress != null && progress.status == 'transcribing') {
+      return Row(
+        children: [
+          Expanded(
+            child: LinearProgressIndicator(
+              value: progress.percent / 100.0,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text('转录中 ${progress.percent}%',
+              style: const TextStyle(fontSize: 12)),
+        ],
+      );
+    }
+    return Text(_formatDuration(item.durationMs));
+  }
+
+  Widget _buildTrailing(
+      BuildContext context, WidgetRef ref, TranscriptionProgress? progress) {
+    if (item.transcriptionStatus == 'error') {
+      return GestureDetector(
+        onTap: () {
+          ref.read(transcriptionQueueProvider).enqueue(item.id);
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            color: Colors.red.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.red.withOpacity(0.5)),
+          ),
+          child: const Text(
+            '转录失败，点击重试',
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.red,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (progress != null && progress.status == 'transcribing') {
+      return const SizedBox(
+        width: 20,
+        height: 20,
+        child: CircularProgressIndicator(strokeWidth: 2),
+      );
+    }
+
+    return _StatusLabel(status: item.transcriptionStatus);
   }
 
   String _formatDuration(int? ms) {
