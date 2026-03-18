@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MellivoraApp extends StatelessWidget {
-  const MellivoraApp({super.key});
+import 'core/router/app_router.dart';
+
+class EncoreApp extends ConsumerWidget {
+  const EncoreApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Mellivora English',
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+
+    return MaterialApp.router(
+      title: 'Encore',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF6750A4)),
         useMaterial3: true,
       ),
-      home: const Scaffold(
-        body: Center(
-          child: Text('Mellivora English — Coming Soon 🎵'),
-        ),
-      ),
+      routerConfig: router,
     );
   }
 }
