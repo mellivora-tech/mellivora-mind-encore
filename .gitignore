@@ -49,3 +49,7 @@ build/
 .DS_Store
 .env
 .env.*
+
+# Note: *.g.dart (build_runner generated files) are intentionally committed
+# to avoid requiring build_runner on every clone. Regenerate with:
+#   dart run build_runner build --delete-conflicting-outputs

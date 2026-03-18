@@ -32,13 +32,22 @@ class _WeeklyReportPageState extends ConsumerState<WeeklyReportPage> {
   }
 
   Future<void> _loadReport() async {
-    final db = ref.read(databaseProvider);
-    final report = await WeeklyReportService().generateReport(db);
-    if (mounted) {
-      setState(() {
-        _report = report;
-        _loading = false;
-      });
+    try {
+      final db = ref.read(databaseProvider);
+      final report = await WeeklyReportService().generateReport(db);
+      if (mounted) {
+        setState(() {
+          _report = report;
+          _loading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _loading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('加载周报失败: $e')),
+        );
+      }
     }
   }
 
@@ -54,7 +63,14 @@ class _WeeklyReportPageState extends ConsumerState<WeeklyReportPage> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator(color: _kAccent))
-          : _buildReport(),
+          : _report == null
+              ? const Center(
+                  child: Text(
+                    '暂无数据',
+                    style: TextStyle(color: _kText40, fontSize: 16),
+                  ),
+                )
+              : _buildReport(),
     );
   }
 

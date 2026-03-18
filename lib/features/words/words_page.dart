@@ -246,9 +246,17 @@ class _WordsPageState extends ConsumerState<WordsPage> {
           TextButton(
             onPressed: () async {
               Navigator.of(ctx).pop();
-              final repo = ref.read(vocabularyRepositoryProvider);
-              await repo.deleteVocabulary(vocab.id);
-              ref.invalidate(filteredVocabularyProvider);
+              try {
+                final repo = ref.read(vocabularyRepositoryProvider);
+                await repo.deleteVocabulary(vocab.id);
+                ref.invalidate(filteredVocabularyProvider);
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('删除失败: $e')),
+                  );
+                }
+              }
             },
             child: const Text('删除', style: TextStyle(color: _kRed)),
           ),

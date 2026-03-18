@@ -36,6 +36,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   final _apiKeyController = TextEditingController();
   final _storage = const FlutterSecureStorage();
 
+  bool _apiKeyObscured = true;
   bool _apiKeyValid = false;
   bool _apiKeyChecked = false;
   bool _apiKeyLoading = false;
@@ -305,14 +306,43 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         ),
                       ),
                       const SizedBox(height: 2),
-                      FutureBuilder<String?>(
-                        future: ref
-                            .read(authServiceProvider)
-                            .getUserEmail(),
-                        builder: (_, snap) => Text(
-                          snap.data ?? '',
-                          style: const TextStyle(color: _kText40, fontSize: 13),
-                        ),
+                      FutureBuilder<List<String?>>(
+                        future: Future.wait([
+                          ref.read(authServiceProvider).getUserEmail(),
+                          const FlutterSecureStorage().read(key: 'auth_provider'),
+                        ]),
+                        builder: (_, snap) {
+                          final email = snap.data?[0] ?? '';
+                          final provider = snap.data?[1];
+                          return Row(
+                            children: [
+                              if (email.isNotEmpty)
+                                Text(
+                                  email,
+                                  style: const TextStyle(color: _kText40, fontSize: 13),
+                                ),
+                              if (provider != null) ...[
+                                const SizedBox(width: 8),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 6, vertical: 1),
+                                  decoration: BoxDecoration(
+                                    color: _kAccent.withOpacity(0.12),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    provider == 'apple' ? 'Apple' : 'Google',
+                                    style: const TextStyle(
+                                      color: _kAccent,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -336,7 +366,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               children: [
                 TextFormField(
                   controller: _apiKeyController,
-                  obscureText: true,
+                  obscureText: _apiKeyObscured,
                   style: const TextStyle(color: _kTextPrimary, fontSize: 14),
                   decoration: InputDecoration(
                     hintText: 'sk-...',
@@ -349,6 +379,15 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     ),
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _apiKeyObscured ? Icons.visibility_off : Icons.visibility,
+                        color: _kText40,
+                        size: 20,
+                      ),
+                      onPressed: () =>
+                          setState(() => _apiKeyObscured = !_apiKeyObscured),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),

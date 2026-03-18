@@ -43,23 +43,35 @@ class _FlashcardPageState extends ConsumerState<FlashcardPage> {
   }
 
   Future<void> _loadQueue() async {
-    final repo = ref.read(reviewRepositoryProvider);
-    final wordIds = widget.wordIds;
+    try {
+      final repo = ref.read(reviewRepositoryProvider);
+      final wordIds = widget.wordIds;
 
-    List<ReviewItem> queue;
-    if (wordIds != null && wordIds.isNotEmpty) {
-      // #37: Targeted practice mode — load only specified words
-      queue = await repo.getReviewQueueForWords(wordIds);
-    } else {
-      queue = await repo.getTodayReviewQueue();
-    }
+      List<ReviewItem> queue;
+      if (wordIds != null && wordIds.isNotEmpty) {
+        // #37: Targeted practice mode — load only specified words
+        queue = await repo.getReviewQueueForWords(wordIds);
+      } else {
+        queue = await repo.getTodayReviewQueue();
+      }
 
-    if (mounted) {
-      setState(() {
-        _queue = queue;
-        _loading = false;
-        _finished = queue.isEmpty;
-      });
+      if (mounted) {
+        setState(() {
+          _queue = queue;
+          _loading = false;
+          _finished = queue.isEmpty;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _loading = false;
+          _finished = true;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('加载复习队列失败: $e')),
+        );
+      }
     }
   }
 
@@ -67,8 +79,12 @@ class _FlashcardPageState extends ConsumerState<FlashcardPage> {
     if (_currentIndex >= _queue.length) return;
 
     final item = _queue[_currentIndex];
-    final repo = ref.read(reviewRepositoryProvider);
-    await repo.markRemembered(item.vocab.id);
+    try {
+      final repo = ref.read(reviewRepositoryProvider);
+      await repo.markRemembered(item.vocab.id);
+    } catch (_) {
+      // DB error — continue anyway so user isn't blocked
+    }
 
     setState(() {
       _correctCount++;
@@ -83,8 +99,12 @@ class _FlashcardPageState extends ConsumerState<FlashcardPage> {
     if (_currentIndex >= _queue.length) return;
 
     final item = _queue[_currentIndex];
-    final repo = ref.read(reviewRepositoryProvider);
-    await repo.markForgotten(item.vocab.id);
+    try {
+      final repo = ref.read(reviewRepositoryProvider);
+      await repo.markForgotten(item.vocab.id);
+    } catch (_) {
+      // DB error — continue anyway
+    }
 
     setState(() {
       _wrongItems.add(item);
