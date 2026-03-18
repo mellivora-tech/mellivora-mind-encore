@@ -35,12 +35,10 @@ class TranscriptionQueue {
   bool _isProcessing = false;
   bool _cancelRequested = false;
 
-  final _progressController =
-      StreamController<TranscriptionProgress>.broadcast();
+  final _progressController = StreamController<TranscriptionProgress>.broadcast();
 
   /// Stream of transcription progress updates.
-  Stream<TranscriptionProgress> get progressStream =>
-      _progressController.stream;
+  Stream<TranscriptionProgress> get progressStream => _progressController.stream;
 
   /// Current queue state: pending IDs + currently processing ID.
   List<String> get pendingIds => _pending.toList();
@@ -148,15 +146,13 @@ class TranscriptionQueue {
   /// Send push notification on transcription completion.
   Future<void> _notifyCompletion(String audioId) async {
     try {
-      final item = await (_db.select(_db.audioItems)
-            ..where((t) => t.id.equals(audioId)))
-          .getSingleOrNull();
+      final item =
+          await (_db.select(_db.audioItems)..where((t) => t.id.equals(audioId))).getSingleOrNull();
       if (item == null) return;
 
       // Count segments as proxy for chapters
-      final segments = await (_db.select(_db.transcripts)
-            ..where((t) => t.audioId.equals(audioId)))
-          .get();
+      final segments =
+          await (_db.select(_db.transcripts)..where((t) => t.audioId.equals(audioId))).get();
 
       await _notificationService.showTranscriptionComplete(
         audioId: audioId,
@@ -171,9 +167,8 @@ class TranscriptionQueue {
   /// Send push notification on transcription failure.
   Future<void> _notifyFailure(String audioId) async {
     try {
-      final item = await (_db.select(_db.audioItems)
-            ..where((t) => t.id.equals(audioId)))
-          .getSingleOrNull();
+      final item =
+          await (_db.select(_db.audioItems)..where((t) => t.id.equals(audioId))).getSingleOrNull();
       if (item == null) return;
 
       await _notificationService.showTranscriptionFailed(
@@ -217,8 +212,7 @@ final transcriptionQueueProvider = Provider<TranscriptionQueue>((ref) {
 });
 
 /// Stream provider for transcription progress.
-final transcriptionProgressProvider =
-    StreamProvider<TranscriptionProgress>((ref) {
+final transcriptionProgressProvider = StreamProvider<TranscriptionProgress>((ref) {
   final queue = ref.read(transcriptionQueueProvider);
   return queue.progressStream;
 });

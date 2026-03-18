@@ -61,9 +61,7 @@ class AudioImportService {
 
   /// Sanitize a file name: replace spaces and special characters
   String _sanitizeFileName(String fileName) {
-    return fileName
-        .replaceAll(RegExp(r'[^\w\d\-_.]'), '_')
-        .replaceAll(RegExp(r'_+'), '_');
+    return fileName.replaceAll(RegExp(r'[^\w\d\-_.]'), '_').replaceAll(RegExp(r'_+'), '_');
   }
 }
 

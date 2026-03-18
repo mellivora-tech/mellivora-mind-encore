@@ -116,11 +116,9 @@ class _WordCardContentState extends ConsumerState<_WordCardContent> {
 
     try {
       final response = await openai.chatCompletion(
-        systemPrompt:
-            '你是一个英语词典助手。请为单词提供：音标、词性、中文释义（≤20字）。'
+        systemPrompt: '你是一个英语词典助手。请为单词提供：音标、词性、中文释义（≤20字）。'
             '仅返回JSON格式：{"phonetic":"...","pos":"...","meaning":"..."}',
-        userMessage:
-            '单词："${widget.word}"。上下文：${widget.sentence}',
+        userMessage: '单词："${widget.word}"。上下文：${widget.sentence}',
       );
 
       final parsed = OpenAIService.parseWordDefinition(response);
@@ -145,8 +143,7 @@ class _WordCardContentState extends ConsumerState<_WordCardContent> {
 
   Future<void> _checkCollected() async {
     final repo = ref.read(vocabularyRepositoryProvider);
-    final collected =
-        await repo.isWordCollected(widget.word, widget.audioId);
+    final collected = await repo.isWordCollected(widget.word, widget.audioId);
     if (mounted) setState(() => _isCollected = collected);
   }
 
@@ -297,16 +294,14 @@ class _WordCardContentState extends ConsumerState<_WordCardContent> {
               children: [
                 if (_definition!.pos.isNotEmpty)
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
                       color: _kAccent.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
                       _definition!.pos,
-                      style:
-                          const TextStyle(color: _kAccent, fontSize: 12),
+                      style: const TextStyle(color: _kAccent, fontSize: 12),
                     ),
                   ),
                 if (_definition!.pos.isNotEmpty) const SizedBox(width: 8),
@@ -391,9 +386,7 @@ class _WordCardContentState extends ConsumerState<_WordCardContent> {
               child: Container(
                 height: 48,
                 decoration: BoxDecoration(
-                  color: _isCollected
-                      ? _kGreen.withOpacity(0.15)
-                      : _kAccent,
+                  color: _isCollected ? _kGreen.withOpacity(0.15) : _kAccent,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(

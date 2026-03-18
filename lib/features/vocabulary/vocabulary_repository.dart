@@ -29,8 +29,7 @@ class VocabularyRepository {
 
     if (existing != null) {
       // Update created_at to refresh
-      await (_db.update(_db.vocabulary)
-            ..where((t) => t.id.equals(existing.id)))
+      await (_db.update(_db.vocabulary)..where((t) => t.id.equals(existing.id)))
           .write(VocabularyCompanion(
         createdAt: Value(DateTime.now()),
         phonetic: Value(phonetic),
@@ -42,29 +41,29 @@ class VocabularyRepository {
 
     final id = _uuid.v4();
     await _db.into(_db.vocabulary).insert(VocabularyCompanion.insert(
-      id: id,
-      word: word,
-      phonetic: Value(phonetic),
-      pos: Value(pos),
-      meaning: Value(meaning),
-      audioId: audioId,
-      chapterId: Value(chapterId),
-      sourceOffsetMs: Value(sourceOffsetMs),
-    ));
+          id: id,
+          word: word,
+          phonetic: Value(phonetic),
+          pos: Value(pos),
+          meaning: Value(meaning),
+          audioId: audioId,
+          chapterId: Value(chapterId),
+          sourceOffsetMs: Value(sourceOffsetMs),
+        ));
 
     // Ensure word_memory row exists
     await _db.into(_db.wordMemory).insertOnConflictUpdate(
-      WordMemoryCompanion.insert(wordId: id),
-    );
+          WordMemoryCompanion.insert(wordId: id),
+        );
 
     // Ensure review_schedule row — first review tomorrow
     final tomorrow = DateTime.now().add(const Duration(days: 1));
     await _db.into(_db.reviewSchedule).insertOnConflictUpdate(
-      ReviewScheduleCompanion.insert(
-        wordId: id,
-        nextReviewAt: tomorrow,
-      ),
-    );
+          ReviewScheduleCompanion.insert(
+            wordId: id,
+            nextReviewAt: tomorrow,
+          ),
+        );
 
     return id;
   }
@@ -79,16 +78,14 @@ class VocabularyRepository {
 
   /// Increment query_count in word_memory, set last_queried_at, check weak_flag.
   Future<void> updateWordMemoryOnQuery(String vocabId) async {
-    final existing = await (_db.select(_db.wordMemory)
-          ..where((t) => t.wordId.equals(vocabId)))
+    final existing = await (_db.select(_db.wordMemory)..where((t) => t.wordId.equals(vocabId)))
         .getSingleOrNull();
 
     if (existing != null) {
       final newCount = existing.queryCount + 1;
       // weak_flag: queried 3+ times but mastery < 2
       final weak = newCount >= 3 && existing.masteryLevel < 2;
-      await (_db.update(_db.wordMemory)
-            ..where((t) => t.wordId.equals(vocabId)))
+      await (_db.update(_db.wordMemory)..where((t) => t.wordId.equals(vocabId)))
           .write(WordMemoryCompanion(
         queryCount: Value(newCount),
         lastQueriedAt: Value(DateTime.now()),
@@ -96,24 +93,22 @@ class VocabularyRepository {
       ));
     } else {
       await _db.into(_db.wordMemory).insert(WordMemoryCompanion.insert(
-        wordId: vocabId,
-        queryCount: const Value(1),
-        lastQueriedAt: Value(DateTime.now()),
-      ));
+            wordId: vocabId,
+            queryCount: const Value(1),
+            lastQueriedAt: Value(DateTime.now()),
+          ));
     }
   }
 
   /// Get all vocabulary items sorted by created_at desc.
   Future<List<VocabularyItem>> getAllVocabulary() async {
-    final rows = await (_db.select(_db.vocabulary)
-          ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
-        .get();
+    final rows =
+        await (_db.select(_db.vocabulary)..orderBy([(t) => OrderingTerm.desc(t.createdAt)])).get();
 
     final items = <VocabularyItem>[];
     for (final row in rows) {
       // Get audio title
-      final audio = await (_db.select(_db.audioItems)
-            ..where((t) => t.id.equals(row.audioId)))
+      final audio = await (_db.select(_db.audioItems)..where((t) => t.id.equals(row.audioId)))
           .getSingleOrNull();
 
       items.add(VocabularyItem(
@@ -126,9 +121,7 @@ class VocabularyRepository {
 
   /// Watch all vocabulary items as stream.
   Stream<List<VocabularyData>> watchAllVocabulary() {
-    return (_db.select(_db.vocabulary)
-          ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
-        .watch();
+    return (_db.select(_db.vocabulary)..orderBy([(t) => OrderingTerm.desc(t.createdAt)])).watch();
   }
 
   /// Get vocabulary items added this week.
@@ -159,10 +152,8 @@ class VocabularyRepository {
   /// Delete a vocabulary item and its related records.
   Future<void> deleteVocabulary(String id) async {
     await (_db.delete(_db.wordMemory)..where((t) => t.wordId.equals(id))).go();
-    await (_db.delete(_db.reviewSchedule)..where((t) => t.wordId.equals(id)))
-        .go();
-    await (_db.delete(_db.weaknessProfile)..where((t) => t.wordId.equals(id)))
-        .go();
+    await (_db.delete(_db.reviewSchedule)..where((t) => t.wordId.equals(id))).go();
+    await (_db.delete(_db.weaknessProfile)..where((t) => t.wordId.equals(id))).go();
     await (_db.delete(_db.vocabulary)..where((t) => t.id.equals(id))).go();
   }
 
@@ -170,8 +161,7 @@ class VocabularyRepository {
   Future<List<VocabularyData>> searchVocabulary(String query) async {
     final pattern = '%$query%';
     return (_db.select(_db.vocabulary)
-          ..where(
-              (t) => t.word.like(pattern) | t.meaning.like(pattern))
+          ..where((t) => t.word.like(pattern) | t.meaning.like(pattern))
           ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
         .get();
   }

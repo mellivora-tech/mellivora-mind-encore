@@ -132,8 +132,7 @@ class _AgentChatPageState extends ConsumerState<AgentChatPage> {
           if (agentCtx.sessionLookups.isNotEmpty)
             Container(
               width: double.infinity,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               color: _kAccent.withOpacity(0.08),
               child: Text(
                 '查过的词：${agentCtx.sessionLookups.join(", ")}',
@@ -148,8 +147,7 @@ class _AgentChatPageState extends ConsumerState<AgentChatPage> {
             child: ListView.builder(
               controller: _scrollController,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              itemCount: chatState.messages.length +
-                  (chatState.isStreaming ? 1 : 0),
+              itemCount: chatState.messages.length + (chatState.isStreaming ? 1 : 0),
               itemBuilder: (ctx, i) {
                 if (i < chatState.messages.length) {
                   return _buildBubble(chatState.messages[i]);
@@ -157,9 +155,7 @@ class _AgentChatPageState extends ConsumerState<AgentChatPage> {
                 // Streaming indicator
                 return _buildBubble(ChatMessage(
                   role: 'assistant',
-                  content: chatState.streamingBuffer.isEmpty
-                      ? '...'
-                      : chatState.streamingBuffer,
+                  content: chatState.streamingBuffer.isEmpty ? '...' : chatState.streamingBuffer,
                 ));
               },
             ),
@@ -185,12 +181,10 @@ class _AgentChatPageState extends ConsumerState<AgentChatPage> {
                       child: TextField(
                         controller: _controller,
                         focusNode: _focusNode,
-                        style: const TextStyle(
-                            color: _kTextPrimary, fontSize: 15),
+                        style: const TextStyle(color: _kTextPrimary, fontSize: 15),
                         decoration: const InputDecoration(
                           hintText: '输入消息...',
-                          hintStyle:
-                              TextStyle(color: _kText40, fontSize: 15),
+                          hintStyle: TextStyle(color: _kText40, fontSize: 15),
                           border: InputBorder.none,
                         ),
                         maxLines: 3,
@@ -205,16 +199,12 @@ class _AgentChatPageState extends ConsumerState<AgentChatPage> {
                         width: 36,
                         height: 36,
                         decoration: BoxDecoration(
-                          color: chatState.isStreaming
-                              ? _kText20
-                              : _kAccent,
+                          color: chatState.isStreaming ? _kText20 : _kAccent,
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           Icons.arrow_upward_rounded,
-                          color: chatState.isStreaming
-                              ? _kText40
-                              : _kBgLayer1,
+                          color: chatState.isStreaming ? _kText40 : _kBgLayer1,
                           size: 20,
                         ),
                       ),
@@ -246,9 +236,7 @@ class _AgentChatPageState extends ConsumerState<AgentChatPage> {
             bottomRight: isUser ? const Radius.circular(4) : null,
             bottomLeft: !isUser ? const Radius.circular(4) : null,
           ),
-          border: isUser
-              ? null
-              : Border.all(color: _kText20, width: 0.5),
+          border: isUser ? null : Border.all(color: _kText20, width: 0.5),
         ),
         child: SelectableText(
           msg.content,

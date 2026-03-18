@@ -128,8 +128,7 @@ class PlayerState {
 
   /// Helper: is the current chapter in single-chapter loop mode
   bool get isCurrentChapterLooping =>
-      loopMode == ChapterLoopMode.chapter &&
-      loopingChapterIndex == currentChapterIndex;
+      loopMode == ChapterLoopMode.chapter && loopingChapterIndex == currentChapterIndex;
 
   PlayerState copyWith({
     String? audioId,
@@ -154,9 +153,8 @@ class PlayerState {
       chapters: chapters ?? this.chapters,
       speed: speed ?? this.speed,
       loopMode: loopMode ?? this.loopMode,
-      loopingChapterIndex: loopingChapterIndex != null
-          ? loopingChapterIndex()
-          : this.loopingChapterIndex,
+      loopingChapterIndex:
+          loopingChapterIndex != null ? loopingChapterIndex() : this.loopingChapterIndex,
       isCompleted: isCompleted ?? this.isCompleted,
     );
   }
@@ -273,8 +271,7 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
   Future<void> seekRelative(Duration offset) async {
     final newPos = _player.position + offset;
     final clamped = Duration(
-      milliseconds: newPos.inMilliseconds
-          .clamp(0, state.duration.inMilliseconds),
+      milliseconds: newPos.inMilliseconds.clamp(0, state.duration.inMilliseconds),
     );
     await seekTo(clamped);
   }
@@ -287,8 +284,7 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
     // Mark previous chapter as heard
     if (state.chapters.isNotEmpty) {
       final prevChapter = state.chapters[state.currentChapterIndex];
-      await (_db.update(_db.chapters)
-            ..where((t) => t.id.equals(prevChapter.id)))
+      await (_db.update(_db.chapters)..where((t) => t.id.equals(prevChapter.id)))
           .write(const ChaptersCompanion(isHeard: Value(true)));
     }
 
@@ -411,8 +407,7 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
           if (i > state.currentChapterIndex) {
             final prevChapter = state.chapters[state.currentChapterIndex];
             try {
-              (_db.update(_db.chapters)
-                    ..where((t) => t.id.equals(prevChapter.id)))
+              (_db.update(_db.chapters)..where((t) => t.id.equals(prevChapter.id)))
                   .write(const ChaptersCompanion(isHeard: Value(true)));
             } catch (e) {
               debugPrint('Failed to mark chapter heard: $e');
@@ -446,8 +441,7 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
   // ── Processing State (#23: auto-advance / completion) ──
 
   void _startProcessingStateListener() {
-    _processingStateSub =
-        _player.processingStateStream.listen((processingState) {
+    _processingStateSub = _player.processingStateStream.listen((processingState) {
       if (processingState == ProcessingState.completed) {
         _onPlaybackCompleted();
       }
@@ -459,8 +453,7 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
     if (state.chapters.isNotEmpty) {
       final lastChapter = state.chapters[state.currentChapterIndex];
       try {
-        (_db.update(_db.chapters)
-              ..where((t) => t.id.equals(lastChapter.id)))
+        (_db.update(_db.chapters)..where((t) => t.id.equals(lastChapter.id)))
             .write(const ChaptersCompanion(isHeard: Value(true)));
       } catch (e) {
         debugPrint('Failed to mark chapter heard: $e');
@@ -493,9 +486,7 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
           PlaybackStateCompanion(
             audioId: Value(audioId),
             lastPositionMs: Value(state.duration.inMilliseconds),
-            lastChapterId: Value(state.chapters.isNotEmpty
-                ? state.chapters.last.id
-                : null),
+            lastChapterId: Value(state.chapters.isNotEmpty ? state.chapters.last.id : null),
           ),
         );
   }
@@ -513,8 +504,7 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
     if (audioId == null) return;
 
     String? chapterId;
-    if (state.chapters.isNotEmpty &&
-        state.currentChapterIndex < state.chapters.length) {
+    if (state.chapters.isNotEmpty && state.currentChapterIndex < state.chapters.length) {
       chapterId = state.chapters[state.currentChapterIndex].id;
     }
 
@@ -529,11 +519,8 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
 
   // ── Restore Playback State (#18) ──
 
-  static Future<PlaybackStateData?> getPlaybackState(
-      AppDatabase db, String audioId) async {
-    return (db.select(db.playbackState)
-          ..where((t) => t.audioId.equals(audioId)))
-        .getSingleOrNull();
+  static Future<PlaybackStateData?> getPlaybackState(AppDatabase db, String audioId) async {
+    return (db.select(db.playbackState)..where((t) => t.audioId.equals(audioId))).getSingleOrNull();
   }
 
   // ── Cleanup ──
@@ -551,8 +538,7 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
 }
 
 // ── Riverpod Provider ────────────────────────────────────────
-final audioPlayerProvider =
-    StateNotifierProvider<AudioPlayerNotifier, PlayerState>((ref) {
+final audioPlayerProvider = StateNotifierProvider<AudioPlayerNotifier, PlayerState>((ref) {
   final db = ref.read(databaseProvider);
   return AudioPlayerNotifier(db);
 });

@@ -47,9 +47,7 @@ class LoginPage extends ConsumerWidget {
                     height: 50,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        ref
-                            .read(authStateProvider.notifier)
-                            .signInWithApple();
+                        ref.read(authStateProvider.notifier).signInWithApple();
                       },
                       icon: const Icon(Icons.apple),
                       label: const Text('Sign in with Apple'),
@@ -68,9 +66,7 @@ class LoginPage extends ConsumerWidget {
                   height: 50,
                   child: OutlinedButton.icon(
                     onPressed: () {
-                      ref
-                          .read(authStateProvider.notifier)
-                          .signInWithGoogle();
+                      ref.read(authStateProvider.notifier).signInWithGoogle();
                     },
                     icon: const Icon(Icons.g_mobiledata, size: 28),
                     label: const Text('Sign in with Google'),

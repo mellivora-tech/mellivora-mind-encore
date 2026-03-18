@@ -14,8 +14,7 @@ final wordsFilterProvider = StateProvider<WordsFilter>((ref) => WordsFilter.all)
 final wordsSearchQueryProvider = StateProvider<String>((ref) => '');
 
 /// Filtered & searched vocabulary list.
-final filteredVocabularyProvider =
-    FutureProvider<List<VocabularyData>>((ref) async {
+final filteredVocabularyProvider = FutureProvider<List<VocabularyData>>((ref) async {
   final filter = ref.watch(wordsFilterProvider);
   final query = ref.watch(wordsSearchQueryProvider);
   final repo = ref.read(vocabularyRepositoryProvider);
@@ -43,9 +42,8 @@ final filteredVocabularyProvider =
   if (query.isNotEmpty && filter != WordsFilter.all) {
     final lower = query.toLowerCase();
     items = items
-        .where((v) =>
-            v.word.toLowerCase().contains(lower) ||
-            v.meaning.toLowerCase().contains(lower))
+        .where(
+            (v) => v.word.toLowerCase().contains(lower) || v.meaning.toLowerCase().contains(lower))
         .toList();
   }
 

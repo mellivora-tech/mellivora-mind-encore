@@ -123,8 +123,7 @@ class _SubtitleOverlayState extends ConsumerState<SubtitleOverlay>
     if (playerState.chapters.isEmpty) return const SizedBox.shrink();
 
     final chapter = playerState.chapters[playerState.currentChapterIndex];
-    final heardCount =
-        playerState.chapters.where((c) => c.isHeard).length;
+    final heardCount = playerState.chapters.where((c) => c.isHeard).length;
     final totalCount = playerState.chapters.length;
 
     return Padding(
@@ -134,9 +133,7 @@ class _SubtitleOverlayState extends ConsumerState<SubtitleOverlay>
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            chapter.title.isNotEmpty
-                ? chapter.title
-                : '第${playerState.currentChapterIndex + 1}章',
+            chapter.title.isNotEmpty ? chapter.title : '第${playerState.currentChapterIndex + 1}章',
             style: const TextStyle(
               color: _kText70,
               fontSize: 14,
@@ -154,8 +151,7 @@ class _SubtitleOverlayState extends ConsumerState<SubtitleOverlay>
   }
 
   /// Build subtitle text with each word tappable.
-  Widget _buildWordWrappedText(
-      TranscriptSegment segment, PlayerState playerState) {
+  Widget _buildWordWrappedText(TranscriptSegment segment, PlayerState playerState) {
     final words = segment.text.split(RegExp(r'(\s+)'));
     final spans = <InlineSpan>[];
 
@@ -167,8 +163,7 @@ class _SubtitleOverlayState extends ConsumerState<SubtitleOverlay>
       }
 
       // Clean word for lookup (remove punctuation)
-      final cleanWord =
-          w.replaceAll(RegExp(r"[^\w'-]"), '');
+      final cleanWord = w.replaceAll(RegExp(r"[^\w'-]"), '');
 
       spans.add(WidgetSpan(
         alignment: PlaceholderAlignment.baseline,
@@ -206,8 +201,7 @@ class _SubtitleOverlayState extends ConsumerState<SubtitleOverlay>
     );
   }
 
-  void _onWordTap(
-      String word, String sentence, PlayerState playerState) {
+  void _onWordTap(String word, String sentence, PlayerState playerState) {
     // #29: Show word card bottom sheet
     showWordCardSheet(
       context: context,

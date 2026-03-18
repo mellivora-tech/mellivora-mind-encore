@@ -9,8 +9,7 @@ import 'agent_context.dart';
 
 /// #35: Riverpod provider for AgentContext.
 /// Updates in real-time as player state and subtitle change.
-final agentContextProvider =
-    StateNotifierProvider<AgentContextNotifier, AgentContext>((ref) {
+final agentContextProvider = StateNotifierProvider<AgentContextNotifier, AgentContext>((ref) {
   return AgentContextNotifier(ref);
 });
 
@@ -38,9 +37,7 @@ class AgentContextNotifier extends StateNotifier<AgentContext> {
     if (playerState.chapters.isNotEmpty &&
         playerState.currentChapterIndex < playerState.chapters.length) {
       final ch = playerState.chapters[playerState.currentChapterIndex];
-      chapterTitle = ch.title.isNotEmpty
-          ? ch.title
-          : '第${playerState.currentChapterIndex + 1}章';
+      chapterTitle = ch.title.isNotEmpty ? ch.title : '第${playerState.currentChapterIndex + 1}章';
     }
 
     state = state.copyWith(

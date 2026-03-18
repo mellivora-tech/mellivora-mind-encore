@@ -25,8 +25,7 @@ class ReviewRepository {
 
     final items = <ReviewItem>[];
     for (final schedule in schedules) {
-      final vocab = await (_db.select(_db.vocabulary)
-            ..where((t) => t.id.equals(schedule.wordId)))
+      final vocab = await (_db.select(_db.vocabulary)..where((t) => t.id.equals(schedule.wordId)))
           .getSingleOrNull();
       if (vocab == null) continue;
 
@@ -53,20 +52,17 @@ class ReviewRepository {
 
   /// Mark word as "remembered" — advance review schedule.
   Future<void> markRemembered(String wordId) async {
-    final schedule = await (_db.select(_db.reviewSchedule)
-          ..where((t) => t.wordId.equals(wordId)))
+    final schedule = await (_db.select(_db.reviewSchedule)..where((t) => t.wordId.equals(wordId)))
         .getSingleOrNull();
 
     if (schedule == null) return;
 
     final newCount = schedule.reviewCount + 1;
-    final intervalIdx =
-        (newCount - 1).clamp(0, _intervals.length - 1);
+    final intervalIdx = (newCount - 1).clamp(0, _intervals.length - 1);
     final nextDays = _intervals[intervalIdx];
     final nextReview = DateTime.now().add(Duration(days: nextDays));
 
-    await (_db.update(_db.reviewSchedule)
-          ..where((t) => t.wordId.equals(wordId)))
+    await (_db.update(_db.reviewSchedule)..where((t) => t.wordId.equals(wordId)))
         .write(ReviewScheduleCompanion(
       reviewCount: Value(newCount),
       nextReviewAt: Value(nextReview),
@@ -81,8 +77,7 @@ class ReviewRepository {
   Future<void> markForgotten(String wordId) async {
     final tomorrow = DateTime.now().add(const Duration(days: 1));
 
-    await (_db.update(_db.reviewSchedule)
-          ..where((t) => t.wordId.equals(wordId)))
+    await (_db.update(_db.reviewSchedule)..where((t) => t.wordId.equals(wordId)))
         .write(ReviewScheduleCompanion(
       nextReviewAt: Value(tomorrow),
       lastResult: const Value('incorrect'),
@@ -93,11 +88,9 @@ class ReviewRepository {
   }
 
   /// Update word_memory stats after a quiz attempt.
-  Future<void> _updateWordMemoryOnQuiz(String wordId,
-      {required bool correct}) async {
-    final existing = await (_db.select(_db.wordMemory)
-          ..where((t) => t.wordId.equals(wordId)))
-        .getSingleOrNull();
+  Future<void> _updateWordMemoryOnQuiz(String wordId, {required bool correct}) async {
+    final existing =
+        await (_db.select(_db.wordMemory)..where((t) => t.wordId.equals(wordId))).getSingleOrNull();
 
     if (existing == null) return;
 
@@ -125,8 +118,7 @@ class ReviewRepository {
     // weak_flag: queried 3+ times but mastery < 2
     final weak = existing.queryCount >= 3 && mastery < 2;
 
-    await (_db.update(_db.wordMemory)
-          ..where((t) => t.wordId.equals(wordId)))
+    await (_db.update(_db.wordMemory)..where((t) => t.wordId.equals(wordId)))
         .write(WordMemoryCompanion(
       quizAttempts: Value(newAttempts),
       quizCorrect: Value(newCorrect),
@@ -140,13 +132,11 @@ class ReviewRepository {
   Future<List<ReviewItem>> getReviewQueueForWords(List<String> wordIds) async {
     final items = <ReviewItem>[];
     for (final wordId in wordIds) {
-      final vocab = await (_db.select(_db.vocabulary)
-            ..where((t) => t.id.equals(wordId)))
-          .getSingleOrNull();
+      final vocab =
+          await (_db.select(_db.vocabulary)..where((t) => t.id.equals(wordId))).getSingleOrNull();
       if (vocab == null) continue;
 
-      final schedule = await (_db.select(_db.reviewSchedule)
-            ..where((t) => t.wordId.equals(wordId)))
+      final schedule = await (_db.select(_db.reviewSchedule)..where((t) => t.wordId.equals(wordId)))
           .getSingleOrNull();
 
       String sourceSentence = '';

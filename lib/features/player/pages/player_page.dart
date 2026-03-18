@@ -42,8 +42,7 @@ class PlayerPage extends ConsumerStatefulWidget {
   ConsumerState<PlayerPage> createState() => _PlayerPageState();
 }
 
-class _PlayerPageState extends ConsumerState<PlayerPage>
-    with SingleTickerProviderStateMixin {
+class _PlayerPageState extends ConsumerState<PlayerPage> with SingleTickerProviderStateMixin {
   late final AnimationController _slideController;
   late final Animation<Offset> _slideAnimation;
   final ScrollController _chapterScrollController = ScrollController();
@@ -88,14 +87,11 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
     if (currentState.audioId == widget.audioId && currentState.isPlaying) {
       ref.read(miniPlayerVisibleProvider.notifier).state = true;
       ref.read(currentAudioIdProvider.notifier).state = widget.audioId;
-      ref
-          .read(subtitleServiceProvider.notifier)
-          .loadSubtitles(widget.audioId);
+      ref.read(subtitleServiceProvider.notifier).loadSubtitles(widget.audioId);
       return;
     }
 
-    final audioItem = await (db.select(db.audioItems)
-          ..where((t) => t.id.equals(widget.audioId)))
+    final audioItem = await (db.select(db.audioItems)..where((t) => t.id.equals(widget.audioId)))
         .getSingleOrNull();
 
     if (audioItem == null) return;
@@ -106,12 +102,10 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
       return;
     }
 
-    final savedState =
-        await AudioPlayerNotifier.getPlaybackState(db, widget.audioId);
+    final savedState = await AudioPlayerNotifier.getPlaybackState(db, widget.audioId);
 
     if (savedState != null && savedState.lastPositionMs > 0 && mounted) {
-      final shouldResume =
-          await _showResumeDialog(savedState.lastPositionMs);
+      final shouldResume = await _showResumeDialog(savedState.lastPositionMs);
       if (!mounted) return;
 
       if (shouldResume == true) {
@@ -121,8 +115,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
                 ..where((t) => t.audioId.equals(widget.audioId))
                 ..orderBy([(t) => OrderingTerm.asc(t.index)]))
               .get();
-          startChapter = chapters
-              .indexWhere((c) => c.id == savedState.lastChapterId);
+          startChapter = chapters.indexWhere((c) => c.id == savedState.lastChapterId);
           if (startChapter < 0) startChapter = 0;
         }
 
@@ -131,8 +124,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
           filePath: audioItem.filePath,
           title: audioItem.title,
           startChapterIndex: startChapter,
-          startPosition:
-              Duration(milliseconds: savedState.lastPositionMs),
+          startPosition: Duration(milliseconds: savedState.lastPositionMs),
         );
       } else {
         await playerNotifier.loadAndPlay(
@@ -152,15 +144,12 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
     if (mounted) {
       ref.read(miniPlayerVisibleProvider.notifier).state = true;
       ref.read(currentAudioIdProvider.notifier).state = widget.audioId;
-      ref
-          .read(subtitleServiceProvider.notifier)
-          .loadSubtitles(widget.audioId);
+      ref.read(subtitleServiceProvider.notifier).loadSubtitles(widget.audioId);
     }
   }
 
   Future<bool?> _showResumeDialog(int lastPositionMs) async {
-    final formattedTime =
-        _formatDuration(Duration(milliseconds: lastPositionMs));
+    final formattedTime = _formatDuration(Duration(milliseconds: lastPositionMs));
 
     if (Platform.isIOS) {
       return showCupertinoModalPopup<bool>(
@@ -202,17 +191,13 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
               ),
               const SizedBox(height: 8),
               ListTile(
-                leading:
-                    const Icon(Icons.play_arrow, color: _kAccent),
-                title: const Text('继续播放',
-                    style: TextStyle(color: _kTextPrimary)),
+                leading: const Icon(Icons.play_arrow, color: _kAccent),
+                title: const Text('继续播放', style: TextStyle(color: _kTextPrimary)),
                 onTap: () => Navigator.of(ctx).pop(true),
               ),
               ListTile(
-                leading:
-                    const Icon(Icons.replay, color: _kText40),
-                title: const Text('从头播放',
-                    style: TextStyle(color: _kTextPrimary)),
+                leading: const Icon(Icons.replay, color: _kText40),
+                title: const Text('从头播放', style: TextStyle(color: _kTextPrimary)),
                 onTap: () => Navigator.of(ctx).pop(false),
               ),
               const SizedBox(height: 8),
@@ -253,8 +238,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
     }
   }
 
-  void _showChapterEndPrompt(
-      AgentContext ctx, PlayerState playerState) {
+  void _showChapterEndPrompt(AgentContext ctx, PlayerState playerState) {
     final chapterNum = playerState.currentChapterIndex + 1;
     final wordCount = ctx.sessionLookups.length;
 
@@ -263,8 +247,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
         duration: const Duration(seconds: 8),
         backgroundColor: _kBgLayer2,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         content: Text(
           'Ch.$chapterNum 听完了 \u{1F389} 查了$wordCount个词，花3分钟考一下？',
           style: const TextStyle(color: _kTextPrimary, fontSize: 14),
@@ -273,15 +256,10 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
           label: '好，出题',
           textColor: _kAccent,
           onPressed: () {
-            ref
-                .read(agentContextProvider.notifier)
-                .setTrigger(AgentTrigger.chapterEnd);
-            ref
-                .read(agentChatProvider.notifier)
-                .startSession(AgentMode.quiz);
+            ref.read(agentContextProvider.notifier).setTrigger(AgentTrigger.chapterEnd);
+            ref.read(agentChatProvider.notifier).startSession(AgentMode.quiz);
             Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (_) => const AgentChatPage()),
+              MaterialPageRoute(builder: (_) => const AgentChatPage()),
             );
           },
         ),
@@ -293,8 +271,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
   Widget build(BuildContext context) {
     final playerState = ref.watch(audioPlayerProvider);
 
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _initPlayer());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _initPlayer());
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollToCurrentChapter(playerState.currentChapterIndex);
     });
@@ -326,12 +303,9 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
         children: [
           GestureDetector(
             onTap: () {
-              final overlayVisible =
-                  ref.read(playerOverlayVisibleProvider);
+              final overlayVisible = ref.read(playerOverlayVisibleProvider);
               if (overlayVisible) {
-                ref
-                    .read(playerOverlayVisibleProvider.notifier)
-                    .state = false;
+                ref.read(playerOverlayVisibleProvider.notifier).state = false;
               } else {
                 context.pop();
               }
@@ -342,8 +316,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.chevron_left,
-                      color: _kAccent, size: 24),
+                  Icon(Icons.chevron_left, color: _kAccent, size: 24),
                   Text(
                     'Library',
                     style: TextStyle(
@@ -371,8 +344,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
           ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child:
-                Icon(Icons.queue_music, color: _kText40, size: 24),
+            child: Icon(Icons.queue_music, color: _kText40, size: 24),
           ),
         ],
       ),
@@ -392,9 +364,8 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
         padding: const EdgeInsets.symmetric(horizontal: 12),
         itemCount: playerState.chapters.length,
         itemBuilder: (context, index) {
-          final isLoopingThis =
-              playerState.loopMode == ChapterLoopMode.chapter &&
-                  playerState.loopingChapterIndex == index;
+          final isLoopingThis = playerState.loopMode == ChapterLoopMode.chapter &&
+              playerState.loopingChapterIndex == index;
           return _ChapterChip(
             chapter: playerState.chapters[index],
             index: index,
@@ -402,24 +373,19 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
             isDone: playerState.chapters[index].isHeard,
             isLooping: isLoopingThis,
             currentPosition: playerState.position,
-            onTap: () => ref
-                .read(audioPlayerProvider.notifier)
-                .seekToChapter(index),
-            onLongPress: () => _showChapterContextMenu(
-                context, index, playerState),
+            onTap: () => ref.read(audioPlayerProvider.notifier).seekToChapter(index),
+            onLongPress: () => _showChapterContextMenu(context, index, playerState),
           );
         },
       ),
     );
   }
 
-  void _showChapterContextMenu(
-      BuildContext context, int index, PlayerState playerState) {
+  void _showChapterContextMenu(BuildContext context, int index, PlayerState playerState) {
     HapticFeedback.mediumImpact();
     final notifier = ref.read(audioPlayerProvider.notifier);
     final isLoopingThis =
-        playerState.loopMode == ChapterLoopMode.chapter &&
-            playerState.loopingChapterIndex == index;
+        playerState.loopMode == ChapterLoopMode.chapter && playerState.loopingChapterIndex == index;
 
     if (Platform.isIOS) {
       showCupertinoModalPopup(
@@ -436,8 +402,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
                   notifier.setChapterLoop(index);
                 }
               },
-              child: Text(
-                  isLoopingThis ? '取消循环' : '\u21BA 循环这段'),
+              child: Text(isLoopingThis ? '取消循环' : '\u21BA 循环这段'),
             ),
             CupertinoActionSheetAction(
               onPressed: () {
@@ -465,8 +430,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
         context: context,
         backgroundColor: _kBgLayer2,
         shape: const RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.vertical(top: Radius.circular(16)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
         ),
         builder: (ctx) => SafeArea(
           child: Column(
@@ -510,21 +474,16 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.skip_next_rounded,
-                    color: _kText40),
-                title: const Text('跳到这里',
-                    style: TextStyle(color: _kTextPrimary)),
+                leading: const Icon(Icons.skip_next_rounded, color: _kText40),
+                title: const Text('跳到这里', style: TextStyle(color: _kTextPrimary)),
                 onTap: () {
                   Navigator.of(ctx).pop();
                   notifier.seekToChapter(index);
                 },
               ),
               ListTile(
-                leading: const Icon(
-                    Icons.closed_caption_rounded,
-                    color: _kText40),
-                title: const Text('查看字幕',
-                    style: TextStyle(color: _kTextPrimary)),
+                leading: const Icon(Icons.closed_caption_rounded, color: _kText40),
+                title: const Text('查看字幕', style: TextStyle(color: _kTextPrimary)),
                 onTap: () {
                   Navigator.of(ctx).pop();
                   subtitleOverlayKey.currentState?.toggle();
@@ -542,10 +501,8 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
     if (!_chapterScrollController.hasClients) return;
     const chipWidth = 128.0;
     final screenWidth = MediaQuery.of(context).size.width;
-    final targetOffset =
-        (chipWidth * index) - (screenWidth / 2) + (chipWidth / 2);
-    final maxScroll =
-        _chapterScrollController.position.maxScrollExtent;
+    final targetOffset = (chipWidth * index) - (screenWidth / 2) + (chipWidth / 2);
+    final maxScroll = _chapterScrollController.position.maxScrollExtent;
     final clampedOffset = targetOffset.clamp(0.0, maxScroll);
 
     _chapterScrollController.animateTo(
@@ -558,8 +515,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
   Widget _buildSubtitleArea(PlayerState playerState) {
     return Container(
       width: double.infinity,
-      padding:
-          const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -569,16 +525,12 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
             key: subtitleOverlayKey,
             onAskAgent: () {
               final ctx = ref.read(agentContextProvider);
-              ref
-                  .read(agentContextProvider.notifier)
-                  .setTrigger(AgentTrigger.wordCard);
+              ref.read(agentContextProvider.notifier).setTrigger(AgentTrigger.wordCard);
               ref
                   .read(agentChatProvider.notifier)
-                  .startSession(AgentMode.freeChat,
-                      initialWord: ctx.currentWord);
+                  .startSession(AgentMode.freeChat, initialWord: ctx.currentWord);
               Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (_) => const AgentChatPage()),
+                MaterialPageRoute(builder: (_) => const AgentChatPage()),
               );
             },
           ),
@@ -590,16 +542,14 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
 
   Widget _buildControlArea(PlayerState playerState) {
     return Padding(
-      padding:
-          const EdgeInsets.only(left: 24, right: 24, bottom: 16),
+      padding: const EdgeInsets.only(left: 24, right: 24, bottom: 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Align(
             alignment: Alignment.centerRight,
             child: GestureDetector(
-              onTap: () =>
-                  subtitleOverlayKey.currentState?.toggle(),
+              onTap: () => subtitleOverlayKey.currentState?.toggle(),
               child: Container(
                 width: 42,
                 height: 28,
@@ -628,13 +578,11 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
             children: [
               Text(
                 _formatDuration(playerState.position),
-                style: const TextStyle(
-                    color: _kText30, fontSize: 11),
+                style: const TextStyle(color: _kText30, fontSize: 11),
               ),
               Text(
                 _formatDuration(playerState.duration),
-                style: const TextStyle(
-                    color: _kText30, fontSize: 11),
+                style: const TextStyle(color: _kText30, fontSize: 11),
               ),
             ],
           ),
@@ -650,32 +598,24 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
   Widget _buildProgressBar(PlayerState playerState) {
     final totalMs = playerState.duration.inMilliseconds;
     final currentMs = playerState.position.inMilliseconds;
-    final progress =
-        totalMs > 0 ? currentMs / totalMs : 0.0;
+    final progress = totalMs > 0 ? currentMs / totalMs : 0.0;
 
     return SliderTheme(
       data: SliderThemeData(
         trackHeight: 3,
-        thumbShape: const RoundSliderThumbShape(
-            enabledThumbRadius: 6.5),
+        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6.5),
         thumbColor: _kAccent,
         activeTrackColor: _kAccent,
         inactiveTrackColor: _kText13,
-        overlayShape:
-            const RoundSliderOverlayShape(overlayRadius: 16),
+        overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
         overlayColor: _kAccent.withOpacity(0.1),
       ),
       child: Slider(
         value: progress.clamp(0.0, 1.0),
         onChanged: (value) {
-          final position = Duration(
-              milliseconds: (value * totalMs).round());
-          ref
-              .read(audioPlayerProvider.notifier)
-              .seekTo(position);
-          ref
-              .read(subtitleServiceProvider.notifier)
-              .forceUpdate(position);
+          final position = Duration(milliseconds: (value * totalMs).round());
+          ref.read(audioPlayerProvider.notifier).seekTo(position);
+          ref.read(subtitleServiceProvider.notifier).forceUpdate(position);
         },
       ),
     );
@@ -696,8 +636,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
         _controlButton(
           icon: Icons.replay,
           size: 28,
-          onTap: () => notifier
-              .seekRelative(const Duration(seconds: -15)),
+          onTap: () => notifier.seekRelative(const Duration(seconds: -15)),
         ),
         const SizedBox(width: 24),
         GestureDetector(
@@ -710,9 +649,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
               shape: BoxShape.circle,
             ),
             child: Icon(
-              playerState.isPlaying
-                  ? Icons.pause_rounded
-                  : Icons.play_arrow_rounded,
+              playerState.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
               color: _kBgLayer1,
               size: 32,
             ),
@@ -722,8 +659,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
         _controlButton(
           icon: Icons.forward_10,
           size: 28,
-          onTap: () => notifier
-              .seekRelative(const Duration(seconds: 15)),
+          onTap: () => notifier.seekRelative(const Duration(seconds: 15)),
         ),
         const SizedBox(width: 24),
         _controlButton(
@@ -759,11 +695,9 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ...[0.75, 1.0, 1.25, 1.5].map((speed) {
-          final isSelected =
-              (playerState.speed - speed).abs() < 0.01;
+          final isSelected = (playerState.speed - speed).abs() < 0.01;
           return Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 6),
             child: GestureDetector(
               onTap: () => notifier.setSpeed(speed),
               child: Text(
@@ -771,9 +705,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
                 style: TextStyle(
                   color: isSelected ? _kAccent : _kText30,
                   fontSize: 13,
-                  fontWeight: isSelected
-                      ? FontWeight.w600
-                      : FontWeight.w400,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                 ),
               ),
             ),
@@ -790,19 +722,14 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
               children: [
                 Center(
                   child: Icon(
-                    playerState.loopMode ==
-                            ChapterLoopMode.chapter
+                    playerState.loopMode == ChapterLoopMode.chapter
                         ? Icons.repeat_one_rounded
                         : Icons.repeat_rounded,
-                    color: playerState.loopMode !=
-                            ChapterLoopMode.none
-                        ? _kAccent
-                        : _kText30,
+                    color: playerState.loopMode != ChapterLoopMode.none ? _kAccent : _kText30,
                     size: 22,
                   ),
                 ),
-                if (playerState.loopMode ==
-                    ChapterLoopMode.chapter)
+                if (playerState.loopMode == ChapterLoopMode.chapter)
                   Positioned(
                     right: -2,
                     bottom: -2,
@@ -833,8 +760,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
         GestureDetector(
           onTap: () => showAgentPanel(context, ref),
           child: Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
               border: Border.all(color: _kAccent, width: 1),
               borderRadius: BorderRadius.circular(14),
@@ -892,10 +818,8 @@ class _ChapterChip extends StatelessWidget {
       onTap: onTap,
       onLongPress: onLongPress,
       child: Container(
-        margin: const EdgeInsets.symmetric(
-            horizontal: 4, vertical: 10),
-        padding: const EdgeInsets.symmetric(
-            horizontal: 14, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         constraints: const BoxConstraints(minWidth: 100),
         decoration: BoxDecoration(
           color: isCurrent ? _kAccent : Colors.transparent,
@@ -915,8 +839,7 @@ class _ChapterChip extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (isDone && !isCurrent) ...[
-                  const Icon(Icons.check_circle,
-                      color: _kGreen, size: 11),
+                  const Icon(Icons.check_circle, color: _kGreen, size: 11),
                   const SizedBox(width: 3),
                 ],
                 if (isCurrent) ...[
@@ -933,8 +856,7 @@ class _ChapterChip extends StatelessWidget {
                 if (isLooping) ...[
                   Icon(
                     Icons.repeat_one_rounded,
-                    color:
-                        isCurrent ? Colors.white : _kAccent,
+                    color: isCurrent ? Colors.white : _kAccent,
                     size: 11,
                   ),
                   const SizedBox(width: 2),
@@ -954,9 +876,7 @@ class _ChapterChip extends StatelessWidget {
             ),
             const SizedBox(height: 2),
             Text(
-              chapter.title.isEmpty
-                  ? '第${index + 1}章'
-                  : chapter.title,
+              chapter.title.isEmpty ? '第${index + 1}章' : chapter.title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -981,11 +901,8 @@ class _ChapterChip extends StatelessWidget {
 
   Widget _buildChapterProgress() {
     final chapterDuration = chapter.endMs - chapter.startMs;
-    final elapsed =
-        currentPosition.inMilliseconds - chapter.startMs;
-    final progress = chapterDuration > 0
-        ? (elapsed / chapterDuration).clamp(0.0, 1.0)
-        : 0.0;
+    final elapsed = currentPosition.inMilliseconds - chapter.startMs;
+    final progress = chapterDuration > 0 ? (elapsed / chapterDuration).clamp(0.0, 1.0) : 0.0;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(1),

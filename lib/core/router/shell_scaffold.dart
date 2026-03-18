@@ -24,8 +24,7 @@ class ShellScaffold extends ConsumerStatefulWidget {
   ConsumerState<ShellScaffold> createState() => _ShellScaffoldState();
 }
 
-class _ShellScaffoldState extends ConsumerState<ShellScaffold>
-    with SingleTickerProviderStateMixin {
+class _ShellScaffoldState extends ConsumerState<ShellScaffold> with SingleTickerProviderStateMixin {
   late final AnimationController _overlayController;
   late final Animation<Offset> _slideAnimation;
   late final Animation<double> _miniPlayerFade;
@@ -139,12 +138,9 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                     ? MiniPlayer(
                         onTap: () {
                           // #25: open player overlay
-                          ref
-                              .read(playerOverlayVisibleProvider.notifier)
-                              .state = true;
+                          ref.read(playerOverlayVisibleProvider.notifier).state = true;
                           setState(() => _showOverlay = true);
-                          _overlayController.animateTo(1.0,
-                              curve: _kEaseOutExpo);
+                          _overlayController.animateTo(1.0, curve: _kEaseOutExpo);
                         },
                       )
                     : const SizedBox.shrink(),

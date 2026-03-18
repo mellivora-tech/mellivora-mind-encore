@@ -186,8 +186,7 @@ class _LevelCard extends ConsumerWidget {
                         if (basis.isNotEmpty)
                           Text(
                             basis,
-                            style: const TextStyle(
-                                color: _kText40, fontSize: 12),
+                            style: const TextStyle(color: _kText40, fontSize: 12),
                           ),
                       ],
                     ),

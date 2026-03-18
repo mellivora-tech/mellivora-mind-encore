@@ -29,9 +29,9 @@ class ShareIntentHandler {
 
     // Handle files shared when app was closed
     _importService.getInitialSharedFiles().then(
-      (files) => _handleSharedFiles(files),
-      onError: (error) => onError?.call(error.toString()),
-    );
+          (files) => _handleSharedFiles(files),
+          onError: (error) => onError?.call(error.toString()),
+        );
   }
 
   void _handleSharedFiles(List<SharedMediaFile> files) {
@@ -44,8 +44,7 @@ class ShareIntentHandler {
 
   bool _isAudioFile(String path) {
     final ext = path.toLowerCase().split('.').last;
-    return ['mp3', 'wav', 'aac', 'm4a', 'ogg', 'flac', 'wma']
-        .contains(ext);
+    return ['mp3', 'wav', 'aac', 'm4a', 'ogg', 'flac', 'wma'].contains(ext);
   }
 
   void dispose() {

@@ -134,8 +134,7 @@ class _FlashcardPageState extends ConsumerState<FlashcardPage> {
         centerTitle: true,
       ),
       body: _loading
-          ? const Center(
-              child: CircularProgressIndicator(color: _kAccent))
+          ? const Center(child: CircularProgressIndicator(color: _kAccent))
           : _finished
               ? _buildCompletionPage()
               : _buildFlashcard(),
@@ -251,9 +250,7 @@ class _FlashcardPageState extends ConsumerState<FlashcardPage> {
         children: [
           // Chinese meaning
           Text(
-            item.vocab.meaning.isNotEmpty
-                ? item.vocab.meaning
-                : item.vocab.definition,
+            item.vocab.meaning.isNotEmpty ? item.vocab.meaning : item.vocab.definition,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: _kTextPrimary,
@@ -277,8 +274,7 @@ class _FlashcardPageState extends ConsumerState<FlashcardPage> {
                 color: _kText20.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: _buildHighlightedSentence(
-                  item.sourceSentence, item.vocab.word),
+              child: _buildHighlightedSentence(item.sourceSentence, item.vocab.word),
             ),
           ],
         ],
@@ -315,8 +311,7 @@ class _FlashcardPageState extends ConsumerState<FlashcardPage> {
 
   Widget _buildCompletionPage() {
     final total = _queue.length;
-    final correctRate =
-        total > 0 ? (_correctCount / total * 100).round() : 0;
+    final correctRate = total > 0 ? (_correctCount / total * 100).round() : 0;
 
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -324,8 +319,7 @@ class _FlashcardPageState extends ConsumerState<FlashcardPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (total == 0) ...[
-            const Icon(Icons.check_circle_outline,
-                color: _kGreen, size: 64),
+            const Icon(Icons.check_circle_outline, color: _kGreen, size: 64),
             const SizedBox(height: 16),
             const Text(
               '今天没有需要复习的词',
@@ -396,8 +390,7 @@ class _FlashcardPageState extends ConsumerState<FlashcardPage> {
                             item.vocab.meaning.isNotEmpty
                                 ? item.vocab.meaning
                                 : item.vocab.definition,
-                            style:
-                                const TextStyle(color: _kText70, fontSize: 14),
+                            style: const TextStyle(color: _kText70, fontSize: 14),
                           ),
                         ],
                       ),
@@ -446,8 +439,7 @@ class _FlipCard extends StatefulWidget {
   State<_FlipCard> createState() => _FlipCardState();
 }
 
-class _FlipCardState extends State<_FlipCard>
-    with SingleTickerProviderStateMixin {
+class _FlipCardState extends State<_FlipCard> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   bool _isFront = true;
 
@@ -513,4 +505,3 @@ class _FlipCardState extends State<_FlipCard>
     );
   }
 }
-

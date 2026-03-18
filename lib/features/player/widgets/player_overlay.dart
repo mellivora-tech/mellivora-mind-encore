@@ -28,13 +28,11 @@ class PlayerOverlay extends ConsumerWidget {
         final screenHeight = MediaQuery.of(context).size.height;
         final delta = details.delta.dy / screenHeight;
         // Dragging down → decrease value (1 = open, 0 = closed)
-        animationController.value =
-            (animationController.value - delta).clamp(0.0, 1.0);
+        animationController.value = (animationController.value - delta).clamp(0.0, 1.0);
       },
       onVerticalDragEnd: (details) {
         // Dismiss if dragged > 30% (value < 0.7) or fast fling downward
-        if (animationController.value < 0.7 ||
-            details.velocity.pixelsPerSecond.dy > 500) {
+        if (animationController.value < 0.7 || details.velocity.pixelsPerSecond.dy > 500) {
           animationController.animateTo(0.0, curve: _kEaseOutExpo);
         } else {
           // Spring back to fully open

@@ -3,30 +3,25 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
-class $AudioItemsTable extends AudioItems
-    with TableInfo<$AudioItemsTable, AudioItem> {
+class $AudioItemsTable extends AudioItems with TableInfo<$AudioItemsTable, AudioItem> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $AudioItemsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<String> id = GeneratedColumn<String>('id', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
-  late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
+  late final GeneratedColumn<String> title = GeneratedColumn<String>('title', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _filePathMeta =
-      const VerificationMeta('filePath');
+  static const VerificationMeta _filePathMeta = const VerificationMeta('filePath');
   @override
   late final GeneratedColumn<String> filePath = GeneratedColumn<String>(
       'file_path', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _durationMsMeta =
-      const VerificationMeta('durationMs');
+  static const VerificationMeta _durationMsMeta = const VerificationMeta('durationMs');
   @override
   late final GeneratedColumn<int> durationMs = GeneratedColumn<int>(
       'duration_ms', aliasedName, true,
@@ -34,19 +29,16 @@ class $AudioItemsTable extends AudioItems
   static const VerificationMeta _transcriptionStatusMeta =
       const VerificationMeta('transcriptionStatus');
   @override
-  late final GeneratedColumn<String> transcriptionStatus =
-      GeneratedColumn<String>('transcription_status', aliasedName, false,
-          type: DriftSqlType.string,
-          requiredDuringInsert: false,
-          defaultValue: const Constant('pending'));
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+  late final GeneratedColumn<String> transcriptionStatus = GeneratedColumn<String>(
+      'transcription_status', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: const Constant('pending'));
+  static const VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
       'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
+      type: DriftSqlType.dateTime, requiredDuringInsert: false, defaultValue: currentDateAndTime);
   @override
   List<GeneratedColumn> get $columns =>
       [id, title, filePath, durationMs, transcriptionStatus, createdAt];
@@ -66,22 +58,19 @@ class $AudioItemsTable extends AudioItems
       context.missing(_idMeta);
     }
     if (data.containsKey('title')) {
-      context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+      context.handle(_titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
     if (data.containsKey('file_path')) {
-      context.handle(_filePathMeta,
-          filePath.isAcceptableOrUnknown(data['file_path']!, _filePathMeta));
+      context.handle(
+          _filePathMeta, filePath.isAcceptableOrUnknown(data['file_path']!, _filePathMeta));
     } else if (isInserting) {
       context.missing(_filePathMeta);
     }
     if (data.containsKey('duration_ms')) {
       context.handle(
-          _durationMsMeta,
-          durationMs.isAcceptableOrUnknown(
-              data['duration_ms']!, _durationMsMeta));
+          _durationMsMeta, durationMs.isAcceptableOrUnknown(data['duration_ms']!, _durationMsMeta));
     }
     if (data.containsKey('transcription_status')) {
       context.handle(
@@ -90,8 +79,8 @@ class $AudioItemsTable extends AudioItems
               data['transcription_status']!, _transcriptionStatusMeta));
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+          _createdAtMeta, createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     }
     return context;
   }
@@ -102,16 +91,15 @@ class $AudioItemsTable extends AudioItems
   AudioItem map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return AudioItem(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      title: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      id: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      title:
+          attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}title'])!,
       filePath: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}file_path'])!,
       durationMs: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}duration_ms']),
-      transcriptionStatus: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}transcription_status'])!,
+      transcriptionStatus: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}transcription_status'])!,
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
     );
@@ -156,24 +144,20 @@ class AudioItem extends DataClass implements Insertable<AudioItem> {
       id: Value(id),
       title: Value(title),
       filePath: Value(filePath),
-      durationMs: durationMs == null && nullToAbsent
-          ? const Value.absent()
-          : Value(durationMs),
+      durationMs: durationMs == null && nullToAbsent ? const Value.absent() : Value(durationMs),
       transcriptionStatus: Value(transcriptionStatus),
       createdAt: Value(createdAt),
     );
   }
 
-  factory AudioItem.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory AudioItem.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return AudioItem(
       id: serializer.fromJson<String>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       filePath: serializer.fromJson<String>(json['filePath']),
       durationMs: serializer.fromJson<int?>(json['durationMs']),
-      transcriptionStatus:
-          serializer.fromJson<String>(json['transcriptionStatus']),
+      transcriptionStatus: serializer.fromJson<String>(json['transcriptionStatus']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
@@ -210,8 +194,7 @@ class AudioItem extends DataClass implements Insertable<AudioItem> {
       id: data.id.present ? data.id.value : this.id,
       title: data.title.present ? data.title.value : this.title,
       filePath: data.filePath.present ? data.filePath.value : this.filePath,
-      durationMs:
-          data.durationMs.present ? data.durationMs.value : this.durationMs,
+      durationMs: data.durationMs.present ? data.durationMs.value : this.durationMs,
       transcriptionStatus: data.transcriptionStatus.present
           ? data.transcriptionStatus.value
           : this.transcriptionStatus,
@@ -233,8 +216,7 @@ class AudioItem extends DataClass implements Insertable<AudioItem> {
   }
 
   @override
-  int get hashCode => Object.hash(
-      id, title, filePath, durationMs, transcriptionStatus, createdAt);
+  int get hashCode => Object.hash(id, title, filePath, durationMs, transcriptionStatus, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -289,8 +271,7 @@ class AudioItemsCompanion extends UpdateCompanion<AudioItem> {
       if (title != null) 'title': title,
       if (filePath != null) 'file_path': filePath,
       if (durationMs != null) 'duration_ms': durationMs,
-      if (transcriptionStatus != null)
-        'transcription_status': transcriptionStatus,
+      if (transcriptionStatus != null) 'transcription_status': transcriptionStatus,
       if (createdAt != null) 'created_at': createdAt,
       if (rowid != null) 'rowid': rowid,
     });
@@ -364,62 +345,47 @@ class $ChaptersTable extends Chapters with TableInfo<$ChaptersTable, Chapter> {
   $ChaptersTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<String> id = GeneratedColumn<String>('id', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _audioIdMeta =
-      const VerificationMeta('audioId');
+  static const VerificationMeta _audioIdMeta = const VerificationMeta('audioId');
   @override
   late final GeneratedColumn<String> audioId = GeneratedColumn<String>(
       'audio_id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES audio_items (id)'));
+      defaultConstraints: GeneratedColumn.constraintIsAlways('REFERENCES audio_items (id)'));
   static const VerificationMeta _indexMeta = const VerificationMeta('index');
   @override
-  late final GeneratedColumn<int> index = GeneratedColumn<int>(
-      'index', aliasedName, false,
+  late final GeneratedColumn<int> index = GeneratedColumn<int>('index', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
-  late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(''));
-  static const VerificationMeta _startMsMeta =
-      const VerificationMeta('startMs');
+  late final GeneratedColumn<String> title = GeneratedColumn<String>('title', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: false, defaultValue: const Constant(''));
+  static const VerificationMeta _startMsMeta = const VerificationMeta('startMs');
   @override
-  late final GeneratedColumn<int> startMs = GeneratedColumn<int>(
-      'start_ms', aliasedName, false,
+  late final GeneratedColumn<int> startMs = GeneratedColumn<int>('start_ms', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
   static const VerificationMeta _endMsMeta = const VerificationMeta('endMs');
   @override
-  late final GeneratedColumn<int> endMs = GeneratedColumn<int>(
-      'end_ms', aliasedName, false,
+  late final GeneratedColumn<int> endMs = GeneratedColumn<int>('end_ms', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _isHeardMeta =
-      const VerificationMeta('isHeard');
+  static const VerificationMeta _isHeardMeta = const VerificationMeta('isHeard');
   @override
-  late final GeneratedColumn<bool> isHeard = GeneratedColumn<bool>(
-      'is_heard', aliasedName, false,
+  late final GeneratedColumn<bool> isHeard = GeneratedColumn<bool>('is_heard', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("is_heard" IN (0, 1))'),
+      defaultConstraints: GeneratedColumn.constraintIsAlways('CHECK ("is_heard" IN (0, 1))'),
       defaultValue: const Constant(false));
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, audioId, index, title, startMs, endMs, isHeard];
+  List<GeneratedColumn> get $columns => [id, audioId, index, title, startMs, endMs, isHeard];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'chapters';
   @override
-  VerificationContext validateIntegrity(Insertable<Chapter> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<Chapter> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -428,36 +394,30 @@ class $ChaptersTable extends Chapters with TableInfo<$ChaptersTable, Chapter> {
       context.missing(_idMeta);
     }
     if (data.containsKey('audio_id')) {
-      context.handle(_audioIdMeta,
-          audioId.isAcceptableOrUnknown(data['audio_id']!, _audioIdMeta));
+      context.handle(_audioIdMeta, audioId.isAcceptableOrUnknown(data['audio_id']!, _audioIdMeta));
     } else if (isInserting) {
       context.missing(_audioIdMeta);
     }
     if (data.containsKey('index')) {
-      context.handle(
-          _indexMeta, index.isAcceptableOrUnknown(data['index']!, _indexMeta));
+      context.handle(_indexMeta, index.isAcceptableOrUnknown(data['index']!, _indexMeta));
     } else if (isInserting) {
       context.missing(_indexMeta);
     }
     if (data.containsKey('title')) {
-      context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+      context.handle(_titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
     }
     if (data.containsKey('start_ms')) {
-      context.handle(_startMsMeta,
-          startMs.isAcceptableOrUnknown(data['start_ms']!, _startMsMeta));
+      context.handle(_startMsMeta, startMs.isAcceptableOrUnknown(data['start_ms']!, _startMsMeta));
     } else if (isInserting) {
       context.missing(_startMsMeta);
     }
     if (data.containsKey('end_ms')) {
-      context.handle(
-          _endMsMeta, endMs.isAcceptableOrUnknown(data['end_ms']!, _endMsMeta));
+      context.handle(_endMsMeta, endMs.isAcceptableOrUnknown(data['end_ms']!, _endMsMeta));
     } else if (isInserting) {
       context.missing(_endMsMeta);
     }
     if (data.containsKey('is_heard')) {
-      context.handle(_isHeardMeta,
-          isHeard.isAcceptableOrUnknown(data['is_heard']!, _isHeardMeta));
+      context.handle(_isHeardMeta, isHeard.isAcceptableOrUnknown(data['is_heard']!, _isHeardMeta));
     }
     return context;
   }
@@ -468,20 +428,17 @@ class $ChaptersTable extends Chapters with TableInfo<$ChaptersTable, Chapter> {
   Chapter map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Chapter(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      id: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}id'])!,
       audioId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}audio_id'])!,
-      index: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}index'])!,
-      title: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      startMs: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}start_ms'])!,
-      endMs: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}end_ms'])!,
-      isHeard: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_heard'])!,
+      index: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}index'])!,
+      title:
+          attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      startMs:
+          attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}start_ms'])!,
+      endMs: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}end_ms'])!,
+      isHeard:
+          attachedDatabase.typeMapping.read(DriftSqlType.bool, data['${effectivePrefix}is_heard'])!,
     );
   }
 
@@ -532,8 +489,7 @@ class Chapter extends DataClass implements Insertable<Chapter> {
     );
   }
 
-  factory Chapter.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory Chapter.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Chapter(
       id: serializer.fromJson<String>(json['id']),
@@ -603,8 +559,7 @@ class Chapter extends DataClass implements Insertable<Chapter> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, audioId, index, title, startMs, endMs, isHeard);
+  int get hashCode => Object.hash(id, audioId, index, title, startMs, endMs, isHeard);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -740,56 +695,44 @@ class ChaptersCompanion extends UpdateCompanion<Chapter> {
   }
 }
 
-class $TranscriptsTable extends Transcripts
-    with TableInfo<$TranscriptsTable, Transcript> {
+class $TranscriptsTable extends Transcripts with TableInfo<$TranscriptsTable, Transcript> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $TranscriptsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<String> id = GeneratedColumn<String>('id', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _audioIdMeta =
-      const VerificationMeta('audioId');
+  static const VerificationMeta _audioIdMeta = const VerificationMeta('audioId');
   @override
   late final GeneratedColumn<String> audioId = GeneratedColumn<String>(
       'audio_id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES audio_items (id)'));
-  static const VerificationMeta _segmentIndexMeta =
-      const VerificationMeta('segmentIndex');
+      defaultConstraints: GeneratedColumn.constraintIsAlways('REFERENCES audio_items (id)'));
+  static const VerificationMeta _segmentIndexMeta = const VerificationMeta('segmentIndex');
   @override
   late final GeneratedColumn<int> segmentIndex = GeneratedColumn<int>(
       'segment_index', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
   static const VerificationMeta _text_Meta = const VerificationMeta('text_');
   @override
-  late final GeneratedColumn<String> text_ = GeneratedColumn<String>(
-      'text', aliasedName, false,
+  late final GeneratedColumn<String> text_ = GeneratedColumn<String>('text', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _startMsMeta =
-      const VerificationMeta('startMs');
+  static const VerificationMeta _startMsMeta = const VerificationMeta('startMs');
   @override
-  late final GeneratedColumn<int> startMs = GeneratedColumn<int>(
-      'start_ms', aliasedName, false,
+  late final GeneratedColumn<int> startMs = GeneratedColumn<int>('start_ms', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
   static const VerificationMeta _endMsMeta = const VerificationMeta('endMs');
   @override
-  late final GeneratedColumn<int> endMs = GeneratedColumn<int>(
-      'end_ms', aliasedName, false,
+  late final GeneratedColumn<int> endMs = GeneratedColumn<int>('end_ms', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _offsetAdjustMeta =
-      const VerificationMeta('offsetAdjust');
+  static const VerificationMeta _offsetAdjustMeta = const VerificationMeta('offsetAdjust');
   @override
   late final GeneratedColumn<int> offsetAdjust = GeneratedColumn<int>(
       'offset_adjust', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: const Constant(0));
   @override
   List<GeneratedColumn> get $columns =>
       [id, audioId, segmentIndex, text_, startMs, endMs, offsetAdjust];
@@ -809,42 +752,34 @@ class $TranscriptsTable extends Transcripts
       context.missing(_idMeta);
     }
     if (data.containsKey('audio_id')) {
-      context.handle(_audioIdMeta,
-          audioId.isAcceptableOrUnknown(data['audio_id']!, _audioIdMeta));
+      context.handle(_audioIdMeta, audioId.isAcceptableOrUnknown(data['audio_id']!, _audioIdMeta));
     } else if (isInserting) {
       context.missing(_audioIdMeta);
     }
     if (data.containsKey('segment_index')) {
-      context.handle(
-          _segmentIndexMeta,
-          segmentIndex.isAcceptableOrUnknown(
-              data['segment_index']!, _segmentIndexMeta));
+      context.handle(_segmentIndexMeta,
+          segmentIndex.isAcceptableOrUnknown(data['segment_index']!, _segmentIndexMeta));
     } else if (isInserting) {
       context.missing(_segmentIndexMeta);
     }
     if (data.containsKey('text')) {
-      context.handle(
-          _text_Meta, text_.isAcceptableOrUnknown(data['text']!, _text_Meta));
+      context.handle(_text_Meta, text_.isAcceptableOrUnknown(data['text']!, _text_Meta));
     } else if (isInserting) {
       context.missing(_text_Meta);
     }
     if (data.containsKey('start_ms')) {
-      context.handle(_startMsMeta,
-          startMs.isAcceptableOrUnknown(data['start_ms']!, _startMsMeta));
+      context.handle(_startMsMeta, startMs.isAcceptableOrUnknown(data['start_ms']!, _startMsMeta));
     } else if (isInserting) {
       context.missing(_startMsMeta);
     }
     if (data.containsKey('end_ms')) {
-      context.handle(
-          _endMsMeta, endMs.isAcceptableOrUnknown(data['end_ms']!, _endMsMeta));
+      context.handle(_endMsMeta, endMs.isAcceptableOrUnknown(data['end_ms']!, _endMsMeta));
     } else if (isInserting) {
       context.missing(_endMsMeta);
     }
     if (data.containsKey('offset_adjust')) {
-      context.handle(
-          _offsetAdjustMeta,
-          offsetAdjust.isAcceptableOrUnknown(
-              data['offset_adjust']!, _offsetAdjustMeta));
+      context.handle(_offsetAdjustMeta,
+          offsetAdjust.isAcceptableOrUnknown(data['offset_adjust']!, _offsetAdjustMeta));
     }
     return context;
   }
@@ -855,18 +790,16 @@ class $TranscriptsTable extends Transcripts
   Transcript map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Transcript(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      id: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}id'])!,
       audioId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}audio_id'])!,
       segmentIndex: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}segment_index'])!,
-      text_: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}text'])!,
-      startMs: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}start_ms'])!,
-      endMs: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}end_ms'])!,
+      text_:
+          attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}text'])!,
+      startMs:
+          attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}start_ms'])!,
+      endMs: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}end_ms'])!,
       offsetAdjust: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}offset_adjust'])!,
     );
@@ -919,8 +852,7 @@ class Transcript extends DataClass implements Insertable<Transcript> {
     );
   }
 
-  factory Transcript.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory Transcript.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Transcript(
       id: serializer.fromJson<String>(json['id']),
@@ -967,15 +899,11 @@ class Transcript extends DataClass implements Insertable<Transcript> {
     return Transcript(
       id: data.id.present ? data.id.value : this.id,
       audioId: data.audioId.present ? data.audioId.value : this.audioId,
-      segmentIndex: data.segmentIndex.present
-          ? data.segmentIndex.value
-          : this.segmentIndex,
+      segmentIndex: data.segmentIndex.present ? data.segmentIndex.value : this.segmentIndex,
       text_: data.text_.present ? data.text_.value : this.text_,
       startMs: data.startMs.present ? data.startMs.value : this.startMs,
       endMs: data.endMs.present ? data.endMs.value : this.endMs,
-      offsetAdjust: data.offsetAdjust.present
-          ? data.offsetAdjust.value
-          : this.offsetAdjust,
+      offsetAdjust: data.offsetAdjust.present ? data.offsetAdjust.value : this.offsetAdjust,
     );
   }
 
@@ -994,8 +922,7 @@ class Transcript extends DataClass implements Insertable<Transcript> {
   }
 
   @override
-  int get hashCode => Object.hash(
-      id, audioId, segmentIndex, text_, startMs, endMs, offsetAdjust);
+  int get hashCode => Object.hash(id, audioId, segmentIndex, text_, startMs, endMs, offsetAdjust);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1139,78 +1066,64 @@ class $WordsTable extends Words with TableInfo<$WordsTable, Word> {
   $WordsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _wordTextMeta =
-      const VerificationMeta('wordText');
+      defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _wordTextMeta = const VerificationMeta('wordText');
   @override
   late final GeneratedColumn<String> wordText = GeneratedColumn<String>(
       'word_text', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _startMsMeta =
-      const VerificationMeta('startMs');
+  static const VerificationMeta _startMsMeta = const VerificationMeta('startMs');
   @override
-  late final GeneratedColumn<int> startMs = GeneratedColumn<int>(
-      'start_ms', aliasedName, false,
+  late final GeneratedColumn<int> startMs = GeneratedColumn<int>('start_ms', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
   static const VerificationMeta _endMsMeta = const VerificationMeta('endMs');
   @override
-  late final GeneratedColumn<int> endMs = GeneratedColumn<int>(
-      'end_ms', aliasedName, false,
+  late final GeneratedColumn<int> endMs = GeneratedColumn<int>('end_ms', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _transcriptIdMeta =
-      const VerificationMeta('transcriptId');
+  static const VerificationMeta _transcriptIdMeta = const VerificationMeta('transcriptId');
   @override
   late final GeneratedColumn<String> transcriptId = GeneratedColumn<String>(
       'transcript_id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES transcripts (id)'));
+      defaultConstraints: GeneratedColumn.constraintIsAlways('REFERENCES transcripts (id)'));
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, wordText, startMs, endMs, transcriptId];
+  List<GeneratedColumn> get $columns => [id, wordText, startMs, endMs, transcriptId];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'words';
   @override
-  VerificationContext validateIntegrity(Insertable<Word> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<Word> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('word_text')) {
-      context.handle(_wordTextMeta,
-          wordText.isAcceptableOrUnknown(data['word_text']!, _wordTextMeta));
+      context.handle(
+          _wordTextMeta, wordText.isAcceptableOrUnknown(data['word_text']!, _wordTextMeta));
     } else if (isInserting) {
       context.missing(_wordTextMeta);
     }
     if (data.containsKey('start_ms')) {
-      context.handle(_startMsMeta,
-          startMs.isAcceptableOrUnknown(data['start_ms']!, _startMsMeta));
+      context.handle(_startMsMeta, startMs.isAcceptableOrUnknown(data['start_ms']!, _startMsMeta));
     } else if (isInserting) {
       context.missing(_startMsMeta);
     }
     if (data.containsKey('end_ms')) {
-      context.handle(
-          _endMsMeta, endMs.isAcceptableOrUnknown(data['end_ms']!, _endMsMeta));
+      context.handle(_endMsMeta, endMs.isAcceptableOrUnknown(data['end_ms']!, _endMsMeta));
     } else if (isInserting) {
       context.missing(_endMsMeta);
     }
     if (data.containsKey('transcript_id')) {
-      context.handle(
-          _transcriptIdMeta,
-          transcriptId.isAcceptableOrUnknown(
-              data['transcript_id']!, _transcriptIdMeta));
+      context.handle(_transcriptIdMeta,
+          transcriptId.isAcceptableOrUnknown(data['transcript_id']!, _transcriptIdMeta));
     } else if (isInserting) {
       context.missing(_transcriptIdMeta);
     }
@@ -1223,14 +1136,12 @@ class $WordsTable extends Words with TableInfo<$WordsTable, Word> {
   Word map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Word(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       wordText: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}word_text'])!,
-      startMs: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}start_ms'])!,
-      endMs: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}end_ms'])!,
+      startMs:
+          attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}start_ms'])!,
+      endMs: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}end_ms'])!,
       transcriptId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}transcript_id'])!,
     );
@@ -1275,8 +1186,7 @@ class Word extends DataClass implements Insertable<Word> {
     );
   }
 
-  factory Word.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory Word.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Word(
       id: serializer.fromJson<int>(json['id']),
@@ -1298,12 +1208,7 @@ class Word extends DataClass implements Insertable<Word> {
     };
   }
 
-  Word copyWith(
-          {int? id,
-          String? wordText,
-          int? startMs,
-          int? endMs,
-          String? transcriptId}) =>
+  Word copyWith({int? id, String? wordText, int? startMs, int? endMs, String? transcriptId}) =>
       Word(
         id: id ?? this.id,
         wordText: wordText ?? this.wordText,
@@ -1317,9 +1222,7 @@ class Word extends DataClass implements Insertable<Word> {
       wordText: data.wordText.present ? data.wordText.value : this.wordText,
       startMs: data.startMs.present ? data.startMs.value : this.startMs,
       endMs: data.endMs.present ? data.endMs.value : this.endMs,
-      transcriptId: data.transcriptId.present
-          ? data.transcriptId.value
-          : this.transcriptId,
+      transcriptId: data.transcriptId.present ? data.transcriptId.value : this.transcriptId,
     );
   }
 
@@ -1436,95 +1339,67 @@ class WordsCompanion extends UpdateCompanion<Word> {
   }
 }
 
-class $VocabularyTable extends Vocabulary
-    with TableInfo<$VocabularyTable, VocabularyData> {
+class $VocabularyTable extends Vocabulary with TableInfo<$VocabularyTable, VocabularyData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $VocabularyTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<String> id = GeneratedColumn<String>('id', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _wordMeta = const VerificationMeta('word');
   @override
-  late final GeneratedColumn<String> word = GeneratedColumn<String>(
-      'word', aliasedName, false,
+  late final GeneratedColumn<String> word = GeneratedColumn<String>('word', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _phoneticMeta =
-      const VerificationMeta('phonetic');
+  static const VerificationMeta _phoneticMeta = const VerificationMeta('phonetic');
   @override
   late final GeneratedColumn<String> phonetic = GeneratedColumn<String>(
       'phonetic', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(''));
+      type: DriftSqlType.string, requiredDuringInsert: false, defaultValue: const Constant(''));
   static const VerificationMeta _posMeta = const VerificationMeta('pos');
   @override
-  late final GeneratedColumn<String> pos = GeneratedColumn<String>(
-      'pos', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(''));
-  static const VerificationMeta _meaningMeta =
-      const VerificationMeta('meaning');
+  late final GeneratedColumn<String> pos = GeneratedColumn<String>('pos', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: false, defaultValue: const Constant(''));
+  static const VerificationMeta _meaningMeta = const VerificationMeta('meaning');
   @override
   late final GeneratedColumn<String> meaning = GeneratedColumn<String>(
       'meaning', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(''));
-  static const VerificationMeta _definitionMeta =
-      const VerificationMeta('definition');
+      type: DriftSqlType.string, requiredDuringInsert: false, defaultValue: const Constant(''));
+  static const VerificationMeta _definitionMeta = const VerificationMeta('definition');
   @override
   late final GeneratedColumn<String> definition = GeneratedColumn<String>(
       'definition', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(''));
-  static const VerificationMeta _audioIdMeta =
-      const VerificationMeta('audioId');
+      type: DriftSqlType.string, requiredDuringInsert: false, defaultValue: const Constant(''));
+  static const VerificationMeta _audioIdMeta = const VerificationMeta('audioId');
   @override
   late final GeneratedColumn<String> audioId = GeneratedColumn<String>(
       'audio_id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES audio_items (id)'));
-  static const VerificationMeta _chapterIdMeta =
-      const VerificationMeta('chapterId');
+      defaultConstraints: GeneratedColumn.constraintIsAlways('REFERENCES audio_items (id)'));
+  static const VerificationMeta _chapterIdMeta = const VerificationMeta('chapterId');
   @override
   late final GeneratedColumn<String> chapterId = GeneratedColumn<String>(
       'chapter_id', aliasedName, true,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES chapters (id)'));
-  static const VerificationMeta _sourceOffsetMsMeta =
-      const VerificationMeta('sourceOffsetMs');
+      defaultConstraints: GeneratedColumn.constraintIsAlways('REFERENCES chapters (id)'));
+  static const VerificationMeta _sourceOffsetMsMeta = const VerificationMeta('sourceOffsetMs');
   @override
   late final GeneratedColumn<int> sourceOffsetMs = GeneratedColumn<int>(
       'source_offset_ms', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: const Constant(0));
+  static const VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
       'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
-  static const VerificationMeta _reviewCountMeta =
-      const VerificationMeta('reviewCount');
+      type: DriftSqlType.dateTime, requiredDuringInsert: false, defaultValue: currentDateAndTime);
+  static const VerificationMeta _reviewCountMeta = const VerificationMeta('reviewCount');
   @override
   late final GeneratedColumn<int> reviewCount = GeneratedColumn<int>(
       'review_count', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: const Constant(0));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -1555,54 +1430,44 @@ class $VocabularyTable extends Vocabulary
       context.missing(_idMeta);
     }
     if (data.containsKey('word')) {
-      context.handle(
-          _wordMeta, word.isAcceptableOrUnknown(data['word']!, _wordMeta));
+      context.handle(_wordMeta, word.isAcceptableOrUnknown(data['word']!, _wordMeta));
     } else if (isInserting) {
       context.missing(_wordMeta);
     }
     if (data.containsKey('phonetic')) {
-      context.handle(_phoneticMeta,
-          phonetic.isAcceptableOrUnknown(data['phonetic']!, _phoneticMeta));
+      context.handle(
+          _phoneticMeta, phonetic.isAcceptableOrUnknown(data['phonetic']!, _phoneticMeta));
     }
     if (data.containsKey('pos')) {
-      context.handle(
-          _posMeta, pos.isAcceptableOrUnknown(data['pos']!, _posMeta));
+      context.handle(_posMeta, pos.isAcceptableOrUnknown(data['pos']!, _posMeta));
     }
     if (data.containsKey('meaning')) {
-      context.handle(_meaningMeta,
-          meaning.isAcceptableOrUnknown(data['meaning']!, _meaningMeta));
+      context.handle(_meaningMeta, meaning.isAcceptableOrUnknown(data['meaning']!, _meaningMeta));
     }
     if (data.containsKey('definition')) {
       context.handle(
-          _definitionMeta,
-          definition.isAcceptableOrUnknown(
-              data['definition']!, _definitionMeta));
+          _definitionMeta, definition.isAcceptableOrUnknown(data['definition']!, _definitionMeta));
     }
     if (data.containsKey('audio_id')) {
-      context.handle(_audioIdMeta,
-          audioId.isAcceptableOrUnknown(data['audio_id']!, _audioIdMeta));
+      context.handle(_audioIdMeta, audioId.isAcceptableOrUnknown(data['audio_id']!, _audioIdMeta));
     } else if (isInserting) {
       context.missing(_audioIdMeta);
     }
     if (data.containsKey('chapter_id')) {
-      context.handle(_chapterIdMeta,
-          chapterId.isAcceptableOrUnknown(data['chapter_id']!, _chapterIdMeta));
+      context.handle(
+          _chapterIdMeta, chapterId.isAcceptableOrUnknown(data['chapter_id']!, _chapterIdMeta));
     }
     if (data.containsKey('source_offset_ms')) {
-      context.handle(
-          _sourceOffsetMsMeta,
-          sourceOffsetMs.isAcceptableOrUnknown(
-              data['source_offset_ms']!, _sourceOffsetMsMeta));
+      context.handle(_sourceOffsetMsMeta,
+          sourceOffsetMs.isAcceptableOrUnknown(data['source_offset_ms']!, _sourceOffsetMsMeta));
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+          _createdAtMeta, createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     }
     if (data.containsKey('review_count')) {
-      context.handle(
-          _reviewCountMeta,
-          reviewCount.isAcceptableOrUnknown(
-              data['review_count']!, _reviewCountMeta));
+      context.handle(_reviewCountMeta,
+          reviewCount.isAcceptableOrUnknown(data['review_count']!, _reviewCountMeta));
     }
     return context;
   }
@@ -1613,14 +1478,11 @@ class $VocabularyTable extends Vocabulary
   VocabularyData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return VocabularyData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      word: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}word'])!,
+      id: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      word: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}word'])!,
       phonetic: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}phonetic'])!,
-      pos: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}pos'])!,
+      pos: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}pos'])!,
       meaning: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}meaning'])!,
       definition: attachedDatabase.typeMapping
@@ -1696,17 +1558,14 @@ class VocabularyData extends DataClass implements Insertable<VocabularyData> {
       meaning: Value(meaning),
       definition: Value(definition),
       audioId: Value(audioId),
-      chapterId: chapterId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(chapterId),
+      chapterId: chapterId == null && nullToAbsent ? const Value.absent() : Value(chapterId),
       sourceOffsetMs: Value(sourceOffsetMs),
       createdAt: Value(createdAt),
       reviewCount: Value(reviewCount),
     );
   }
 
-  factory VocabularyData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory VocabularyData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return VocabularyData(
       id: serializer.fromJson<String>(json['id']),
@@ -1772,16 +1631,12 @@ class VocabularyData extends DataClass implements Insertable<VocabularyData> {
       phonetic: data.phonetic.present ? data.phonetic.value : this.phonetic,
       pos: data.pos.present ? data.pos.value : this.pos,
       meaning: data.meaning.present ? data.meaning.value : this.meaning,
-      definition:
-          data.definition.present ? data.definition.value : this.definition,
+      definition: data.definition.present ? data.definition.value : this.definition,
       audioId: data.audioId.present ? data.audioId.value : this.audioId,
       chapterId: data.chapterId.present ? data.chapterId.value : this.chapterId,
-      sourceOffsetMs: data.sourceOffsetMs.present
-          ? data.sourceOffsetMs.value
-          : this.sourceOffsetMs,
+      sourceOffsetMs: data.sourceOffsetMs.present ? data.sourceOffsetMs.value : this.sourceOffsetMs,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-      reviewCount:
-          data.reviewCount.present ? data.reviewCount.value : this.reviewCount,
+      reviewCount: data.reviewCount.present ? data.reviewCount.value : this.reviewCount,
     );
   }
 
@@ -1804,8 +1659,8 @@ class VocabularyData extends DataClass implements Insertable<VocabularyData> {
   }
 
   @override
-  int get hashCode => Object.hash(id, word, phonetic, pos, meaning, definition,
-      audioId, chapterId, sourceOffsetMs, createdAt, reviewCount);
+  int get hashCode => Object.hash(id, word, phonetic, pos, meaning, definition, audioId, chapterId,
+      sourceOffsetMs, createdAt, reviewCount);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1993,32 +1848,25 @@ class $PlaybackStateTable extends PlaybackState
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $PlaybackStateTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _audioIdMeta =
-      const VerificationMeta('audioId');
+  static const VerificationMeta _audioIdMeta = const VerificationMeta('audioId');
   @override
   late final GeneratedColumn<String> audioId = GeneratedColumn<String>(
       'audio_id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES audio_items (id)'));
-  static const VerificationMeta _lastChapterIdMeta =
-      const VerificationMeta('lastChapterId');
+      defaultConstraints: GeneratedColumn.constraintIsAlways('REFERENCES audio_items (id)'));
+  static const VerificationMeta _lastChapterIdMeta = const VerificationMeta('lastChapterId');
   @override
   late final GeneratedColumn<String> lastChapterId = GeneratedColumn<String>(
       'last_chapter_id', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _lastPositionMsMeta =
-      const VerificationMeta('lastPositionMs');
+  static const VerificationMeta _lastPositionMsMeta = const VerificationMeta('lastPositionMs');
   @override
   late final GeneratedColumn<int> lastPositionMs = GeneratedColumn<int>(
       'last_position_ms', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: const Constant(0));
   @override
-  List<GeneratedColumn> get $columns =>
-      [audioId, lastChapterId, lastPositionMs];
+  List<GeneratedColumn> get $columns => [audioId, lastChapterId, lastPositionMs];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -2030,22 +1878,17 @@ class $PlaybackStateTable extends PlaybackState
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('audio_id')) {
-      context.handle(_audioIdMeta,
-          audioId.isAcceptableOrUnknown(data['audio_id']!, _audioIdMeta));
+      context.handle(_audioIdMeta, audioId.isAcceptableOrUnknown(data['audio_id']!, _audioIdMeta));
     } else if (isInserting) {
       context.missing(_audioIdMeta);
     }
     if (data.containsKey('last_chapter_id')) {
-      context.handle(
-          _lastChapterIdMeta,
-          lastChapterId.isAcceptableOrUnknown(
-              data['last_chapter_id']!, _lastChapterIdMeta));
+      context.handle(_lastChapterIdMeta,
+          lastChapterId.isAcceptableOrUnknown(data['last_chapter_id']!, _lastChapterIdMeta));
     }
     if (data.containsKey('last_position_ms')) {
-      context.handle(
-          _lastPositionMsMeta,
-          lastPositionMs.isAcceptableOrUnknown(
-              data['last_position_ms']!, _lastPositionMsMeta));
+      context.handle(_lastPositionMsMeta,
+          lastPositionMs.isAcceptableOrUnknown(data['last_position_ms']!, _lastPositionMsMeta));
     }
     return context;
   }
@@ -2071,15 +1914,12 @@ class $PlaybackStateTable extends PlaybackState
   }
 }
 
-class PlaybackStateData extends DataClass
-    implements Insertable<PlaybackStateData> {
+class PlaybackStateData extends DataClass implements Insertable<PlaybackStateData> {
   final String audioId;
   final String? lastChapterId;
   final int lastPositionMs;
   const PlaybackStateData(
-      {required this.audioId,
-      this.lastChapterId,
-      required this.lastPositionMs});
+      {required this.audioId, this.lastChapterId, required this.lastPositionMs});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -2094,15 +1934,13 @@ class PlaybackStateData extends DataClass
   PlaybackStateCompanion toCompanion(bool nullToAbsent) {
     return PlaybackStateCompanion(
       audioId: Value(audioId),
-      lastChapterId: lastChapterId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastChapterId),
+      lastChapterId:
+          lastChapterId == null && nullToAbsent ? const Value.absent() : Value(lastChapterId),
       lastPositionMs: Value(lastPositionMs),
     );
   }
 
-  factory PlaybackStateData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory PlaybackStateData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return PlaybackStateData(
       audioId: serializer.fromJson<String>(json['audioId']),
@@ -2126,19 +1964,14 @@ class PlaybackStateData extends DataClass
           int? lastPositionMs}) =>
       PlaybackStateData(
         audioId: audioId ?? this.audioId,
-        lastChapterId:
-            lastChapterId.present ? lastChapterId.value : this.lastChapterId,
+        lastChapterId: lastChapterId.present ? lastChapterId.value : this.lastChapterId,
         lastPositionMs: lastPositionMs ?? this.lastPositionMs,
       );
   PlaybackStateData copyWithCompanion(PlaybackStateCompanion data) {
     return PlaybackStateData(
       audioId: data.audioId.present ? data.audioId.value : this.audioId,
-      lastChapterId: data.lastChapterId.present
-          ? data.lastChapterId.value
-          : this.lastChapterId,
-      lastPositionMs: data.lastPositionMs.present
-          ? data.lastPositionMs.value
-          : this.lastPositionMs,
+      lastChapterId: data.lastChapterId.present ? data.lastChapterId.value : this.lastChapterId,
+      lastPositionMs: data.lastPositionMs.present ? data.lastPositionMs.value : this.lastPositionMs,
     );
   }
 
@@ -2237,74 +2070,54 @@ class PlaybackStateCompanion extends UpdateCompanion<PlaybackStateData> {
   }
 }
 
-class $WordMemoryTable extends WordMemory
-    with TableInfo<$WordMemoryTable, WordMemoryData> {
+class $WordMemoryTable extends WordMemory with TableInfo<$WordMemoryTable, WordMemoryData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $WordMemoryTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _wordIdMeta = const VerificationMeta('wordId');
   @override
-  late final GeneratedColumn<String> wordId = GeneratedColumn<String>(
-      'word_id', aliasedName, false,
+  late final GeneratedColumn<String> wordId = GeneratedColumn<String>('word_id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES vocabulary (id)'));
-  static const VerificationMeta _queryCountMeta =
-      const VerificationMeta('queryCount');
+      defaultConstraints: GeneratedColumn.constraintIsAlways('REFERENCES vocabulary (id)'));
+  static const VerificationMeta _queryCountMeta = const VerificationMeta('queryCount');
   @override
   late final GeneratedColumn<int> queryCount = GeneratedColumn<int>(
       'query_count', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _quizAttemptsMeta =
-      const VerificationMeta('quizAttempts');
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: const Constant(0));
+  static const VerificationMeta _quizAttemptsMeta = const VerificationMeta('quizAttempts');
   @override
   late final GeneratedColumn<int> quizAttempts = GeneratedColumn<int>(
       'quiz_attempts', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _quizCorrectMeta =
-      const VerificationMeta('quizCorrect');
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: const Constant(0));
+  static const VerificationMeta _quizCorrectMeta = const VerificationMeta('quizCorrect');
   @override
   late final GeneratedColumn<int> quizCorrect = GeneratedColumn<int>(
       'quiz_correct', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _masteryLevelMeta =
-      const VerificationMeta('masteryLevel');
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: const Constant(0));
+  static const VerificationMeta _masteryLevelMeta = const VerificationMeta('masteryLevel');
   @override
   late final GeneratedColumn<double> masteryLevel = GeneratedColumn<double>(
       'mastery_level', aliasedName, false,
-      type: DriftSqlType.double,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0.0));
-  static const VerificationMeta _weakFlagMeta =
-      const VerificationMeta('weakFlag');
+      type: DriftSqlType.double, requiredDuringInsert: false, defaultValue: const Constant(0.0));
+  static const VerificationMeta _weakFlagMeta = const VerificationMeta('weakFlag');
   @override
-  late final GeneratedColumn<bool> weakFlag = GeneratedColumn<bool>(
-      'weak_flag', aliasedName, false,
+  late final GeneratedColumn<bool> weakFlag = GeneratedColumn<bool>('weak_flag', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("weak_flag" IN (0, 1))'),
+      defaultConstraints: GeneratedColumn.constraintIsAlways('CHECK ("weak_flag" IN (0, 1))'),
       defaultValue: const Constant(false));
-  static const VerificationMeta _lastQueriedAtMeta =
-      const VerificationMeta('lastQueriedAt');
+  static const VerificationMeta _lastQueriedAtMeta = const VerificationMeta('lastQueriedAt');
   @override
-  late final GeneratedColumn<DateTime> lastQueriedAt =
-      GeneratedColumn<DateTime>('last_queried_at', aliasedName, true,
-          type: DriftSqlType.dateTime, requiredDuringInsert: false);
-  static const VerificationMeta _lastQuizzedAtMeta =
-      const VerificationMeta('lastQuizzedAt');
+  late final GeneratedColumn<DateTime> lastQueriedAt = GeneratedColumn<DateTime>(
+      'last_queried_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _lastQuizzedAtMeta = const VerificationMeta('lastQuizzedAt');
   @override
-  late final GeneratedColumn<DateTime> lastQuizzedAt =
-      GeneratedColumn<DateTime>('last_quizzed_at', aliasedName, true,
-          type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  late final GeneratedColumn<DateTime> lastQuizzedAt = GeneratedColumn<DateTime>(
+      'last_quizzed_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         wordId,
@@ -2327,50 +2140,37 @@ class $WordMemoryTable extends WordMemory
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('word_id')) {
-      context.handle(_wordIdMeta,
-          wordId.isAcceptableOrUnknown(data['word_id']!, _wordIdMeta));
+      context.handle(_wordIdMeta, wordId.isAcceptableOrUnknown(data['word_id']!, _wordIdMeta));
     } else if (isInserting) {
       context.missing(_wordIdMeta);
     }
     if (data.containsKey('query_count')) {
       context.handle(
-          _queryCountMeta,
-          queryCount.isAcceptableOrUnknown(
-              data['query_count']!, _queryCountMeta));
+          _queryCountMeta, queryCount.isAcceptableOrUnknown(data['query_count']!, _queryCountMeta));
     }
     if (data.containsKey('quiz_attempts')) {
-      context.handle(
-          _quizAttemptsMeta,
-          quizAttempts.isAcceptableOrUnknown(
-              data['quiz_attempts']!, _quizAttemptsMeta));
+      context.handle(_quizAttemptsMeta,
+          quizAttempts.isAcceptableOrUnknown(data['quiz_attempts']!, _quizAttemptsMeta));
     }
     if (data.containsKey('quiz_correct')) {
-      context.handle(
-          _quizCorrectMeta,
-          quizCorrect.isAcceptableOrUnknown(
-              data['quiz_correct']!, _quizCorrectMeta));
+      context.handle(_quizCorrectMeta,
+          quizCorrect.isAcceptableOrUnknown(data['quiz_correct']!, _quizCorrectMeta));
     }
     if (data.containsKey('mastery_level')) {
-      context.handle(
-          _masteryLevelMeta,
-          masteryLevel.isAcceptableOrUnknown(
-              data['mastery_level']!, _masteryLevelMeta));
+      context.handle(_masteryLevelMeta,
+          masteryLevel.isAcceptableOrUnknown(data['mastery_level']!, _masteryLevelMeta));
     }
     if (data.containsKey('weak_flag')) {
-      context.handle(_weakFlagMeta,
-          weakFlag.isAcceptableOrUnknown(data['weak_flag']!, _weakFlagMeta));
+      context.handle(
+          _weakFlagMeta, weakFlag.isAcceptableOrUnknown(data['weak_flag']!, _weakFlagMeta));
     }
     if (data.containsKey('last_queried_at')) {
-      context.handle(
-          _lastQueriedAtMeta,
-          lastQueriedAt.isAcceptableOrUnknown(
-              data['last_queried_at']!, _lastQueriedAtMeta));
+      context.handle(_lastQueriedAtMeta,
+          lastQueriedAt.isAcceptableOrUnknown(data['last_queried_at']!, _lastQueriedAtMeta));
     }
     if (data.containsKey('last_quizzed_at')) {
-      context.handle(
-          _lastQuizzedAtMeta,
-          lastQuizzedAt.isAcceptableOrUnknown(
-              data['last_quizzed_at']!, _lastQuizzedAtMeta));
+      context.handle(_lastQuizzedAtMeta,
+          lastQuizzedAt.isAcceptableOrUnknown(data['last_quizzed_at']!, _lastQuizzedAtMeta));
     }
     return context;
   }
@@ -2393,10 +2193,10 @@ class $WordMemoryTable extends WordMemory
           .read(DriftSqlType.double, data['${effectivePrefix}mastery_level'])!,
       weakFlag: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}weak_flag'])!,
-      lastQueriedAt: attachedDatabase.typeMapping.read(
-          DriftSqlType.dateTime, data['${effectivePrefix}last_queried_at']),
-      lastQuizzedAt: attachedDatabase.typeMapping.read(
-          DriftSqlType.dateTime, data['${effectivePrefix}last_quizzed_at']),
+      lastQueriedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}last_queried_at']),
+      lastQuizzedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}last_quizzed_at']),
     );
   }
 
@@ -2450,17 +2250,14 @@ class WordMemoryData extends DataClass implements Insertable<WordMemoryData> {
       quizCorrect: Value(quizCorrect),
       masteryLevel: Value(masteryLevel),
       weakFlag: Value(weakFlag),
-      lastQueriedAt: lastQueriedAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastQueriedAt),
-      lastQuizzedAt: lastQuizzedAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastQuizzedAt),
+      lastQueriedAt:
+          lastQueriedAt == null && nullToAbsent ? const Value.absent() : Value(lastQueriedAt),
+      lastQuizzedAt:
+          lastQuizzedAt == null && nullToAbsent ? const Value.absent() : Value(lastQuizzedAt),
     );
   }
 
-  factory WordMemoryData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory WordMemoryData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return WordMemoryData(
       wordId: serializer.fromJson<String>(json['wordId']),
@@ -2504,31 +2301,19 @@ class WordMemoryData extends DataClass implements Insertable<WordMemoryData> {
         quizCorrect: quizCorrect ?? this.quizCorrect,
         masteryLevel: masteryLevel ?? this.masteryLevel,
         weakFlag: weakFlag ?? this.weakFlag,
-        lastQueriedAt:
-            lastQueriedAt.present ? lastQueriedAt.value : this.lastQueriedAt,
-        lastQuizzedAt:
-            lastQuizzedAt.present ? lastQuizzedAt.value : this.lastQuizzedAt,
+        lastQueriedAt: lastQueriedAt.present ? lastQueriedAt.value : this.lastQueriedAt,
+        lastQuizzedAt: lastQuizzedAt.present ? lastQuizzedAt.value : this.lastQuizzedAt,
       );
   WordMemoryData copyWithCompanion(WordMemoryCompanion data) {
     return WordMemoryData(
       wordId: data.wordId.present ? data.wordId.value : this.wordId,
-      queryCount:
-          data.queryCount.present ? data.queryCount.value : this.queryCount,
-      quizAttempts: data.quizAttempts.present
-          ? data.quizAttempts.value
-          : this.quizAttempts,
-      quizCorrect:
-          data.quizCorrect.present ? data.quizCorrect.value : this.quizCorrect,
-      masteryLevel: data.masteryLevel.present
-          ? data.masteryLevel.value
-          : this.masteryLevel,
+      queryCount: data.queryCount.present ? data.queryCount.value : this.queryCount,
+      quizAttempts: data.quizAttempts.present ? data.quizAttempts.value : this.quizAttempts,
+      quizCorrect: data.quizCorrect.present ? data.quizCorrect.value : this.quizCorrect,
+      masteryLevel: data.masteryLevel.present ? data.masteryLevel.value : this.masteryLevel,
       weakFlag: data.weakFlag.present ? data.weakFlag.value : this.weakFlag,
-      lastQueriedAt: data.lastQueriedAt.present
-          ? data.lastQueriedAt.value
-          : this.lastQueriedAt,
-      lastQuizzedAt: data.lastQuizzedAt.present
-          ? data.lastQuizzedAt.value
-          : this.lastQuizzedAt,
+      lastQueriedAt: data.lastQueriedAt.present ? data.lastQueriedAt.value : this.lastQueriedAt,
+      lastQuizzedAt: data.lastQuizzedAt.present ? data.lastQuizzedAt.value : this.lastQuizzedAt,
     );
   }
 
@@ -2548,8 +2333,8 @@ class WordMemoryData extends DataClass implements Insertable<WordMemoryData> {
   }
 
   @override
-  int get hashCode => Object.hash(wordId, queryCount, quizAttempts, quizCorrect,
-      masteryLevel, weakFlag, lastQueriedAt, lastQuizzedAt);
+  int get hashCode => Object.hash(wordId, queryCount, quizAttempts, quizCorrect, masteryLevel,
+      weakFlag, lastQueriedAt, lastQuizzedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2699,40 +2484,30 @@ class $ContentMemoryTable extends ContentMemory
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $ContentMemoryTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _audioIdMeta =
-      const VerificationMeta('audioId');
+  static const VerificationMeta _audioIdMeta = const VerificationMeta('audioId');
   @override
   late final GeneratedColumn<String> audioId = GeneratedColumn<String>(
       'audio_id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES audio_items (id)'));
-  static const VerificationMeta _chaptersHeardMeta =
-      const VerificationMeta('chaptersHeard');
+      defaultConstraints: GeneratedColumn.constraintIsAlways('REFERENCES audio_items (id)'));
+  static const VerificationMeta _chaptersHeardMeta = const VerificationMeta('chaptersHeard');
   @override
   late final GeneratedColumn<int> chaptersHeard = GeneratedColumn<int>(
       'chapters_heard', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _wordsQueriedMeta =
-      const VerificationMeta('wordsQueried');
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: const Constant(0));
+  static const VerificationMeta _wordsQueriedMeta = const VerificationMeta('wordsQueried');
   @override
   late final GeneratedColumn<int> wordsQueried = GeneratedColumn<int>(
       'words_queried', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _lastHeardAtMeta =
-      const VerificationMeta('lastHeardAt');
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: const Constant(0));
+  static const VerificationMeta _lastHeardAtMeta = const VerificationMeta('lastHeardAt');
   @override
   late final GeneratedColumn<DateTime> lastHeardAt = GeneratedColumn<DateTime>(
       'last_heard_at', aliasedName, true,
       type: DriftSqlType.dateTime, requiredDuringInsert: false);
   @override
-  List<GeneratedColumn> get $columns =>
-      [audioId, chaptersHeard, wordsQueried, lastHeardAt];
+  List<GeneratedColumn> get $columns => [audioId, chaptersHeard, wordsQueried, lastHeardAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -2744,28 +2519,21 @@ class $ContentMemoryTable extends ContentMemory
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('audio_id')) {
-      context.handle(_audioIdMeta,
-          audioId.isAcceptableOrUnknown(data['audio_id']!, _audioIdMeta));
+      context.handle(_audioIdMeta, audioId.isAcceptableOrUnknown(data['audio_id']!, _audioIdMeta));
     } else if (isInserting) {
       context.missing(_audioIdMeta);
     }
     if (data.containsKey('chapters_heard')) {
-      context.handle(
-          _chaptersHeardMeta,
-          chaptersHeard.isAcceptableOrUnknown(
-              data['chapters_heard']!, _chaptersHeardMeta));
+      context.handle(_chaptersHeardMeta,
+          chaptersHeard.isAcceptableOrUnknown(data['chapters_heard']!, _chaptersHeardMeta));
     }
     if (data.containsKey('words_queried')) {
-      context.handle(
-          _wordsQueriedMeta,
-          wordsQueried.isAcceptableOrUnknown(
-              data['words_queried']!, _wordsQueriedMeta));
+      context.handle(_wordsQueriedMeta,
+          wordsQueried.isAcceptableOrUnknown(data['words_queried']!, _wordsQueriedMeta));
     }
     if (data.containsKey('last_heard_at')) {
-      context.handle(
-          _lastHeardAtMeta,
-          lastHeardAt.isAcceptableOrUnknown(
-              data['last_heard_at']!, _lastHeardAtMeta));
+      context.handle(_lastHeardAtMeta,
+          lastHeardAt.isAcceptableOrUnknown(data['last_heard_at']!, _lastHeardAtMeta));
     }
     return context;
   }
@@ -2793,8 +2561,7 @@ class $ContentMemoryTable extends ContentMemory
   }
 }
 
-class ContentMemoryData extends DataClass
-    implements Insertable<ContentMemoryData> {
+class ContentMemoryData extends DataClass implements Insertable<ContentMemoryData> {
   final String audioId;
   final int chaptersHeard;
   final int wordsQueried;
@@ -2821,14 +2588,11 @@ class ContentMemoryData extends DataClass
       audioId: Value(audioId),
       chaptersHeard: Value(chaptersHeard),
       wordsQueried: Value(wordsQueried),
-      lastHeardAt: lastHeardAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastHeardAt),
+      lastHeardAt: lastHeardAt == null && nullToAbsent ? const Value.absent() : Value(lastHeardAt),
     );
   }
 
-  factory ContentMemoryData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory ContentMemoryData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ContentMemoryData(
       audioId: serializer.fromJson<String>(json['audioId']),
@@ -2862,14 +2626,9 @@ class ContentMemoryData extends DataClass
   ContentMemoryData copyWithCompanion(ContentMemoryCompanion data) {
     return ContentMemoryData(
       audioId: data.audioId.present ? data.audioId.value : this.audioId,
-      chaptersHeard: data.chaptersHeard.present
-          ? data.chaptersHeard.value
-          : this.chaptersHeard,
-      wordsQueried: data.wordsQueried.present
-          ? data.wordsQueried.value
-          : this.wordsQueried,
-      lastHeardAt:
-          data.lastHeardAt.present ? data.lastHeardAt.value : this.lastHeardAt,
+      chaptersHeard: data.chaptersHeard.present ? data.chaptersHeard.value : this.chaptersHeard,
+      wordsQueried: data.wordsQueried.present ? data.wordsQueried.value : this.wordsQueried,
+      lastHeardAt: data.lastHeardAt.present ? data.lastHeardAt.value : this.lastHeardAt,
     );
   }
 
@@ -2885,8 +2644,7 @@ class ContentMemoryData extends DataClass
   }
 
   @override
-  int get hashCode =>
-      Object.hash(audioId, chaptersHeard, wordsQueried, lastHeardAt);
+  int get hashCode => Object.hash(audioId, chaptersHeard, wordsQueried, lastHeardAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2982,60 +2740,46 @@ class ContentMemoryCompanion extends UpdateCompanion<ContentMemoryData> {
   }
 }
 
-class $AgentSessionsTable extends AgentSessions
-    with TableInfo<$AgentSessionsTable, AgentSession> {
+class $AgentSessionsTable extends AgentSessions with TableInfo<$AgentSessionsTable, AgentSession> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $AgentSessionsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<String> id = GeneratedColumn<String>('id', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _triggerMeta =
-      const VerificationMeta('trigger');
+  static const VerificationMeta _triggerMeta = const VerificationMeta('trigger');
   @override
   late final GeneratedColumn<String> trigger = GeneratedColumn<String>(
       'trigger', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _audioIdMeta =
-      const VerificationMeta('audioId');
+  static const VerificationMeta _audioIdMeta = const VerificationMeta('audioId');
   @override
   late final GeneratedColumn<String> audioId = GeneratedColumn<String>(
       'audio_id', aliasedName, true,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES audio_items (id)'));
-  static const VerificationMeta _chapterIdMeta =
-      const VerificationMeta('chapterId');
+      defaultConstraints: GeneratedColumn.constraintIsAlways('REFERENCES audio_items (id)'));
+  static const VerificationMeta _chapterIdMeta = const VerificationMeta('chapterId');
   @override
   late final GeneratedColumn<String> chapterId = GeneratedColumn<String>(
       'chapter_id', aliasedName, true,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES chapters (id)'));
-  static const VerificationMeta _messagesJsonMeta =
-      const VerificationMeta('messagesJson');
+      defaultConstraints: GeneratedColumn.constraintIsAlways('REFERENCES chapters (id)'));
+  static const VerificationMeta _messagesJsonMeta = const VerificationMeta('messagesJson');
   @override
   late final GeneratedColumn<String> messagesJson = GeneratedColumn<String>(
       'messages_json', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant('[]'));
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+      type: DriftSqlType.string, requiredDuringInsert: false, defaultValue: const Constant('[]'));
+  static const VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
       'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
+      type: DriftSqlType.dateTime, requiredDuringInsert: false, defaultValue: currentDateAndTime);
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, trigger, audioId, chapterId, messagesJson, createdAt];
+  List<GeneratedColumn> get $columns => [id, trigger, audioId, chapterId, messagesJson, createdAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -3052,28 +2796,24 @@ class $AgentSessionsTable extends AgentSessions
       context.missing(_idMeta);
     }
     if (data.containsKey('trigger')) {
-      context.handle(_triggerMeta,
-          trigger.isAcceptableOrUnknown(data['trigger']!, _triggerMeta));
+      context.handle(_triggerMeta, trigger.isAcceptableOrUnknown(data['trigger']!, _triggerMeta));
     } else if (isInserting) {
       context.missing(_triggerMeta);
     }
     if (data.containsKey('audio_id')) {
-      context.handle(_audioIdMeta,
-          audioId.isAcceptableOrUnknown(data['audio_id']!, _audioIdMeta));
+      context.handle(_audioIdMeta, audioId.isAcceptableOrUnknown(data['audio_id']!, _audioIdMeta));
     }
     if (data.containsKey('chapter_id')) {
-      context.handle(_chapterIdMeta,
-          chapterId.isAcceptableOrUnknown(data['chapter_id']!, _chapterIdMeta));
+      context.handle(
+          _chapterIdMeta, chapterId.isAcceptableOrUnknown(data['chapter_id']!, _chapterIdMeta));
     }
     if (data.containsKey('messages_json')) {
-      context.handle(
-          _messagesJsonMeta,
-          messagesJson.isAcceptableOrUnknown(
-              data['messages_json']!, _messagesJsonMeta));
+      context.handle(_messagesJsonMeta,
+          messagesJson.isAcceptableOrUnknown(data['messages_json']!, _messagesJsonMeta));
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+          _createdAtMeta, createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     }
     return context;
   }
@@ -3084,8 +2824,7 @@ class $AgentSessionsTable extends AgentSessions
   AgentSession map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return AgentSession(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      id: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}id'])!,
       trigger: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}trigger'])!,
       audioId: attachedDatabase.typeMapping
@@ -3139,19 +2878,14 @@ class AgentSession extends DataClass implements Insertable<AgentSession> {
     return AgentSessionsCompanion(
       id: Value(id),
       trigger: Value(trigger),
-      audioId: audioId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(audioId),
-      chapterId: chapterId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(chapterId),
+      audioId: audioId == null && nullToAbsent ? const Value.absent() : Value(audioId),
+      chapterId: chapterId == null && nullToAbsent ? const Value.absent() : Value(chapterId),
       messagesJson: Value(messagesJson),
       createdAt: Value(createdAt),
     );
   }
 
-  factory AgentSession.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory AgentSession.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return AgentSession(
       id: serializer.fromJson<String>(json['id']),
@@ -3196,9 +2930,7 @@ class AgentSession extends DataClass implements Insertable<AgentSession> {
       trigger: data.trigger.present ? data.trigger.value : this.trigger,
       audioId: data.audioId.present ? data.audioId.value : this.audioId,
       chapterId: data.chapterId.present ? data.chapterId.value : this.chapterId,
-      messagesJson: data.messagesJson.present
-          ? data.messagesJson.value
-          : this.messagesJson,
+      messagesJson: data.messagesJson.present ? data.messagesJson.value : this.messagesJson,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
@@ -3217,8 +2949,7 @@ class AgentSession extends DataClass implements Insertable<AgentSession> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, trigger, audioId, chapterId, messagesJson, createdAt);
+  int get hashCode => Object.hash(id, trigger, audioId, chapterId, messagesJson, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3347,37 +3078,27 @@ class $ReviewScheduleTable extends ReviewSchedule
   $ReviewScheduleTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _wordIdMeta = const VerificationMeta('wordId');
   @override
-  late final GeneratedColumn<String> wordId = GeneratedColumn<String>(
-      'word_id', aliasedName, false,
+  late final GeneratedColumn<String> wordId = GeneratedColumn<String>('word_id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES vocabulary (id)'));
-  static const VerificationMeta _nextReviewAtMeta =
-      const VerificationMeta('nextReviewAt');
+      defaultConstraints: GeneratedColumn.constraintIsAlways('REFERENCES vocabulary (id)'));
+  static const VerificationMeta _nextReviewAtMeta = const VerificationMeta('nextReviewAt');
   @override
   late final GeneratedColumn<DateTime> nextReviewAt = GeneratedColumn<DateTime>(
       'next_review_at', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _reviewCountMeta =
-      const VerificationMeta('reviewCount');
+  static const VerificationMeta _reviewCountMeta = const VerificationMeta('reviewCount');
   @override
   late final GeneratedColumn<int> reviewCount = GeneratedColumn<int>(
       'review_count', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _lastResultMeta =
-      const VerificationMeta('lastResult');
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: const Constant(0));
+  static const VerificationMeta _lastResultMeta = const VerificationMeta('lastResult');
   @override
   late final GeneratedColumn<String> lastResult = GeneratedColumn<String>(
       'last_result', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(''));
+      type: DriftSqlType.string, requiredDuringInsert: false, defaultValue: const Constant(''));
   @override
-  List<GeneratedColumn> get $columns =>
-      [wordId, nextReviewAt, reviewCount, lastResult];
+  List<GeneratedColumn> get $columns => [wordId, nextReviewAt, reviewCount, lastResult];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -3389,30 +3110,23 @@ class $ReviewScheduleTable extends ReviewSchedule
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('word_id')) {
-      context.handle(_wordIdMeta,
-          wordId.isAcceptableOrUnknown(data['word_id']!, _wordIdMeta));
+      context.handle(_wordIdMeta, wordId.isAcceptableOrUnknown(data['word_id']!, _wordIdMeta));
     } else if (isInserting) {
       context.missing(_wordIdMeta);
     }
     if (data.containsKey('next_review_at')) {
-      context.handle(
-          _nextReviewAtMeta,
-          nextReviewAt.isAcceptableOrUnknown(
-              data['next_review_at']!, _nextReviewAtMeta));
+      context.handle(_nextReviewAtMeta,
+          nextReviewAt.isAcceptableOrUnknown(data['next_review_at']!, _nextReviewAtMeta));
     } else if (isInserting) {
       context.missing(_nextReviewAtMeta);
     }
     if (data.containsKey('review_count')) {
-      context.handle(
-          _reviewCountMeta,
-          reviewCount.isAcceptableOrUnknown(
-              data['review_count']!, _reviewCountMeta));
+      context.handle(_reviewCountMeta,
+          reviewCount.isAcceptableOrUnknown(data['review_count']!, _reviewCountMeta));
     }
     if (data.containsKey('last_result')) {
       context.handle(
-          _lastResultMeta,
-          lastResult.isAcceptableOrUnknown(
-              data['last_result']!, _lastResultMeta));
+          _lastResultMeta, lastResult.isAcceptableOrUnknown(data['last_result']!, _lastResultMeta));
     }
     return context;
   }
@@ -3425,8 +3139,8 @@ class $ReviewScheduleTable extends ReviewSchedule
     return ReviewScheduleData(
       wordId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}word_id'])!,
-      nextReviewAt: attachedDatabase.typeMapping.read(
-          DriftSqlType.dateTime, data['${effectivePrefix}next_review_at'])!,
+      nextReviewAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}next_review_at'])!,
       reviewCount: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}review_count'])!,
       lastResult: attachedDatabase.typeMapping
@@ -3440,8 +3154,7 @@ class $ReviewScheduleTable extends ReviewSchedule
   }
 }
 
-class ReviewScheduleData extends DataClass
-    implements Insertable<ReviewScheduleData> {
+class ReviewScheduleData extends DataClass implements Insertable<ReviewScheduleData> {
   final String wordId;
   final DateTime nextReviewAt;
   final int reviewCount;
@@ -3470,8 +3183,7 @@ class ReviewScheduleData extends DataClass
     );
   }
 
-  factory ReviewScheduleData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory ReviewScheduleData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ReviewScheduleData(
       wordId: serializer.fromJson<String>(json['wordId']),
@@ -3492,10 +3204,7 @@ class ReviewScheduleData extends DataClass
   }
 
   ReviewScheduleData copyWith(
-          {String? wordId,
-          DateTime? nextReviewAt,
-          int? reviewCount,
-          String? lastResult}) =>
+          {String? wordId, DateTime? nextReviewAt, int? reviewCount, String? lastResult}) =>
       ReviewScheduleData(
         wordId: wordId ?? this.wordId,
         nextReviewAt: nextReviewAt ?? this.nextReviewAt,
@@ -3505,13 +3214,9 @@ class ReviewScheduleData extends DataClass
   ReviewScheduleData copyWithCompanion(ReviewScheduleCompanion data) {
     return ReviewScheduleData(
       wordId: data.wordId.present ? data.wordId.value : this.wordId,
-      nextReviewAt: data.nextReviewAt.present
-          ? data.nextReviewAt.value
-          : this.nextReviewAt,
-      reviewCount:
-          data.reviewCount.present ? data.reviewCount.value : this.reviewCount,
-      lastResult:
-          data.lastResult.present ? data.lastResult.value : this.lastResult,
+      nextReviewAt: data.nextReviewAt.present ? data.nextReviewAt.value : this.nextReviewAt,
+      reviewCount: data.reviewCount.present ? data.reviewCount.value : this.reviewCount,
+      lastResult: data.lastResult.present ? data.lastResult.value : this.lastResult,
     );
   }
 
@@ -3527,8 +3232,7 @@ class ReviewScheduleData extends DataClass
   }
 
   @override
-  int get hashCode =>
-      Object.hash(wordId, nextReviewAt, reviewCount, lastResult);
+  int get hashCode => Object.hash(wordId, nextReviewAt, reviewCount, lastResult);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3633,56 +3337,43 @@ class $WeaknessProfileTable extends WeaknessProfile
   $WeaknessProfileTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+      defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
   static const VerificationMeta _wordIdMeta = const VerificationMeta('wordId');
   @override
-  late final GeneratedColumn<String> wordId = GeneratedColumn<String>(
-      'word_id', aliasedName, false,
+  late final GeneratedColumn<String> wordId = GeneratedColumn<String>('word_id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES vocabulary (id)'));
-  static const VerificationMeta _weakTypeMeta =
-      const VerificationMeta('weakType');
+      defaultConstraints: GeneratedColumn.constraintIsAlways('REFERENCES vocabulary (id)'));
+  static const VerificationMeta _weakTypeMeta = const VerificationMeta('weakType');
   @override
   late final GeneratedColumn<String> weakType = GeneratedColumn<String>(
       'weak_type', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       defaultValue: const Constant('vocabulary'));
-  static const VerificationMeta _context_Meta =
-      const VerificationMeta('context_');
+  static const VerificationMeta _context_Meta = const VerificationMeta('context_');
   @override
   late final GeneratedColumn<String> context_ = GeneratedColumn<String>(
       'context', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(''));
-  static const VerificationMeta _detectedAtMeta =
-      const VerificationMeta('detectedAt');
+      type: DriftSqlType.string, requiredDuringInsert: false, defaultValue: const Constant(''));
+  static const VerificationMeta _detectedAtMeta = const VerificationMeta('detectedAt');
   @override
   late final GeneratedColumn<DateTime> detectedAt = GeneratedColumn<DateTime>(
       'detected_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
+      type: DriftSqlType.dateTime, requiredDuringInsert: false, defaultValue: currentDateAndTime);
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, wordId, weakType, context_, detectedAt];
+  List<GeneratedColumn> get $columns => [id, wordId, weakType, context_, detectedAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'weakness_profile';
   @override
-  VerificationContext validateIntegrity(
-      Insertable<WeaknessProfileData> instance,
+  VerificationContext validateIntegrity(Insertable<WeaknessProfileData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -3690,24 +3381,21 @@ class $WeaknessProfileTable extends WeaknessProfile
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('word_id')) {
-      context.handle(_wordIdMeta,
-          wordId.isAcceptableOrUnknown(data['word_id']!, _wordIdMeta));
+      context.handle(_wordIdMeta, wordId.isAcceptableOrUnknown(data['word_id']!, _wordIdMeta));
     } else if (isInserting) {
       context.missing(_wordIdMeta);
     }
     if (data.containsKey('weak_type')) {
-      context.handle(_weakTypeMeta,
-          weakType.isAcceptableOrUnknown(data['weak_type']!, _weakTypeMeta));
+      context.handle(
+          _weakTypeMeta, weakType.isAcceptableOrUnknown(data['weak_type']!, _weakTypeMeta));
     }
     if (data.containsKey('context')) {
-      context.handle(_context_Meta,
-          context_.isAcceptableOrUnknown(data['context']!, _context_Meta));
+      context.handle(
+          _context_Meta, context_.isAcceptableOrUnknown(data['context']!, _context_Meta));
     }
     if (data.containsKey('detected_at')) {
       context.handle(
-          _detectedAtMeta,
-          detectedAt.isAcceptableOrUnknown(
-              data['detected_at']!, _detectedAtMeta));
+          _detectedAtMeta, detectedAt.isAcceptableOrUnknown(data['detected_at']!, _detectedAtMeta));
     }
     return context;
   }
@@ -3718,8 +3406,7 @@ class $WeaknessProfileTable extends WeaknessProfile
   WeaknessProfileData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return WeaknessProfileData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       wordId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}word_id'])!,
       weakType: attachedDatabase.typeMapping
@@ -3737,8 +3424,7 @@ class $WeaknessProfileTable extends WeaknessProfile
   }
 }
 
-class WeaknessProfileData extends DataClass
-    implements Insertable<WeaknessProfileData> {
+class WeaknessProfileData extends DataClass implements Insertable<WeaknessProfileData> {
   final int id;
   final String wordId;
   final String weakType;
@@ -3771,8 +3457,7 @@ class WeaknessProfileData extends DataClass
     );
   }
 
-  factory WeaknessProfileData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory WeaknessProfileData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return WeaknessProfileData(
       id: serializer.fromJson<int>(json['id']),
@@ -3795,11 +3480,7 @@ class WeaknessProfileData extends DataClass
   }
 
   WeaknessProfileData copyWith(
-          {int? id,
-          String? wordId,
-          String? weakType,
-          String? context_,
-          DateTime? detectedAt}) =>
+          {int? id, String? wordId, String? weakType, String? context_, DateTime? detectedAt}) =>
       WeaknessProfileData(
         id: id ?? this.id,
         wordId: wordId ?? this.wordId,
@@ -3813,8 +3494,7 @@ class WeaknessProfileData extends DataClass
       wordId: data.wordId.present ? data.wordId.value : this.wordId,
       weakType: data.weakType.present ? data.weakType.value : this.weakType,
       context_: data.context_.present ? data.context_.value : this.context_,
-      detectedAt:
-          data.detectedAt.present ? data.detectedAt.value : this.detectedAt,
+      detectedAt: data.detectedAt.present ? data.detectedAt.value : this.detectedAt,
     );
   }
 
@@ -3936,67 +3616,41 @@ class $LearningPatternsTable extends LearningPatterns
   $LearningPatternsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<String> id = GeneratedColumn<String>('id', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _estimatedLevelMeta =
-      const VerificationMeta('estimatedLevel');
+  static const VerificationMeta _estimatedLevelMeta = const VerificationMeta('estimatedLevel');
   @override
   late final GeneratedColumn<String> estimatedLevel = GeneratedColumn<String>(
       'estimated_level', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant('B1'));
-  static const VerificationMeta _levelBasisMeta =
-      const VerificationMeta('levelBasis');
+      type: DriftSqlType.string, requiredDuringInsert: false, defaultValue: const Constant('B1'));
+  static const VerificationMeta _levelBasisMeta = const VerificationMeta('levelBasis');
   @override
   late final GeneratedColumn<String> levelBasis = GeneratedColumn<String>(
       'level_basis', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(''));
-  static const VerificationMeta _activeHoursMeta =
-      const VerificationMeta('activeHours');
+      type: DriftSqlType.string, requiredDuringInsert: false, defaultValue: const Constant(''));
+  static const VerificationMeta _activeHoursMeta = const VerificationMeta('activeHours');
   @override
   late final GeneratedColumn<String> activeHours = GeneratedColumn<String>(
       'active_hours', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(''));
-  static const VerificationMeta _avgSessionMinMeta =
-      const VerificationMeta('avgSessionMin');
+      type: DriftSqlType.string, requiredDuringInsert: false, defaultValue: const Constant(''));
+  static const VerificationMeta _avgSessionMinMeta = const VerificationMeta('avgSessionMin');
   @override
   late final GeneratedColumn<int> avgSessionMin = GeneratedColumn<int>(
       'avg_session_min', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _preferredTopicsMeta =
-      const VerificationMeta('preferredTopics');
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: const Constant(0));
+  static const VerificationMeta _preferredTopicsMeta = const VerificationMeta('preferredTopics');
   @override
   late final GeneratedColumn<String> preferredTopics = GeneratedColumn<String>(
       'preferred_topics', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(''));
-  static const VerificationMeta _updatedAtMeta =
-      const VerificationMeta('updatedAt');
+      type: DriftSqlType.string, requiredDuringInsert: false, defaultValue: const Constant(''));
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
   @override
   late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
       'updated_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
+      type: DriftSqlType.dateTime, requiredDuringInsert: false, defaultValue: currentDateAndTime);
   @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        estimatedLevel,
-        levelBasis,
-        activeHours,
-        avgSessionMin,
-        preferredTopics,
-        updatedAt
-      ];
+  List<GeneratedColumn> get $columns =>
+      [id, estimatedLevel, levelBasis, activeHours, avgSessionMin, preferredTopics, updatedAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -4013,38 +3667,28 @@ class $LearningPatternsTable extends LearningPatterns
       context.missing(_idMeta);
     }
     if (data.containsKey('estimated_level')) {
-      context.handle(
-          _estimatedLevelMeta,
-          estimatedLevel.isAcceptableOrUnknown(
-              data['estimated_level']!, _estimatedLevelMeta));
+      context.handle(_estimatedLevelMeta,
+          estimatedLevel.isAcceptableOrUnknown(data['estimated_level']!, _estimatedLevelMeta));
     }
     if (data.containsKey('level_basis')) {
       context.handle(
-          _levelBasisMeta,
-          levelBasis.isAcceptableOrUnknown(
-              data['level_basis']!, _levelBasisMeta));
+          _levelBasisMeta, levelBasis.isAcceptableOrUnknown(data['level_basis']!, _levelBasisMeta));
     }
     if (data.containsKey('active_hours')) {
-      context.handle(
-          _activeHoursMeta,
-          activeHours.isAcceptableOrUnknown(
-              data['active_hours']!, _activeHoursMeta));
+      context.handle(_activeHoursMeta,
+          activeHours.isAcceptableOrUnknown(data['active_hours']!, _activeHoursMeta));
     }
     if (data.containsKey('avg_session_min')) {
-      context.handle(
-          _avgSessionMinMeta,
-          avgSessionMin.isAcceptableOrUnknown(
-              data['avg_session_min']!, _avgSessionMinMeta));
+      context.handle(_avgSessionMinMeta,
+          avgSessionMin.isAcceptableOrUnknown(data['avg_session_min']!, _avgSessionMinMeta));
     }
     if (data.containsKey('preferred_topics')) {
-      context.handle(
-          _preferredTopicsMeta,
-          preferredTopics.isAcceptableOrUnknown(
-              data['preferred_topics']!, _preferredTopicsMeta));
+      context.handle(_preferredTopicsMeta,
+          preferredTopics.isAcceptableOrUnknown(data['preferred_topics']!, _preferredTopicsMeta));
     }
     if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+      context.handle(
+          _updatedAtMeta, updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
     }
     return context;
   }
@@ -4055,18 +3699,17 @@ class $LearningPatternsTable extends LearningPatterns
   LearningPattern map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return LearningPattern(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      estimatedLevel: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}estimated_level'])!,
+      id: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      estimatedLevel: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}estimated_level'])!,
       levelBasis: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}level_basis'])!,
       activeHours: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}active_hours'])!,
       avgSessionMin: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}avg_session_min'])!,
-      preferredTopics: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}preferred_topics'])!,
+      preferredTopics: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}preferred_topics'])!,
       updatedAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
     );
@@ -4119,8 +3762,7 @@ class LearningPattern extends DataClass implements Insertable<LearningPattern> {
     );
   }
 
-  factory LearningPattern.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory LearningPattern.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return LearningPattern(
       id: serializer.fromJson<String>(json['id']),
@@ -4166,19 +3808,12 @@ class LearningPattern extends DataClass implements Insertable<LearningPattern> {
   LearningPattern copyWithCompanion(LearningPatternsCompanion data) {
     return LearningPattern(
       id: data.id.present ? data.id.value : this.id,
-      estimatedLevel: data.estimatedLevel.present
-          ? data.estimatedLevel.value
-          : this.estimatedLevel,
-      levelBasis:
-          data.levelBasis.present ? data.levelBasis.value : this.levelBasis,
-      activeHours:
-          data.activeHours.present ? data.activeHours.value : this.activeHours,
-      avgSessionMin: data.avgSessionMin.present
-          ? data.avgSessionMin.value
-          : this.avgSessionMin,
-      preferredTopics: data.preferredTopics.present
-          ? data.preferredTopics.value
-          : this.preferredTopics,
+      estimatedLevel: data.estimatedLevel.present ? data.estimatedLevel.value : this.estimatedLevel,
+      levelBasis: data.levelBasis.present ? data.levelBasis.value : this.levelBasis,
+      activeHours: data.activeHours.present ? data.activeHours.value : this.activeHours,
+      avgSessionMin: data.avgSessionMin.present ? data.avgSessionMin.value : this.avgSessionMin,
+      preferredTopics:
+          data.preferredTopics.present ? data.preferredTopics.value : this.preferredTopics,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
   }
@@ -4198,8 +3833,8 @@ class LearningPattern extends DataClass implements Insertable<LearningPattern> {
   }
 
   @override
-  int get hashCode => Object.hash(id, estimatedLevel, levelBasis, activeHours,
-      avgSessionMin, preferredTopics, updatedAt);
+  int get hashCode => Object.hash(
+      id, estimatedLevel, levelBasis, activeHours, avgSessionMin, preferredTopics, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -4344,10 +3979,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $ContentMemoryTable contentMemory = $ContentMemoryTable(this);
   late final $AgentSessionsTable agentSessions = $AgentSessionsTable(this);
   late final $ReviewScheduleTable reviewSchedule = $ReviewScheduleTable(this);
-  late final $WeaknessProfileTable weaknessProfile =
-      $WeaknessProfileTable(this);
-  late final $LearningPatternsTable learningPatterns =
-      $LearningPatternsTable(this);
+  late final $WeaknessProfileTable weaknessProfile = $WeaknessProfileTable(this);
+  late final $LearningPatternsTable learningPatterns = $LearningPatternsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -4391,99 +4024,85 @@ final class $$AudioItemsTableReferences
     extends BaseReferences<_$AppDatabase, $AudioItemsTable, AudioItem> {
   $$AudioItemsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static MultiTypedResultKey<$ChaptersTable, List<Chapter>> _chaptersRefsTable(
-          _$AppDatabase db) =>
+  static MultiTypedResultKey<$ChaptersTable, List<Chapter>> _chaptersRefsTable(_$AppDatabase db) =>
       MultiTypedResultKey.fromTable(db.chapters,
-          aliasName:
-              $_aliasNameGenerator(db.audioItems.id, db.chapters.audioId));
+          aliasName: $_aliasNameGenerator(db.audioItems.id, db.chapters.audioId));
 
   $$ChaptersTableProcessedTableManager get chaptersRefs {
     final manager = $$ChaptersTableTableManager($_db, $_db.chapters)
         .filter((f) => f.audioId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_chaptersRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
   }
 
-  static MultiTypedResultKey<$TranscriptsTable, List<Transcript>>
-      _transcriptsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-          db.transcripts,
-          aliasName:
-              $_aliasNameGenerator(db.audioItems.id, db.transcripts.audioId));
+  static MultiTypedResultKey<$TranscriptsTable, List<Transcript>> _transcriptsRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.transcripts,
+          aliasName: $_aliasNameGenerator(db.audioItems.id, db.transcripts.audioId));
 
   $$TranscriptsTableProcessedTableManager get transcriptsRefs {
     final manager = $$TranscriptsTableTableManager($_db, $_db.transcripts)
         .filter((f) => f.audioId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_transcriptsRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
   }
 
-  static MultiTypedResultKey<$VocabularyTable, List<VocabularyData>>
-      _vocabularyRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-          db.vocabulary,
-          aliasName:
-              $_aliasNameGenerator(db.audioItems.id, db.vocabulary.audioId));
+  static MultiTypedResultKey<$VocabularyTable, List<VocabularyData>> _vocabularyRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.vocabulary,
+          aliasName: $_aliasNameGenerator(db.audioItems.id, db.vocabulary.audioId));
 
   $$VocabularyTableProcessedTableManager get vocabularyRefs {
     final manager = $$VocabularyTableTableManager($_db, $_db.vocabulary)
         .filter((f) => f.audioId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_vocabularyRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
   }
 
-  static MultiTypedResultKey<$PlaybackStateTable, List<PlaybackStateData>>
-      _playbackStateRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.playbackState,
-              aliasName: $_aliasNameGenerator(
-                  db.audioItems.id, db.playbackState.audioId));
+  static MultiTypedResultKey<$PlaybackStateTable, List<PlaybackStateData>> _playbackStateRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.playbackState,
+          aliasName: $_aliasNameGenerator(db.audioItems.id, db.playbackState.audioId));
 
   $$PlaybackStateTableProcessedTableManager get playbackStateRefs {
     final manager = $$PlaybackStateTableTableManager($_db, $_db.playbackState)
         .filter((f) => f.audioId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_playbackStateRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
   }
 
-  static MultiTypedResultKey<$ContentMemoryTable, List<ContentMemoryData>>
-      _contentMemoryRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.contentMemory,
-              aliasName: $_aliasNameGenerator(
-                  db.audioItems.id, db.contentMemory.audioId));
+  static MultiTypedResultKey<$ContentMemoryTable, List<ContentMemoryData>> _contentMemoryRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.contentMemory,
+          aliasName: $_aliasNameGenerator(db.audioItems.id, db.contentMemory.audioId));
 
   $$ContentMemoryTableProcessedTableManager get contentMemoryRefs {
     final manager = $$ContentMemoryTableTableManager($_db, $_db.contentMemory)
         .filter((f) => f.audioId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_contentMemoryRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
   }
 
-  static MultiTypedResultKey<$AgentSessionsTable, List<AgentSession>>
-      _agentSessionsRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.agentSessions,
-              aliasName: $_aliasNameGenerator(
-                  db.audioItems.id, db.agentSessions.audioId));
+  static MultiTypedResultKey<$AgentSessionsTable, List<AgentSession>> _agentSessionsRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.agentSessions,
+          aliasName: $_aliasNameGenerator(db.audioItems.id, db.agentSessions.audioId));
 
   $$AgentSessionsTableProcessedTableManager get agentSessionsRefs {
     final manager = $$AgentSessionsTableTableManager($_db, $_db.agentSessions)
         .filter((f) => f.audioId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_agentSessionsRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
   }
 }
 
-class $$AudioItemsTableFilterComposer
-    extends Composer<_$AppDatabase, $AudioItemsTable> {
+class $$AudioItemsTableFilterComposer extends Composer<_$AppDatabase, $AudioItemsTable> {
   $$AudioItemsTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -4491,42 +4110,38 @@ class $$AudioItemsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get filePath => $composableBuilder(
-      column: $table.filePath, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get filePath =>
+      $composableBuilder(column: $table.filePath, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get durationMs => $composableBuilder(
-      column: $table.durationMs, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get durationMs =>
+      $composableBuilder(column: $table.durationMs, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get transcriptionStatus => $composableBuilder(
-      column: $table.transcriptionStatus,
-      builder: (column) => ColumnFilters(column));
+      column: $table.transcriptionStatus, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+  ColumnFilters<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
-  Expression<bool> chaptersRefs(
-      Expression<bool> Function($$ChaptersTableFilterComposer f) f) {
+  Expression<bool> chaptersRefs(Expression<bool> Function($$ChaptersTableFilterComposer f) f) {
     final $$ChaptersTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.id,
         referencedTable: $db.chapters,
         getReferencedColumn: (t) => t.audioId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$ChaptersTableFilterComposer(
               $db: $db,
               $table: $db.chapters,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -4539,36 +4154,31 @@ class $$AudioItemsTableFilterComposer
         referencedTable: $db.transcripts,
         getReferencedColumn: (t) => t.audioId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$TranscriptsTableFilterComposer(
               $db: $db,
               $table: $db.transcripts,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
 
-  Expression<bool> vocabularyRefs(
-      Expression<bool> Function($$VocabularyTableFilterComposer f) f) {
+  Expression<bool> vocabularyRefs(Expression<bool> Function($$VocabularyTableFilterComposer f) f) {
     final $$VocabularyTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.id,
         referencedTable: $db.vocabulary,
         getReferencedColumn: (t) => t.audioId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$VocabularyTableFilterComposer(
               $db: $db,
               $table: $db.vocabulary,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -4581,15 +4191,13 @@ class $$AudioItemsTableFilterComposer
         referencedTable: $db.playbackState,
         getReferencedColumn: (t) => t.audioId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$PlaybackStateTableFilterComposer(
               $db: $db,
               $table: $db.playbackState,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -4602,15 +4210,13 @@ class $$AudioItemsTableFilterComposer
         referencedTable: $db.contentMemory,
         getReferencedColumn: (t) => t.audioId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$ContentMemoryTableFilterComposer(
               $db: $db,
               $table: $db.contentMemory,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -4623,22 +4229,19 @@ class $$AudioItemsTableFilterComposer
         referencedTable: $db.agentSessions,
         getReferencedColumn: (t) => t.audioId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AgentSessionsTableFilterComposer(
               $db: $db,
               $table: $db.agentSessions,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
 }
 
-class $$AudioItemsTableOrderingComposer
-    extends Composer<_$AppDatabase, $AudioItemsTable> {
+class $$AudioItemsTableOrderingComposer extends Composer<_$AppDatabase, $AudioItemsTable> {
   $$AudioItemsTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -4646,28 +4249,26 @@ class $$AudioItemsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get filePath => $composableBuilder(
-      column: $table.filePath, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get filePath =>
+      $composableBuilder(column: $table.filePath, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get durationMs => $composableBuilder(
-      column: $table.durationMs, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get durationMs =>
+      $composableBuilder(column: $table.durationMs, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get transcriptionStatus => $composableBuilder(
-      column: $table.transcriptionStatus,
-      builder: (column) => ColumnOrderings(column));
+      column: $table.transcriptionStatus, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 }
 
-class $$AudioItemsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $AudioItemsTable> {
+class $$AudioItemsTableAnnotationComposer extends Composer<_$AppDatabase, $AudioItemsTable> {
   $$AudioItemsTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -4684,11 +4285,11 @@ class $$AudioItemsTableAnnotationComposer
   GeneratedColumn<String> get filePath =>
       $composableBuilder(column: $table.filePath, builder: (column) => column);
 
-  GeneratedColumn<int> get durationMs => $composableBuilder(
-      column: $table.durationMs, builder: (column) => column);
+  GeneratedColumn<int> get durationMs =>
+      $composableBuilder(column: $table.durationMs, builder: (column) => column);
 
-  GeneratedColumn<String> get transcriptionStatus => $composableBuilder(
-      column: $table.transcriptionStatus, builder: (column) => column);
+  GeneratedColumn<String> get transcriptionStatus =>
+      $composableBuilder(column: $table.transcriptionStatus, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -4701,15 +4302,13 @@ class $$AudioItemsTableAnnotationComposer
         referencedTable: $db.chapters,
         getReferencedColumn: (t) => t.audioId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$ChaptersTableAnnotationComposer(
               $db: $db,
               $table: $db.chapters,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -4722,15 +4321,13 @@ class $$AudioItemsTableAnnotationComposer
         referencedTable: $db.transcripts,
         getReferencedColumn: (t) => t.audioId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$TranscriptsTableAnnotationComposer(
               $db: $db,
               $table: $db.transcripts,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -4743,15 +4340,13 @@ class $$AudioItemsTableAnnotationComposer
         referencedTable: $db.vocabulary,
         getReferencedColumn: (t) => t.audioId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$VocabularyTableAnnotationComposer(
               $db: $db,
               $table: $db.vocabulary,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -4764,15 +4359,13 @@ class $$AudioItemsTableAnnotationComposer
         referencedTable: $db.playbackState,
         getReferencedColumn: (t) => t.audioId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$PlaybackStateTableAnnotationComposer(
               $db: $db,
               $table: $db.playbackState,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -4785,15 +4378,13 @@ class $$AudioItemsTableAnnotationComposer
         referencedTable: $db.contentMemory,
         getReferencedColumn: (t) => t.audioId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$ContentMemoryTableAnnotationComposer(
               $db: $db,
               $table: $db.contentMemory,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -4806,15 +4397,13 @@ class $$AudioItemsTableAnnotationComposer
         referencedTable: $db.agentSessions,
         getReferencedColumn: (t) => t.audioId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AgentSessionsTableAnnotationComposer(
               $db: $db,
               $table: $db.agentSessions,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -4842,10 +4431,8 @@ class $$AudioItemsTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () =>
-              $$AudioItemsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$AudioItemsTableOrderingComposer($db: db, $table: table),
+          createFilteringComposer: () => $$AudioItemsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () => $$AudioItemsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$AudioItemsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
@@ -4885,10 +4472,7 @@ class $$AudioItemsTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$AudioItemsTableReferences(db, table, e)
-                  ))
+              .map((e) => (e.readTable(table), $$AudioItemsTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: (
               {chaptersRefs = false,
@@ -4911,81 +4495,57 @@ class $$AudioItemsTableTableManager extends RootTableManager<
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (chaptersRefs)
-                    await $_getPrefetchedData<AudioItem, $AudioItemsTable,
-                            Chapter>(
+                    await $_getPrefetchedData<AudioItem, $AudioItemsTable, Chapter>(
                         currentTable: table,
-                        referencedTable:
-                            $$AudioItemsTableReferences._chaptersRefsTable(db),
+                        referencedTable: $$AudioItemsTableReferences._chaptersRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$AudioItemsTableReferences(db, table, p0)
-                                .chaptersRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
+                            $$AudioItemsTableReferences(db, table, p0).chaptersRefs,
+                        referencedItemsForCurrentItem: (item, referencedItems) =>
                             referencedItems.where((e) => e.audioId == item.id),
                         typedResults: items),
                   if (transcriptsRefs)
-                    await $_getPrefetchedData<AudioItem, $AudioItemsTable,
-                            Transcript>(
+                    await $_getPrefetchedData<AudioItem, $AudioItemsTable, Transcript>(
                         currentTable: table,
-                        referencedTable: $$AudioItemsTableReferences
-                            ._transcriptsRefsTable(db),
+                        referencedTable: $$AudioItemsTableReferences._transcriptsRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$AudioItemsTableReferences(db, table, p0)
-                                .transcriptsRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
+                            $$AudioItemsTableReferences(db, table, p0).transcriptsRefs,
+                        referencedItemsForCurrentItem: (item, referencedItems) =>
                             referencedItems.where((e) => e.audioId == item.id),
                         typedResults: items),
                   if (vocabularyRefs)
-                    await $_getPrefetchedData<AudioItem, $AudioItemsTable,
-                            VocabularyData>(
+                    await $_getPrefetchedData<AudioItem, $AudioItemsTable, VocabularyData>(
                         currentTable: table,
-                        referencedTable: $$AudioItemsTableReferences
-                            ._vocabularyRefsTable(db),
+                        referencedTable: $$AudioItemsTableReferences._vocabularyRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$AudioItemsTableReferences(db, table, p0)
-                                .vocabularyRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
+                            $$AudioItemsTableReferences(db, table, p0).vocabularyRefs,
+                        referencedItemsForCurrentItem: (item, referencedItems) =>
                             referencedItems.where((e) => e.audioId == item.id),
                         typedResults: items),
                   if (playbackStateRefs)
-                    await $_getPrefetchedData<AudioItem, $AudioItemsTable,
-                            PlaybackStateData>(
+                    await $_getPrefetchedData<AudioItem, $AudioItemsTable, PlaybackStateData>(
                         currentTable: table,
-                        referencedTable: $$AudioItemsTableReferences
-                            ._playbackStateRefsTable(db),
+                        referencedTable: $$AudioItemsTableReferences._playbackStateRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$AudioItemsTableReferences(db, table, p0)
-                                .playbackStateRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
+                            $$AudioItemsTableReferences(db, table, p0).playbackStateRefs,
+                        referencedItemsForCurrentItem: (item, referencedItems) =>
                             referencedItems.where((e) => e.audioId == item.id),
                         typedResults: items),
                   if (contentMemoryRefs)
-                    await $_getPrefetchedData<AudioItem, $AudioItemsTable,
-                            ContentMemoryData>(
+                    await $_getPrefetchedData<AudioItem, $AudioItemsTable, ContentMemoryData>(
                         currentTable: table,
-                        referencedTable: $$AudioItemsTableReferences
-                            ._contentMemoryRefsTable(db),
+                        referencedTable: $$AudioItemsTableReferences._contentMemoryRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$AudioItemsTableReferences(db, table, p0)
-                                .contentMemoryRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
+                            $$AudioItemsTableReferences(db, table, p0).contentMemoryRefs,
+                        referencedItemsForCurrentItem: (item, referencedItems) =>
                             referencedItems.where((e) => e.audioId == item.id),
                         typedResults: items),
                   if (agentSessionsRefs)
-                    await $_getPrefetchedData<AudioItem, $AudioItemsTable,
-                            AgentSession>(
+                    await $_getPrefetchedData<AudioItem, $AudioItemsTable, AgentSession>(
                         currentTable: table,
-                        referencedTable: $$AudioItemsTableReferences
-                            ._agentSessionsRefsTable(db),
+                        referencedTable: $$AudioItemsTableReferences._agentSessionsRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$AudioItemsTableReferences(db, table, p0)
-                                .agentSessionsRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
+                            $$AudioItemsTableReferences(db, table, p0).agentSessionsRefs,
+                        referencedItemsForCurrentItem: (item, referencedItems) =>
                             referencedItems.where((e) => e.audioId == item.id),
                         typedResults: items)
                 ];
@@ -5038,8 +4598,8 @@ final class $$ChaptersTableReferences
     extends BaseReferences<_$AppDatabase, $ChaptersTable, Chapter> {
   $$ChaptersTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static $AudioItemsTable _audioIdTable(_$AppDatabase db) => db.audioItems
-      .createAlias($_aliasNameGenerator(db.chapters.audioId, db.audioItems.id));
+  static $AudioItemsTable _audioIdTable(_$AppDatabase db) =>
+      db.audioItems.createAlias($_aliasNameGenerator(db.chapters.audioId, db.audioItems.id));
 
   $$AudioItemsTableProcessedTableManager get audioId {
     final $_column = $_itemColumn<String>('audio_id')!;
@@ -5048,43 +4608,37 @@ final class $$ChaptersTableReferences
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_audioIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
   }
 
-  static MultiTypedResultKey<$VocabularyTable, List<VocabularyData>>
-      _vocabularyRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-          db.vocabulary,
-          aliasName:
-              $_aliasNameGenerator(db.chapters.id, db.vocabulary.chapterId));
+  static MultiTypedResultKey<$VocabularyTable, List<VocabularyData>> _vocabularyRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.vocabulary,
+          aliasName: $_aliasNameGenerator(db.chapters.id, db.vocabulary.chapterId));
 
   $$VocabularyTableProcessedTableManager get vocabularyRefs {
     final manager = $$VocabularyTableTableManager($_db, $_db.vocabulary)
         .filter((f) => f.chapterId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_vocabularyRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
   }
 
-  static MultiTypedResultKey<$AgentSessionsTable, List<AgentSession>>
-      _agentSessionsRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.agentSessions,
-              aliasName: $_aliasNameGenerator(
-                  db.chapters.id, db.agentSessions.chapterId));
+  static MultiTypedResultKey<$AgentSessionsTable, List<AgentSession>> _agentSessionsRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.agentSessions,
+          aliasName: $_aliasNameGenerator(db.chapters.id, db.agentSessions.chapterId));
 
   $$AgentSessionsTableProcessedTableManager get agentSessionsRefs {
     final manager = $$AgentSessionsTableTableManager($_db, $_db.agentSessions)
         .filter((f) => f.chapterId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_agentSessionsRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
   }
 }
 
-class $$ChaptersTableFilterComposer
-    extends Composer<_$AppDatabase, $ChaptersTable> {
+class $$ChaptersTableFilterComposer extends Composer<_$AppDatabase, $ChaptersTable> {
   $$ChaptersTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -5092,23 +4646,23 @@ class $$ChaptersTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get index => $composableBuilder(
-      column: $table.index, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get index =>
+      $composableBuilder(column: $table.index, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get startMs => $composableBuilder(
-      column: $table.startMs, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get startMs =>
+      $composableBuilder(column: $table.startMs, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get endMs => $composableBuilder(
-      column: $table.endMs, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get endMs =>
+      $composableBuilder(column: $table.endMs, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<bool> get isHeard => $composableBuilder(
-      column: $table.isHeard, builder: (column) => ColumnFilters(column));
+  ColumnFilters<bool> get isHeard =>
+      $composableBuilder(column: $table.isHeard, builder: (column) => ColumnFilters(column));
 
   $$AudioItemsTableFilterComposer get audioId {
     final $$AudioItemsTableFilterComposer composer = $composerBuilder(
@@ -5117,36 +4671,31 @@ class $$ChaptersTableFilterComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableFilterComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 
-  Expression<bool> vocabularyRefs(
-      Expression<bool> Function($$VocabularyTableFilterComposer f) f) {
+  Expression<bool> vocabularyRefs(Expression<bool> Function($$VocabularyTableFilterComposer f) f) {
     final $$VocabularyTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.id,
         referencedTable: $db.vocabulary,
         getReferencedColumn: (t) => t.chapterId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$VocabularyTableFilterComposer(
               $db: $db,
               $table: $db.vocabulary,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -5159,22 +4708,19 @@ class $$ChaptersTableFilterComposer
         referencedTable: $db.agentSessions,
         getReferencedColumn: (t) => t.chapterId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AgentSessionsTableFilterComposer(
               $db: $db,
               $table: $db.agentSessions,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
 }
 
-class $$ChaptersTableOrderingComposer
-    extends Composer<_$AppDatabase, $ChaptersTable> {
+class $$ChaptersTableOrderingComposer extends Composer<_$AppDatabase, $ChaptersTable> {
   $$ChaptersTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -5182,23 +4728,23 @@ class $$ChaptersTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get index => $composableBuilder(
-      column: $table.index, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get index =>
+      $composableBuilder(column: $table.index, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get startMs => $composableBuilder(
-      column: $table.startMs, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get startMs =>
+      $composableBuilder(column: $table.startMs, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get endMs => $composableBuilder(
-      column: $table.endMs, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get endMs =>
+      $composableBuilder(column: $table.endMs, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<bool> get isHeard => $composableBuilder(
-      column: $table.isHeard, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<bool> get isHeard =>
+      $composableBuilder(column: $table.isHeard, builder: (column) => ColumnOrderings(column));
 
   $$AudioItemsTableOrderingComposer get audioId {
     final $$AudioItemsTableOrderingComposer composer = $composerBuilder(
@@ -5207,22 +4753,19 @@ class $$ChaptersTableOrderingComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableOrderingComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 }
 
-class $$ChaptersTableAnnotationComposer
-    extends Composer<_$AppDatabase, $ChaptersTable> {
+class $$ChaptersTableAnnotationComposer extends Composer<_$AppDatabase, $ChaptersTable> {
   $$ChaptersTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -5255,15 +4798,13 @@ class $$ChaptersTableAnnotationComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableAnnotationComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -5276,15 +4817,13 @@ class $$ChaptersTableAnnotationComposer
         referencedTable: $db.vocabulary,
         getReferencedColumn: (t) => t.chapterId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$VocabularyTableAnnotationComposer(
               $db: $db,
               $table: $db.vocabulary,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -5297,15 +4836,13 @@ class $$ChaptersTableAnnotationComposer
         referencedTable: $db.agentSessions,
         getReferencedColumn: (t) => t.chapterId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AgentSessionsTableAnnotationComposer(
               $db: $db,
               $table: $db.agentSessions,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -5322,16 +4859,13 @@ class $$ChaptersTableTableManager extends RootTableManager<
     $$ChaptersTableUpdateCompanionBuilder,
     (Chapter, $$ChaptersTableReferences),
     Chapter,
-    PrefetchHooks Function(
-        {bool audioId, bool vocabularyRefs, bool agentSessionsRefs})> {
+    PrefetchHooks Function({bool audioId, bool vocabularyRefs, bool agentSessionsRefs})> {
   $$ChaptersTableTableManager(_$AppDatabase db, $ChaptersTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () =>
-              $$ChaptersTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$ChaptersTableOrderingComposer($db: db, $table: table),
+          createFilteringComposer: () => $$ChaptersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () => $$ChaptersTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$ChaptersTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
@@ -5374,14 +4908,10 @@ class $$ChaptersTableTableManager extends RootTableManager<
             isHeard: isHeard,
             rowid: rowid,
           ),
-          withReferenceMapper: (p0) => p0
-              .map((e) =>
-                  (e.readTable(table), $$ChaptersTableReferences(db, table, e)))
-              .toList(),
+          withReferenceMapper: (p0) =>
+              p0.map((e) => (e.readTable(table), $$ChaptersTableReferences(db, table, e))).toList(),
           prefetchHooksCallback: (
-              {audioId = false,
-              vocabularyRefs = false,
-              agentSessionsRefs = false}) {
+              {audioId = false, vocabularyRefs = false, agentSessionsRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
@@ -5389,26 +4919,14 @@ class $$ChaptersTableTableManager extends RootTableManager<
                 if (agentSessionsRefs) db.agentSessions
               ],
               addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
+                  T extends TableManagerState<dynamic, dynamic, dynamic, dynamic, dynamic, dynamic,
+                      dynamic, dynamic, dynamic, dynamic, dynamic>>(state) {
                 if (audioId) {
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.audioId,
-                    referencedTable:
-                        $$ChaptersTableReferences._audioIdTable(db),
-                    referencedColumn:
-                        $$ChaptersTableReferences._audioIdTable(db).id,
+                    referencedTable: $$ChaptersTableReferences._audioIdTable(db),
+                    referencedColumn: $$ChaptersTableReferences._audioIdTable(db).id,
                   ) as T;
                 }
 
@@ -5417,30 +4935,22 @@ class $$ChaptersTableTableManager extends RootTableManager<
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (vocabularyRefs)
-                    await $_getPrefetchedData<Chapter, $ChaptersTable,
-                            VocabularyData>(
+                    await $_getPrefetchedData<Chapter, $ChaptersTable, VocabularyData>(
                         currentTable: table,
-                        referencedTable:
-                            $$ChaptersTableReferences._vocabularyRefsTable(db),
+                        referencedTable: $$ChaptersTableReferences._vocabularyRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$ChaptersTableReferences(db, table, p0)
-                                .vocabularyRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems
-                                .where((e) => e.chapterId == item.id),
+                            $$ChaptersTableReferences(db, table, p0).vocabularyRefs,
+                        referencedItemsForCurrentItem: (item, referencedItems) =>
+                            referencedItems.where((e) => e.chapterId == item.id),
                         typedResults: items),
                   if (agentSessionsRefs)
-                    await $_getPrefetchedData<Chapter, $ChaptersTable,
-                            AgentSession>(
+                    await $_getPrefetchedData<Chapter, $ChaptersTable, AgentSession>(
                         currentTable: table,
-                        referencedTable: $$ChaptersTableReferences
-                            ._agentSessionsRefsTable(db),
+                        referencedTable: $$ChaptersTableReferences._agentSessionsRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$ChaptersTableReferences(db, table, p0)
-                                .agentSessionsRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems
-                                .where((e) => e.chapterId == item.id),
+                            $$ChaptersTableReferences(db, table, p0).agentSessionsRefs,
+                        referencedItemsForCurrentItem: (item, referencedItems) =>
+                            referencedItems.where((e) => e.chapterId == item.id),
                         typedResults: items)
                 ];
               },
@@ -5460,10 +4970,8 @@ typedef $$ChaptersTableProcessedTableManager = ProcessedTableManager<
     $$ChaptersTableUpdateCompanionBuilder,
     (Chapter, $$ChaptersTableReferences),
     Chapter,
-    PrefetchHooks Function(
-        {bool audioId, bool vocabularyRefs, bool agentSessionsRefs})>;
-typedef $$TranscriptsTableCreateCompanionBuilder = TranscriptsCompanion
-    Function({
+    PrefetchHooks Function({bool audioId, bool vocabularyRefs, bool agentSessionsRefs})>;
+typedef $$TranscriptsTableCreateCompanionBuilder = TranscriptsCompanion Function({
   required String id,
   required String audioId,
   required int segmentIndex,
@@ -5473,8 +4981,7 @@ typedef $$TranscriptsTableCreateCompanionBuilder = TranscriptsCompanion
   Value<int> offsetAdjust,
   Value<int> rowid,
 });
-typedef $$TranscriptsTableUpdateCompanionBuilder = TranscriptsCompanion
-    Function({
+typedef $$TranscriptsTableUpdateCompanionBuilder = TranscriptsCompanion Function({
   Value<String> id,
   Value<String> audioId,
   Value<int> segmentIndex,
@@ -5490,8 +4997,7 @@ final class $$TranscriptsTableReferences
   $$TranscriptsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static $AudioItemsTable _audioIdTable(_$AppDatabase db) =>
-      db.audioItems.createAlias(
-          $_aliasNameGenerator(db.transcripts.audioId, db.audioItems.id));
+      db.audioItems.createAlias($_aliasNameGenerator(db.transcripts.audioId, db.audioItems.id));
 
   $$AudioItemsTableProcessedTableManager get audioId {
     final $_column = $_itemColumn<String>('audio_id')!;
@@ -5500,28 +5006,23 @@ final class $$TranscriptsTableReferences
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_audioIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
   }
 
-  static MultiTypedResultKey<$WordsTable, List<Word>> _wordsRefsTable(
-          _$AppDatabase db) =>
+  static MultiTypedResultKey<$WordsTable, List<Word>> _wordsRefsTable(_$AppDatabase db) =>
       MultiTypedResultKey.fromTable(db.words,
-          aliasName:
-              $_aliasNameGenerator(db.transcripts.id, db.words.transcriptId));
+          aliasName: $_aliasNameGenerator(db.transcripts.id, db.words.transcriptId));
 
   $$WordsTableProcessedTableManager get wordsRefs {
-    final manager = $$WordsTableTableManager($_db, $_db.words).filter(
-        (f) => f.transcriptId.id.sqlEquals($_itemColumn<String>('id')!));
+    final manager = $$WordsTableTableManager($_db, $_db.words)
+        .filter((f) => f.transcriptId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_wordsRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
   }
 }
 
-class $$TranscriptsTableFilterComposer
-    extends Composer<_$AppDatabase, $TranscriptsTable> {
+class $$TranscriptsTableFilterComposer extends Composer<_$AppDatabase, $TranscriptsTable> {
   $$TranscriptsTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -5529,23 +5030,23 @@ class $$TranscriptsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get segmentIndex => $composableBuilder(
-      column: $table.segmentIndex, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get segmentIndex =>
+      $composableBuilder(column: $table.segmentIndex, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get text_ => $composableBuilder(
-      column: $table.text_, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get text_ =>
+      $composableBuilder(column: $table.text_, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get startMs => $composableBuilder(
-      column: $table.startMs, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get startMs =>
+      $composableBuilder(column: $table.startMs, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get endMs => $composableBuilder(
-      column: $table.endMs, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get endMs =>
+      $composableBuilder(column: $table.endMs, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get offsetAdjust => $composableBuilder(
-      column: $table.offsetAdjust, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get offsetAdjust =>
+      $composableBuilder(column: $table.offsetAdjust, builder: (column) => ColumnFilters(column));
 
   $$AudioItemsTableFilterComposer get audioId {
     final $$AudioItemsTableFilterComposer composer = $composerBuilder(
@@ -5554,43 +5055,37 @@ class $$TranscriptsTableFilterComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableFilterComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 
-  Expression<bool> wordsRefs(
-      Expression<bool> Function($$WordsTableFilterComposer f) f) {
+  Expression<bool> wordsRefs(Expression<bool> Function($$WordsTableFilterComposer f) f) {
     final $$WordsTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.id,
         referencedTable: $db.words,
         getReferencedColumn: (t) => t.transcriptId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$WordsTableFilterComposer(
               $db: $db,
               $table: $db.words,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
 }
 
-class $$TranscriptsTableOrderingComposer
-    extends Composer<_$AppDatabase, $TranscriptsTable> {
+class $$TranscriptsTableOrderingComposer extends Composer<_$AppDatabase, $TranscriptsTable> {
   $$TranscriptsTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -5598,25 +5093,23 @@ class $$TranscriptsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get segmentIndex => $composableBuilder(
-      column: $table.segmentIndex,
-      builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get segmentIndex =>
+      $composableBuilder(column: $table.segmentIndex, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get text_ => $composableBuilder(
-      column: $table.text_, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get text_ =>
+      $composableBuilder(column: $table.text_, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get startMs => $composableBuilder(
-      column: $table.startMs, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get startMs =>
+      $composableBuilder(column: $table.startMs, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get endMs => $composableBuilder(
-      column: $table.endMs, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get endMs =>
+      $composableBuilder(column: $table.endMs, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get offsetAdjust => $composableBuilder(
-      column: $table.offsetAdjust,
-      builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get offsetAdjust =>
+      $composableBuilder(column: $table.offsetAdjust, builder: (column) => ColumnOrderings(column));
 
   $$AudioItemsTableOrderingComposer get audioId {
     final $$AudioItemsTableOrderingComposer composer = $composerBuilder(
@@ -5625,22 +5118,19 @@ class $$TranscriptsTableOrderingComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableOrderingComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 }
 
-class $$TranscriptsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $TranscriptsTable> {
+class $$TranscriptsTableAnnotationComposer extends Composer<_$AppDatabase, $TranscriptsTable> {
   $$TranscriptsTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -5651,8 +5141,8 @@ class $$TranscriptsTableAnnotationComposer
   GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<int> get segmentIndex => $composableBuilder(
-      column: $table.segmentIndex, builder: (column) => column);
+  GeneratedColumn<int> get segmentIndex =>
+      $composableBuilder(column: $table.segmentIndex, builder: (column) => column);
 
   GeneratedColumn<String> get text_ =>
       $composableBuilder(column: $table.text_, builder: (column) => column);
@@ -5663,8 +5153,8 @@ class $$TranscriptsTableAnnotationComposer
   GeneratedColumn<int> get endMs =>
       $composableBuilder(column: $table.endMs, builder: (column) => column);
 
-  GeneratedColumn<int> get offsetAdjust => $composableBuilder(
-      column: $table.offsetAdjust, builder: (column) => column);
+  GeneratedColumn<int> get offsetAdjust =>
+      $composableBuilder(column: $table.offsetAdjust, builder: (column) => column);
 
   $$AudioItemsTableAnnotationComposer get audioId {
     final $$AudioItemsTableAnnotationComposer composer = $composerBuilder(
@@ -5673,15 +5163,13 @@ class $$TranscriptsTableAnnotationComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableAnnotationComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -5694,15 +5182,13 @@ class $$TranscriptsTableAnnotationComposer
         referencedTable: $db.words,
         getReferencedColumn: (t) => t.transcriptId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$WordsTableAnnotationComposer(
               $db: $db,
               $table: $db.words,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -5724,10 +5210,8 @@ class $$TranscriptsTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () =>
-              $$TranscriptsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$TranscriptsTableOrderingComposer($db: db, $table: table),
+          createFilteringComposer: () => $$TranscriptsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () => $$TranscriptsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$TranscriptsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
@@ -5771,36 +5255,21 @@ class $$TranscriptsTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$TranscriptsTableReferences(db, table, e)
-                  ))
+              .map((e) => (e.readTable(table), $$TranscriptsTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({audioId = false, wordsRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [if (wordsRefs) db.words],
               addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
+                  T extends TableManagerState<dynamic, dynamic, dynamic, dynamic, dynamic, dynamic,
+                      dynamic, dynamic, dynamic, dynamic, dynamic>>(state) {
                 if (audioId) {
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.audioId,
-                    referencedTable:
-                        $$TranscriptsTableReferences._audioIdTable(db),
-                    referencedColumn:
-                        $$TranscriptsTableReferences._audioIdTable(db).id,
+                    referencedTable: $$TranscriptsTableReferences._audioIdTable(db),
+                    referencedColumn: $$TranscriptsTableReferences._audioIdTable(db).id,
                   ) as T;
                 }
 
@@ -5809,17 +5278,13 @@ class $$TranscriptsTableTableManager extends RootTableManager<
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (wordsRefs)
-                    await $_getPrefetchedData<Transcript, $TranscriptsTable,
-                            Word>(
+                    await $_getPrefetchedData<Transcript, $TranscriptsTable, Word>(
                         currentTable: table,
-                        referencedTable:
-                            $$TranscriptsTableReferences._wordsRefsTable(db),
+                        referencedTable: $$TranscriptsTableReferences._wordsRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$TranscriptsTableReferences(db, table, p0)
-                                .wordsRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems
-                                .where((e) => e.transcriptId == item.id),
+                            $$TranscriptsTableReferences(db, table, p0).wordsRefs,
+                        referencedItemsForCurrentItem: (item, referencedItems) =>
+                            referencedItems.where((e) => e.transcriptId == item.id),
                         typedResults: items)
                 ];
               },
@@ -5855,13 +5320,11 @@ typedef $$WordsTableUpdateCompanionBuilder = WordsCompanion Function({
   Value<String> transcriptId,
 });
 
-final class $$WordsTableReferences
-    extends BaseReferences<_$AppDatabase, $WordsTable, Word> {
+final class $$WordsTableReferences extends BaseReferences<_$AppDatabase, $WordsTable, Word> {
   $$WordsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static $TranscriptsTable _transcriptIdTable(_$AppDatabase db) =>
-      db.transcripts.createAlias(
-          $_aliasNameGenerator(db.words.transcriptId, db.transcripts.id));
+      db.transcripts.createAlias($_aliasNameGenerator(db.words.transcriptId, db.transcripts.id));
 
   $$TranscriptsTableProcessedTableManager get transcriptId {
     final $_column = $_itemColumn<String>('transcript_id')!;
@@ -5870,8 +5333,7 @@ final class $$WordsTableReferences
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_transcriptIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
   }
 }
 
@@ -5883,17 +5345,17 @@ class $$WordsTableFilterComposer extends Composer<_$AppDatabase, $WordsTable> {
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get wordText => $composableBuilder(
-      column: $table.wordText, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get wordText =>
+      $composableBuilder(column: $table.wordText, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get startMs => $composableBuilder(
-      column: $table.startMs, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get startMs =>
+      $composableBuilder(column: $table.startMs, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get endMs => $composableBuilder(
-      column: $table.endMs, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get endMs =>
+      $composableBuilder(column: $table.endMs, builder: (column) => ColumnFilters(column));
 
   $$TranscriptsTableFilterComposer get transcriptId {
     final $$TranscriptsTableFilterComposer composer = $composerBuilder(
@@ -5902,22 +5364,19 @@ class $$WordsTableFilterComposer extends Composer<_$AppDatabase, $WordsTable> {
         referencedTable: $db.transcripts,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$TranscriptsTableFilterComposer(
               $db: $db,
               $table: $db.transcripts,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 }
 
-class $$WordsTableOrderingComposer
-    extends Composer<_$AppDatabase, $WordsTable> {
+class $$WordsTableOrderingComposer extends Composer<_$AppDatabase, $WordsTable> {
   $$WordsTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -5925,17 +5384,17 @@ class $$WordsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get wordText => $composableBuilder(
-      column: $table.wordText, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get wordText =>
+      $composableBuilder(column: $table.wordText, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get startMs => $composableBuilder(
-      column: $table.startMs, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get startMs =>
+      $composableBuilder(column: $table.startMs, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get endMs => $composableBuilder(
-      column: $table.endMs, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get endMs =>
+      $composableBuilder(column: $table.endMs, builder: (column) => ColumnOrderings(column));
 
   $$TranscriptsTableOrderingComposer get transcriptId {
     final $$TranscriptsTableOrderingComposer composer = $composerBuilder(
@@ -5944,22 +5403,19 @@ class $$WordsTableOrderingComposer
         referencedTable: $db.transcripts,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$TranscriptsTableOrderingComposer(
               $db: $db,
               $table: $db.transcripts,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 }
 
-class $$WordsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $WordsTable> {
+class $$WordsTableAnnotationComposer extends Composer<_$AppDatabase, $WordsTable> {
   $$WordsTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -5967,8 +5423,7 @@ class $$WordsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
+  GeneratedColumn<int> get id => $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get wordText =>
       $composableBuilder(column: $table.wordText, builder: (column) => column);
@@ -5986,15 +5441,13 @@ class $$WordsTableAnnotationComposer
         referencedTable: $db.transcripts,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$TranscriptsTableAnnotationComposer(
               $db: $db,
               $table: $db.transcripts,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -6016,12 +5469,9 @@ class $$WordsTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () =>
-              $$WordsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$WordsTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$WordsTableAnnotationComposer($db: db, $table: table),
+          createFilteringComposer: () => $$WordsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () => $$WordsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () => $$WordsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> wordText = const Value.absent(),
@@ -6050,35 +5500,21 @@ class $$WordsTableTableManager extends RootTableManager<
             endMs: endMs,
             transcriptId: transcriptId,
           ),
-          withReferenceMapper: (p0) => p0
-              .map((e) =>
-                  (e.readTable(table), $$WordsTableReferences(db, table, e)))
-              .toList(),
+          withReferenceMapper: (p0) =>
+              p0.map((e) => (e.readTable(table), $$WordsTableReferences(db, table, e))).toList(),
           prefetchHooksCallback: ({transcriptId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
               addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
+                  T extends TableManagerState<dynamic, dynamic, dynamic, dynamic, dynamic, dynamic,
+                      dynamic, dynamic, dynamic, dynamic, dynamic>>(state) {
                 if (transcriptId) {
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.transcriptId,
-                    referencedTable:
-                        $$WordsTableReferences._transcriptIdTable(db),
-                    referencedColumn:
-                        $$WordsTableReferences._transcriptIdTable(db).id,
+                    referencedTable: $$WordsTableReferences._transcriptIdTable(db),
+                    referencedColumn: $$WordsTableReferences._transcriptIdTable(db).id,
                   ) as T;
                 }
 
@@ -6138,8 +5574,7 @@ final class $$VocabularyTableReferences
   $$VocabularyTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static $AudioItemsTable _audioIdTable(_$AppDatabase db) =>
-      db.audioItems.createAlias(
-          $_aliasNameGenerator(db.vocabulary.audioId, db.audioItems.id));
+      db.audioItems.createAlias($_aliasNameGenerator(db.vocabulary.audioId, db.audioItems.id));
 
   $$AudioItemsTableProcessedTableManager get audioId {
     final $_column = $_itemColumn<String>('audio_id')!;
@@ -6148,75 +5583,62 @@ final class $$VocabularyTableReferences
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_audioIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
   }
 
   static $ChaptersTable _chapterIdTable(_$AppDatabase db) =>
-      db.chapters.createAlias(
-          $_aliasNameGenerator(db.vocabulary.chapterId, db.chapters.id));
+      db.chapters.createAlias($_aliasNameGenerator(db.vocabulary.chapterId, db.chapters.id));
 
   $$ChaptersTableProcessedTableManager? get chapterId {
     final $_column = $_itemColumn<String>('chapter_id');
     if ($_column == null) return null;
-    final manager = $$ChaptersTableTableManager($_db, $_db.chapters)
-        .filter((f) => f.id.sqlEquals($_column));
+    final manager =
+        $$ChaptersTableTableManager($_db, $_db.chapters).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_chapterIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
   }
 
-  static MultiTypedResultKey<$WordMemoryTable, List<WordMemoryData>>
-      _wordMemoryRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.wordMemory,
-              aliasName:
-                  $_aliasNameGenerator(db.vocabulary.id, db.wordMemory.wordId));
+  static MultiTypedResultKey<$WordMemoryTable, List<WordMemoryData>> _wordMemoryRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.wordMemory,
+          aliasName: $_aliasNameGenerator(db.vocabulary.id, db.wordMemory.wordId));
 
   $$WordMemoryTableProcessedTableManager get wordMemoryRefs {
     final manager = $$WordMemoryTableTableManager($_db, $_db.wordMemory)
         .filter((f) => f.wordId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_wordMemoryRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
   }
 
   static MultiTypedResultKey<$ReviewScheduleTable, List<ReviewScheduleData>>
-      _reviewScheduleRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.reviewSchedule,
-              aliasName: $_aliasNameGenerator(
-                  db.vocabulary.id, db.reviewSchedule.wordId));
+      _reviewScheduleRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(db.reviewSchedule,
+          aliasName: $_aliasNameGenerator(db.vocabulary.id, db.reviewSchedule.wordId));
 
   $$ReviewScheduleTableProcessedTableManager get reviewScheduleRefs {
     final manager = $$ReviewScheduleTableTableManager($_db, $_db.reviewSchedule)
         .filter((f) => f.wordId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_reviewScheduleRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
   }
 
   static MultiTypedResultKey<$WeaknessProfileTable, List<WeaknessProfileData>>
       _weaknessProfileRefsTable(_$AppDatabase db) =>
           MultiTypedResultKey.fromTable(db.weaknessProfile,
-              aliasName: $_aliasNameGenerator(
-                  db.vocabulary.id, db.weaknessProfile.wordId));
+              aliasName: $_aliasNameGenerator(db.vocabulary.id, db.weaknessProfile.wordId));
 
   $$WeaknessProfileTableProcessedTableManager get weaknessProfileRefs {
-    final manager =
-        $$WeaknessProfileTableTableManager($_db, $_db.weaknessProfile)
-            .filter((f) => f.wordId.id.sqlEquals($_itemColumn<String>('id')!));
+    final manager = $$WeaknessProfileTableTableManager($_db, $_db.weaknessProfile)
+        .filter((f) => f.wordId.id.sqlEquals($_itemColumn<String>('id')!));
 
-    final cache =
-        $_typedResult.readTableOrNull(_weaknessProfileRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+    final cache = $_typedResult.readTableOrNull(_weaknessProfileRefsTable($_db));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
   }
 }
 
-class $$VocabularyTableFilterComposer
-    extends Composer<_$AppDatabase, $VocabularyTable> {
+class $$VocabularyTableFilterComposer extends Composer<_$AppDatabase, $VocabularyTable> {
   $$VocabularyTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -6224,33 +5646,32 @@ class $$VocabularyTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get word => $composableBuilder(
-      column: $table.word, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get word =>
+      $composableBuilder(column: $table.word, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get phonetic => $composableBuilder(
-      column: $table.phonetic, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get phonetic =>
+      $composableBuilder(column: $table.phonetic, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get pos => $composableBuilder(
-      column: $table.pos, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get pos =>
+      $composableBuilder(column: $table.pos, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get meaning => $composableBuilder(
-      column: $table.meaning, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get meaning =>
+      $composableBuilder(column: $table.meaning, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get definition => $composableBuilder(
-      column: $table.definition, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get definition =>
+      $composableBuilder(column: $table.definition, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get sourceOffsetMs => $composableBuilder(
-      column: $table.sourceOffsetMs,
-      builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get sourceOffsetMs =>
+      $composableBuilder(column: $table.sourceOffsetMs, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+  ColumnFilters<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get reviewCount => $composableBuilder(
-      column: $table.reviewCount, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get reviewCount =>
+      $composableBuilder(column: $table.reviewCount, builder: (column) => ColumnFilters(column));
 
   $$AudioItemsTableFilterComposer get audioId {
     final $$AudioItemsTableFilterComposer composer = $composerBuilder(
@@ -6259,15 +5680,13 @@ class $$VocabularyTableFilterComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableFilterComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -6279,36 +5698,31 @@ class $$VocabularyTableFilterComposer
         referencedTable: $db.chapters,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$ChaptersTableFilterComposer(
               $db: $db,
               $table: $db.chapters,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 
-  Expression<bool> wordMemoryRefs(
-      Expression<bool> Function($$WordMemoryTableFilterComposer f) f) {
+  Expression<bool> wordMemoryRefs(Expression<bool> Function($$WordMemoryTableFilterComposer f) f) {
     final $$WordMemoryTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.id,
         referencedTable: $db.wordMemory,
         getReferencedColumn: (t) => t.wordId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$WordMemoryTableFilterComposer(
               $db: $db,
               $table: $db.wordMemory,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -6321,15 +5735,13 @@ class $$VocabularyTableFilterComposer
         referencedTable: $db.reviewSchedule,
         getReferencedColumn: (t) => t.wordId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$ReviewScheduleTableFilterComposer(
               $db: $db,
               $table: $db.reviewSchedule,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -6342,22 +5754,19 @@ class $$VocabularyTableFilterComposer
         referencedTable: $db.weaknessProfile,
         getReferencedColumn: (t) => t.wordId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$WeaknessProfileTableFilterComposer(
               $db: $db,
               $table: $db.weaknessProfile,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
 }
 
-class $$VocabularyTableOrderingComposer
-    extends Composer<_$AppDatabase, $VocabularyTable> {
+class $$VocabularyTableOrderingComposer extends Composer<_$AppDatabase, $VocabularyTable> {
   $$VocabularyTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -6365,33 +5774,32 @@ class $$VocabularyTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get word => $composableBuilder(
-      column: $table.word, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get word =>
+      $composableBuilder(column: $table.word, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get phonetic => $composableBuilder(
-      column: $table.phonetic, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get phonetic =>
+      $composableBuilder(column: $table.phonetic, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get pos => $composableBuilder(
-      column: $table.pos, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get pos =>
+      $composableBuilder(column: $table.pos, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get meaning => $composableBuilder(
-      column: $table.meaning, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get meaning =>
+      $composableBuilder(column: $table.meaning, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get definition => $composableBuilder(
-      column: $table.definition, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get definition =>
+      $composableBuilder(column: $table.definition, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get sourceOffsetMs => $composableBuilder(
-      column: $table.sourceOffsetMs,
-      builder: (column) => ColumnOrderings(column));
+      column: $table.sourceOffsetMs, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get reviewCount => $composableBuilder(
-      column: $table.reviewCount, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get reviewCount =>
+      $composableBuilder(column: $table.reviewCount, builder: (column) => ColumnOrderings(column));
 
   $$AudioItemsTableOrderingComposer get audioId {
     final $$AudioItemsTableOrderingComposer composer = $composerBuilder(
@@ -6400,15 +5808,13 @@ class $$VocabularyTableOrderingComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableOrderingComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -6420,22 +5826,19 @@ class $$VocabularyTableOrderingComposer
         referencedTable: $db.chapters,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$ChaptersTableOrderingComposer(
               $db: $db,
               $table: $db.chapters,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 }
 
-class $$VocabularyTableAnnotationComposer
-    extends Composer<_$AppDatabase, $VocabularyTable> {
+class $$VocabularyTableAnnotationComposer extends Composer<_$AppDatabase, $VocabularyTable> {
   $$VocabularyTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -6458,17 +5861,17 @@ class $$VocabularyTableAnnotationComposer
   GeneratedColumn<String> get meaning =>
       $composableBuilder(column: $table.meaning, builder: (column) => column);
 
-  GeneratedColumn<String> get definition => $composableBuilder(
-      column: $table.definition, builder: (column) => column);
+  GeneratedColumn<String> get definition =>
+      $composableBuilder(column: $table.definition, builder: (column) => column);
 
-  GeneratedColumn<int> get sourceOffsetMs => $composableBuilder(
-      column: $table.sourceOffsetMs, builder: (column) => column);
+  GeneratedColumn<int> get sourceOffsetMs =>
+      $composableBuilder(column: $table.sourceOffsetMs, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
-  GeneratedColumn<int> get reviewCount => $composableBuilder(
-      column: $table.reviewCount, builder: (column) => column);
+  GeneratedColumn<int> get reviewCount =>
+      $composableBuilder(column: $table.reviewCount, builder: (column) => column);
 
   $$AudioItemsTableAnnotationComposer get audioId {
     final $$AudioItemsTableAnnotationComposer composer = $composerBuilder(
@@ -6477,15 +5880,13 @@ class $$VocabularyTableAnnotationComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableAnnotationComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -6497,15 +5898,13 @@ class $$VocabularyTableAnnotationComposer
         referencedTable: $db.chapters,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$ChaptersTableAnnotationComposer(
               $db: $db,
               $table: $db.chapters,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -6518,15 +5917,13 @@ class $$VocabularyTableAnnotationComposer
         referencedTable: $db.wordMemory,
         getReferencedColumn: (t) => t.wordId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$WordMemoryTableAnnotationComposer(
               $db: $db,
               $table: $db.wordMemory,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -6539,15 +5936,13 @@ class $$VocabularyTableAnnotationComposer
         referencedTable: $db.reviewSchedule,
         getReferencedColumn: (t) => t.wordId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$ReviewScheduleTableAnnotationComposer(
               $db: $db,
               $table: $db.reviewSchedule,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -6560,15 +5955,13 @@ class $$VocabularyTableAnnotationComposer
         referencedTable: $db.weaknessProfile,
         getReferencedColumn: (t) => t.wordId,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$WeaknessProfileTableAnnotationComposer(
               $db: $db,
               $table: $db.weaknessProfile,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return f(composer);
   }
@@ -6595,10 +5988,8 @@ class $$VocabularyTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () =>
-              $$VocabularyTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$VocabularyTableOrderingComposer($db: db, $table: table),
+          createFilteringComposer: () => $$VocabularyTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () => $$VocabularyTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$VocabularyTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
@@ -6658,10 +6049,7 @@ class $$VocabularyTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$VocabularyTableReferences(db, table, e)
-                  ))
+              .map((e) => (e.readTable(table), $$VocabularyTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: (
               {audioId = false,
@@ -6677,36 +6065,22 @@ class $$VocabularyTableTableManager extends RootTableManager<
                 if (weaknessProfileRefs) db.weaknessProfile
               ],
               addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
+                  T extends TableManagerState<dynamic, dynamic, dynamic, dynamic, dynamic, dynamic,
+                      dynamic, dynamic, dynamic, dynamic, dynamic>>(state) {
                 if (audioId) {
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.audioId,
-                    referencedTable:
-                        $$VocabularyTableReferences._audioIdTable(db),
-                    referencedColumn:
-                        $$VocabularyTableReferences._audioIdTable(db).id,
+                    referencedTable: $$VocabularyTableReferences._audioIdTable(db),
+                    referencedColumn: $$VocabularyTableReferences._audioIdTable(db).id,
                   ) as T;
                 }
                 if (chapterId) {
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.chapterId,
-                    referencedTable:
-                        $$VocabularyTableReferences._chapterIdTable(db),
-                    referencedColumn:
-                        $$VocabularyTableReferences._chapterIdTable(db).id,
+                    referencedTable: $$VocabularyTableReferences._chapterIdTable(db),
+                    referencedColumn: $$VocabularyTableReferences._chapterIdTable(db).id,
                   ) as T;
                 }
 
@@ -6715,42 +6089,31 @@ class $$VocabularyTableTableManager extends RootTableManager<
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (wordMemoryRefs)
-                    await $_getPrefetchedData<VocabularyData, $VocabularyTable,
-                            WordMemoryData>(
+                    await $_getPrefetchedData<VocabularyData, $VocabularyTable, WordMemoryData>(
                         currentTable: table,
-                        referencedTable: $$VocabularyTableReferences
-                            ._wordMemoryRefsTable(db),
+                        referencedTable: $$VocabularyTableReferences._wordMemoryRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$VocabularyTableReferences(db, table, p0)
-                                .wordMemoryRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
+                            $$VocabularyTableReferences(db, table, p0).wordMemoryRefs,
+                        referencedItemsForCurrentItem: (item, referencedItems) =>
                             referencedItems.where((e) => e.wordId == item.id),
                         typedResults: items),
                   if (reviewScheduleRefs)
-                    await $_getPrefetchedData<VocabularyData, $VocabularyTable,
-                            ReviewScheduleData>(
+                    await $_getPrefetchedData<VocabularyData, $VocabularyTable, ReviewScheduleData>(
                         currentTable: table,
-                        referencedTable: $$VocabularyTableReferences
-                            ._reviewScheduleRefsTable(db),
+                        referencedTable: $$VocabularyTableReferences._reviewScheduleRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$VocabularyTableReferences(db, table, p0)
-                                .reviewScheduleRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
+                            $$VocabularyTableReferences(db, table, p0).reviewScheduleRefs,
+                        referencedItemsForCurrentItem: (item, referencedItems) =>
                             referencedItems.where((e) => e.wordId == item.id),
                         typedResults: items),
                   if (weaknessProfileRefs)
                     await $_getPrefetchedData<VocabularyData, $VocabularyTable,
                             WeaknessProfileData>(
                         currentTable: table,
-                        referencedTable: $$VocabularyTableReferences
-                            ._weaknessProfileRefsTable(db),
+                        referencedTable: $$VocabularyTableReferences._weaknessProfileRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$VocabularyTableReferences(db, table, p0)
-                                .weaknessProfileRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
+                            $$VocabularyTableReferences(db, table, p0).weaknessProfileRefs,
+                        referencedItemsForCurrentItem: (item, referencedItems) =>
                             referencedItems.where((e) => e.wordId == item.id),
                         typedResults: items)
                 ];
@@ -6777,29 +6140,25 @@ typedef $$VocabularyTableProcessedTableManager = ProcessedTableManager<
         bool wordMemoryRefs,
         bool reviewScheduleRefs,
         bool weaknessProfileRefs})>;
-typedef $$PlaybackStateTableCreateCompanionBuilder = PlaybackStateCompanion
-    Function({
+typedef $$PlaybackStateTableCreateCompanionBuilder = PlaybackStateCompanion Function({
   required String audioId,
   Value<String?> lastChapterId,
   Value<int> lastPositionMs,
   Value<int> rowid,
 });
-typedef $$PlaybackStateTableUpdateCompanionBuilder = PlaybackStateCompanion
-    Function({
+typedef $$PlaybackStateTableUpdateCompanionBuilder = PlaybackStateCompanion Function({
   Value<String> audioId,
   Value<String?> lastChapterId,
   Value<int> lastPositionMs,
   Value<int> rowid,
 });
 
-final class $$PlaybackStateTableReferences extends BaseReferences<_$AppDatabase,
-    $PlaybackStateTable, PlaybackStateData> {
-  $$PlaybackStateTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
+final class $$PlaybackStateTableReferences
+    extends BaseReferences<_$AppDatabase, $PlaybackStateTable, PlaybackStateData> {
+  $$PlaybackStateTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static $AudioItemsTable _audioIdTable(_$AppDatabase db) =>
-      db.audioItems.createAlias(
-          $_aliasNameGenerator(db.playbackState.audioId, db.audioItems.id));
+      db.audioItems.createAlias($_aliasNameGenerator(db.playbackState.audioId, db.audioItems.id));
 
   $$AudioItemsTableProcessedTableManager get audioId {
     final $_column = $_itemColumn<String>('audio_id')!;
@@ -6808,13 +6167,11 @@ final class $$PlaybackStateTableReferences extends BaseReferences<_$AppDatabase,
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_audioIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
   }
 }
 
-class $$PlaybackStateTableFilterComposer
-    extends Composer<_$AppDatabase, $PlaybackStateTable> {
+class $$PlaybackStateTableFilterComposer extends Composer<_$AppDatabase, $PlaybackStateTable> {
   $$PlaybackStateTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -6822,12 +6179,11 @@ class $$PlaybackStateTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get lastChapterId => $composableBuilder(
-      column: $table.lastChapterId, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get lastChapterId =>
+      $composableBuilder(column: $table.lastChapterId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get lastPositionMs => $composableBuilder(
-      column: $table.lastPositionMs,
-      builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get lastPositionMs =>
+      $composableBuilder(column: $table.lastPositionMs, builder: (column) => ColumnFilters(column));
 
   $$AudioItemsTableFilterComposer get audioId {
     final $$AudioItemsTableFilterComposer composer = $composerBuilder(
@@ -6836,22 +6192,19 @@ class $$PlaybackStateTableFilterComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableFilterComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 }
 
-class $$PlaybackStateTableOrderingComposer
-    extends Composer<_$AppDatabase, $PlaybackStateTable> {
+class $$PlaybackStateTableOrderingComposer extends Composer<_$AppDatabase, $PlaybackStateTable> {
   $$PlaybackStateTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -6860,12 +6213,10 @@ class $$PlaybackStateTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get lastChapterId => $composableBuilder(
-      column: $table.lastChapterId,
-      builder: (column) => ColumnOrderings(column));
+      column: $table.lastChapterId, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get lastPositionMs => $composableBuilder(
-      column: $table.lastPositionMs,
-      builder: (column) => ColumnOrderings(column));
+      column: $table.lastPositionMs, builder: (column) => ColumnOrderings(column));
 
   $$AudioItemsTableOrderingComposer get audioId {
     final $$AudioItemsTableOrderingComposer composer = $composerBuilder(
@@ -6874,22 +6225,19 @@ class $$PlaybackStateTableOrderingComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableOrderingComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 }
 
-class $$PlaybackStateTableAnnotationComposer
-    extends Composer<_$AppDatabase, $PlaybackStateTable> {
+class $$PlaybackStateTableAnnotationComposer extends Composer<_$AppDatabase, $PlaybackStateTable> {
   $$PlaybackStateTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -6897,11 +6245,11 @@ class $$PlaybackStateTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<String> get lastChapterId => $composableBuilder(
-      column: $table.lastChapterId, builder: (column) => column);
+  GeneratedColumn<String> get lastChapterId =>
+      $composableBuilder(column: $table.lastChapterId, builder: (column) => column);
 
-  GeneratedColumn<int> get lastPositionMs => $composableBuilder(
-      column: $table.lastPositionMs, builder: (column) => column);
+  GeneratedColumn<int> get lastPositionMs =>
+      $composableBuilder(column: $table.lastPositionMs, builder: (column) => column);
 
   $$AudioItemsTableAnnotationComposer get audioId {
     final $$AudioItemsTableAnnotationComposer composer = $composerBuilder(
@@ -6910,15 +6258,13 @@ class $$PlaybackStateTableAnnotationComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableAnnotationComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -6940,8 +6286,7 @@ class $$PlaybackStateTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () =>
-              $$PlaybackStateTableFilterComposer($db: db, $table: table),
+          createFilteringComposer: () => $$PlaybackStateTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
               $$PlaybackStateTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
@@ -6971,36 +6316,21 @@ class $$PlaybackStateTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$PlaybackStateTableReferences(db, table, e)
-                  ))
+              .map((e) => (e.readTable(table), $$PlaybackStateTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({audioId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
               addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
+                  T extends TableManagerState<dynamic, dynamic, dynamic, dynamic, dynamic, dynamic,
+                      dynamic, dynamic, dynamic, dynamic, dynamic>>(state) {
                 if (audioId) {
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.audioId,
-                    referencedTable:
-                        $$PlaybackStateTableReferences._audioIdTable(db),
-                    referencedColumn:
-                        $$PlaybackStateTableReferences._audioIdTable(db).id,
+                    referencedTable: $$PlaybackStateTableReferences._audioIdTable(db),
+                    referencedColumn: $$PlaybackStateTableReferences._audioIdTable(db).id,
                   ) as T;
                 }
 
@@ -7054,8 +6384,7 @@ final class $$WordMemoryTableReferences
   $$WordMemoryTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static $VocabularyTable _wordIdTable(_$AppDatabase db) =>
-      db.vocabulary.createAlias(
-          $_aliasNameGenerator(db.wordMemory.wordId, db.vocabulary.id));
+      db.vocabulary.createAlias($_aliasNameGenerator(db.wordMemory.wordId, db.vocabulary.id));
 
   $$VocabularyTableProcessedTableManager get wordId {
     final $_column = $_itemColumn<String>('word_id')!;
@@ -7064,13 +6393,11 @@ final class $$WordMemoryTableReferences
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_wordIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
   }
 }
 
-class $$WordMemoryTableFilterComposer
-    extends Composer<_$AppDatabase, $WordMemoryTable> {
+class $$WordMemoryTableFilterComposer extends Composer<_$AppDatabase, $WordMemoryTable> {
   $$WordMemoryTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -7078,26 +6405,26 @@ class $$WordMemoryTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get queryCount => $composableBuilder(
-      column: $table.queryCount, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get queryCount =>
+      $composableBuilder(column: $table.queryCount, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get quizAttempts => $composableBuilder(
-      column: $table.quizAttempts, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get quizAttempts =>
+      $composableBuilder(column: $table.quizAttempts, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get quizCorrect => $composableBuilder(
-      column: $table.quizCorrect, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get quizCorrect =>
+      $composableBuilder(column: $table.quizCorrect, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<double> get masteryLevel => $composableBuilder(
-      column: $table.masteryLevel, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get masteryLevel =>
+      $composableBuilder(column: $table.masteryLevel, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<bool> get weakFlag => $composableBuilder(
-      column: $table.weakFlag, builder: (column) => ColumnFilters(column));
+  ColumnFilters<bool> get weakFlag =>
+      $composableBuilder(column: $table.weakFlag, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get lastQueriedAt => $composableBuilder(
-      column: $table.lastQueriedAt, builder: (column) => ColumnFilters(column));
+  ColumnFilters<DateTime> get lastQueriedAt =>
+      $composableBuilder(column: $table.lastQueriedAt, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get lastQuizzedAt => $composableBuilder(
-      column: $table.lastQuizzedAt, builder: (column) => ColumnFilters(column));
+  ColumnFilters<DateTime> get lastQuizzedAt =>
+      $composableBuilder(column: $table.lastQuizzedAt, builder: (column) => ColumnFilters(column));
 
   $$VocabularyTableFilterComposer get wordId {
     final $$VocabularyTableFilterComposer composer = $composerBuilder(
@@ -7106,22 +6433,19 @@ class $$WordMemoryTableFilterComposer
         referencedTable: $db.vocabulary,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$VocabularyTableFilterComposer(
               $db: $db,
               $table: $db.vocabulary,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 }
 
-class $$WordMemoryTableOrderingComposer
-    extends Composer<_$AppDatabase, $WordMemoryTable> {
+class $$WordMemoryTableOrderingComposer extends Composer<_$AppDatabase, $WordMemoryTable> {
   $$WordMemoryTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -7129,30 +6453,26 @@ class $$WordMemoryTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get queryCount => $composableBuilder(
-      column: $table.queryCount, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get queryCount =>
+      $composableBuilder(column: $table.queryCount, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get quizAttempts => $composableBuilder(
-      column: $table.quizAttempts,
-      builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get quizAttempts =>
+      $composableBuilder(column: $table.quizAttempts, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get quizCorrect => $composableBuilder(
-      column: $table.quizCorrect, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get quizCorrect =>
+      $composableBuilder(column: $table.quizCorrect, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<double> get masteryLevel => $composableBuilder(
-      column: $table.masteryLevel,
-      builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get masteryLevel =>
+      $composableBuilder(column: $table.masteryLevel, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<bool> get weakFlag => $composableBuilder(
-      column: $table.weakFlag, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<bool> get weakFlag =>
+      $composableBuilder(column: $table.weakFlag, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<DateTime> get lastQueriedAt => $composableBuilder(
-      column: $table.lastQueriedAt,
-      builder: (column) => ColumnOrderings(column));
+      column: $table.lastQueriedAt, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<DateTime> get lastQuizzedAt => $composableBuilder(
-      column: $table.lastQuizzedAt,
-      builder: (column) => ColumnOrderings(column));
+      column: $table.lastQuizzedAt, builder: (column) => ColumnOrderings(column));
 
   $$VocabularyTableOrderingComposer get wordId {
     final $$VocabularyTableOrderingComposer composer = $composerBuilder(
@@ -7161,22 +6481,19 @@ class $$WordMemoryTableOrderingComposer
         referencedTable: $db.vocabulary,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$VocabularyTableOrderingComposer(
               $db: $db,
               $table: $db.vocabulary,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 }
 
-class $$WordMemoryTableAnnotationComposer
-    extends Composer<_$AppDatabase, $WordMemoryTable> {
+class $$WordMemoryTableAnnotationComposer extends Composer<_$AppDatabase, $WordMemoryTable> {
   $$WordMemoryTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -7184,26 +6501,26 @@ class $$WordMemoryTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get queryCount => $composableBuilder(
-      column: $table.queryCount, builder: (column) => column);
+  GeneratedColumn<int> get queryCount =>
+      $composableBuilder(column: $table.queryCount, builder: (column) => column);
 
-  GeneratedColumn<int> get quizAttempts => $composableBuilder(
-      column: $table.quizAttempts, builder: (column) => column);
+  GeneratedColumn<int> get quizAttempts =>
+      $composableBuilder(column: $table.quizAttempts, builder: (column) => column);
 
-  GeneratedColumn<int> get quizCorrect => $composableBuilder(
-      column: $table.quizCorrect, builder: (column) => column);
+  GeneratedColumn<int> get quizCorrect =>
+      $composableBuilder(column: $table.quizCorrect, builder: (column) => column);
 
-  GeneratedColumn<double> get masteryLevel => $composableBuilder(
-      column: $table.masteryLevel, builder: (column) => column);
+  GeneratedColumn<double> get masteryLevel =>
+      $composableBuilder(column: $table.masteryLevel, builder: (column) => column);
 
   GeneratedColumn<bool> get weakFlag =>
       $composableBuilder(column: $table.weakFlag, builder: (column) => column);
 
-  GeneratedColumn<DateTime> get lastQueriedAt => $composableBuilder(
-      column: $table.lastQueriedAt, builder: (column) => column);
+  GeneratedColumn<DateTime> get lastQueriedAt =>
+      $composableBuilder(column: $table.lastQueriedAt, builder: (column) => column);
 
-  GeneratedColumn<DateTime> get lastQuizzedAt => $composableBuilder(
-      column: $table.lastQuizzedAt, builder: (column) => column);
+  GeneratedColumn<DateTime> get lastQuizzedAt =>
+      $composableBuilder(column: $table.lastQuizzedAt, builder: (column) => column);
 
   $$VocabularyTableAnnotationComposer get wordId {
     final $$VocabularyTableAnnotationComposer composer = $composerBuilder(
@@ -7212,15 +6529,13 @@ class $$WordMemoryTableAnnotationComposer
         referencedTable: $db.vocabulary,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$VocabularyTableAnnotationComposer(
               $db: $db,
               $table: $db.vocabulary,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -7242,10 +6557,8 @@ class $$WordMemoryTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () =>
-              $$WordMemoryTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$WordMemoryTableOrderingComposer($db: db, $table: table),
+          createFilteringComposer: () => $$WordMemoryTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () => $$WordMemoryTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$WordMemoryTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
@@ -7293,36 +6606,21 @@ class $$WordMemoryTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$WordMemoryTableReferences(db, table, e)
-                  ))
+              .map((e) => (e.readTable(table), $$WordMemoryTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({wordId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
               addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
+                  T extends TableManagerState<dynamic, dynamic, dynamic, dynamic, dynamic, dynamic,
+                      dynamic, dynamic, dynamic, dynamic, dynamic>>(state) {
                 if (wordId) {
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.wordId,
-                    referencedTable:
-                        $$WordMemoryTableReferences._wordIdTable(db),
-                    referencedColumn:
-                        $$WordMemoryTableReferences._wordIdTable(db).id,
+                    referencedTable: $$WordMemoryTableReferences._wordIdTable(db),
+                    referencedColumn: $$WordMemoryTableReferences._wordIdTable(db).id,
                   ) as T;
                 }
 
@@ -7348,16 +6646,14 @@ typedef $$WordMemoryTableProcessedTableManager = ProcessedTableManager<
     (WordMemoryData, $$WordMemoryTableReferences),
     WordMemoryData,
     PrefetchHooks Function({bool wordId})>;
-typedef $$ContentMemoryTableCreateCompanionBuilder = ContentMemoryCompanion
-    Function({
+typedef $$ContentMemoryTableCreateCompanionBuilder = ContentMemoryCompanion Function({
   required String audioId,
   Value<int> chaptersHeard,
   Value<int> wordsQueried,
   Value<DateTime?> lastHeardAt,
   Value<int> rowid,
 });
-typedef $$ContentMemoryTableUpdateCompanionBuilder = ContentMemoryCompanion
-    Function({
+typedef $$ContentMemoryTableUpdateCompanionBuilder = ContentMemoryCompanion Function({
   Value<String> audioId,
   Value<int> chaptersHeard,
   Value<int> wordsQueried,
@@ -7365,14 +6661,12 @@ typedef $$ContentMemoryTableUpdateCompanionBuilder = ContentMemoryCompanion
   Value<int> rowid,
 });
 
-final class $$ContentMemoryTableReferences extends BaseReferences<_$AppDatabase,
-    $ContentMemoryTable, ContentMemoryData> {
-  $$ContentMemoryTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
+final class $$ContentMemoryTableReferences
+    extends BaseReferences<_$AppDatabase, $ContentMemoryTable, ContentMemoryData> {
+  $$ContentMemoryTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static $AudioItemsTable _audioIdTable(_$AppDatabase db) =>
-      db.audioItems.createAlias(
-          $_aliasNameGenerator(db.contentMemory.audioId, db.audioItems.id));
+      db.audioItems.createAlias($_aliasNameGenerator(db.contentMemory.audioId, db.audioItems.id));
 
   $$AudioItemsTableProcessedTableManager get audioId {
     final $_column = $_itemColumn<String>('audio_id')!;
@@ -7381,13 +6675,11 @@ final class $$ContentMemoryTableReferences extends BaseReferences<_$AppDatabase,
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_audioIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
   }
 }
 
-class $$ContentMemoryTableFilterComposer
-    extends Composer<_$AppDatabase, $ContentMemoryTable> {
+class $$ContentMemoryTableFilterComposer extends Composer<_$AppDatabase, $ContentMemoryTable> {
   $$ContentMemoryTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -7395,14 +6687,14 @@ class $$ContentMemoryTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get chaptersHeard => $composableBuilder(
-      column: $table.chaptersHeard, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get chaptersHeard =>
+      $composableBuilder(column: $table.chaptersHeard, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get wordsQueried => $composableBuilder(
-      column: $table.wordsQueried, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get wordsQueried =>
+      $composableBuilder(column: $table.wordsQueried, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get lastHeardAt => $composableBuilder(
-      column: $table.lastHeardAt, builder: (column) => ColumnFilters(column));
+  ColumnFilters<DateTime> get lastHeardAt =>
+      $composableBuilder(column: $table.lastHeardAt, builder: (column) => ColumnFilters(column));
 
   $$AudioItemsTableFilterComposer get audioId {
     final $$AudioItemsTableFilterComposer composer = $composerBuilder(
@@ -7411,22 +6703,19 @@ class $$ContentMemoryTableFilterComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableFilterComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 }
 
-class $$ContentMemoryTableOrderingComposer
-    extends Composer<_$AppDatabase, $ContentMemoryTable> {
+class $$ContentMemoryTableOrderingComposer extends Composer<_$AppDatabase, $ContentMemoryTable> {
   $$ContentMemoryTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -7435,15 +6724,13 @@ class $$ContentMemoryTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get chaptersHeard => $composableBuilder(
-      column: $table.chaptersHeard,
-      builder: (column) => ColumnOrderings(column));
+      column: $table.chaptersHeard, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get wordsQueried => $composableBuilder(
-      column: $table.wordsQueried,
-      builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get wordsQueried =>
+      $composableBuilder(column: $table.wordsQueried, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<DateTime> get lastHeardAt => $composableBuilder(
-      column: $table.lastHeardAt, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<DateTime> get lastHeardAt =>
+      $composableBuilder(column: $table.lastHeardAt, builder: (column) => ColumnOrderings(column));
 
   $$AudioItemsTableOrderingComposer get audioId {
     final $$AudioItemsTableOrderingComposer composer = $composerBuilder(
@@ -7452,22 +6739,19 @@ class $$ContentMemoryTableOrderingComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableOrderingComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 }
 
-class $$ContentMemoryTableAnnotationComposer
-    extends Composer<_$AppDatabase, $ContentMemoryTable> {
+class $$ContentMemoryTableAnnotationComposer extends Composer<_$AppDatabase, $ContentMemoryTable> {
   $$ContentMemoryTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -7475,14 +6759,14 @@ class $$ContentMemoryTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get chaptersHeard => $composableBuilder(
-      column: $table.chaptersHeard, builder: (column) => column);
+  GeneratedColumn<int> get chaptersHeard =>
+      $composableBuilder(column: $table.chaptersHeard, builder: (column) => column);
 
-  GeneratedColumn<int> get wordsQueried => $composableBuilder(
-      column: $table.wordsQueried, builder: (column) => column);
+  GeneratedColumn<int> get wordsQueried =>
+      $composableBuilder(column: $table.wordsQueried, builder: (column) => column);
 
-  GeneratedColumn<DateTime> get lastHeardAt => $composableBuilder(
-      column: $table.lastHeardAt, builder: (column) => column);
+  GeneratedColumn<DateTime> get lastHeardAt =>
+      $composableBuilder(column: $table.lastHeardAt, builder: (column) => column);
 
   $$AudioItemsTableAnnotationComposer get audioId {
     final $$AudioItemsTableAnnotationComposer composer = $composerBuilder(
@@ -7491,15 +6775,13 @@ class $$ContentMemoryTableAnnotationComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableAnnotationComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -7521,8 +6803,7 @@ class $$ContentMemoryTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () =>
-              $$ContentMemoryTableFilterComposer($db: db, $table: table),
+          createFilteringComposer: () => $$ContentMemoryTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
               $$ContentMemoryTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
@@ -7556,36 +6837,21 @@ class $$ContentMemoryTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$ContentMemoryTableReferences(db, table, e)
-                  ))
+              .map((e) => (e.readTable(table), $$ContentMemoryTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({audioId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
               addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
+                  T extends TableManagerState<dynamic, dynamic, dynamic, dynamic, dynamic, dynamic,
+                      dynamic, dynamic, dynamic, dynamic, dynamic>>(state) {
                 if (audioId) {
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.audioId,
-                    referencedTable:
-                        $$ContentMemoryTableReferences._audioIdTable(db),
-                    referencedColumn:
-                        $$ContentMemoryTableReferences._audioIdTable(db).id,
+                    referencedTable: $$ContentMemoryTableReferences._audioIdTable(db),
+                    referencedColumn: $$ContentMemoryTableReferences._audioIdTable(db).id,
                   ) as T;
                 }
 
@@ -7611,8 +6877,7 @@ typedef $$ContentMemoryTableProcessedTableManager = ProcessedTableManager<
     (ContentMemoryData, $$ContentMemoryTableReferences),
     ContentMemoryData,
     PrefetchHooks Function({bool audioId})>;
-typedef $$AgentSessionsTableCreateCompanionBuilder = AgentSessionsCompanion
-    Function({
+typedef $$AgentSessionsTableCreateCompanionBuilder = AgentSessionsCompanion Function({
   required String id,
   required String trigger,
   Value<String?> audioId,
@@ -7621,8 +6886,7 @@ typedef $$AgentSessionsTableCreateCompanionBuilder = AgentSessionsCompanion
   Value<DateTime> createdAt,
   Value<int> rowid,
 });
-typedef $$AgentSessionsTableUpdateCompanionBuilder = AgentSessionsCompanion
-    Function({
+typedef $$AgentSessionsTableUpdateCompanionBuilder = AgentSessionsCompanion Function({
   Value<String> id,
   Value<String> trigger,
   Value<String?> audioId,
@@ -7634,12 +6898,10 @@ typedef $$AgentSessionsTableUpdateCompanionBuilder = AgentSessionsCompanion
 
 final class $$AgentSessionsTableReferences
     extends BaseReferences<_$AppDatabase, $AgentSessionsTable, AgentSession> {
-  $$AgentSessionsTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
+  $$AgentSessionsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static $AudioItemsTable _audioIdTable(_$AppDatabase db) =>
-      db.audioItems.createAlias(
-          $_aliasNameGenerator(db.agentSessions.audioId, db.audioItems.id));
+      db.audioItems.createAlias($_aliasNameGenerator(db.agentSessions.audioId, db.audioItems.id));
 
   $$AudioItemsTableProcessedTableManager? get audioId {
     final $_column = $_itemColumn<String>('audio_id');
@@ -7648,28 +6910,24 @@ final class $$AgentSessionsTableReferences
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_audioIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
   }
 
   static $ChaptersTable _chapterIdTable(_$AppDatabase db) =>
-      db.chapters.createAlias(
-          $_aliasNameGenerator(db.agentSessions.chapterId, db.chapters.id));
+      db.chapters.createAlias($_aliasNameGenerator(db.agentSessions.chapterId, db.chapters.id));
 
   $$ChaptersTableProcessedTableManager? get chapterId {
     final $_column = $_itemColumn<String>('chapter_id');
     if ($_column == null) return null;
-    final manager = $$ChaptersTableTableManager($_db, $_db.chapters)
-        .filter((f) => f.id.sqlEquals($_column));
+    final manager =
+        $$ChaptersTableTableManager($_db, $_db.chapters).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_chapterIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
   }
 }
 
-class $$AgentSessionsTableFilterComposer
-    extends Composer<_$AppDatabase, $AgentSessionsTable> {
+class $$AgentSessionsTableFilterComposer extends Composer<_$AppDatabase, $AgentSessionsTable> {
   $$AgentSessionsTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -7677,17 +6935,17 @@ class $$AgentSessionsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get trigger => $composableBuilder(
-      column: $table.trigger, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get trigger =>
+      $composableBuilder(column: $table.trigger, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get messagesJson => $composableBuilder(
-      column: $table.messagesJson, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get messagesJson =>
+      $composableBuilder(column: $table.messagesJson, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+  ColumnFilters<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
   $$AudioItemsTableFilterComposer get audioId {
     final $$AudioItemsTableFilterComposer composer = $composerBuilder(
@@ -7696,15 +6954,13 @@ class $$AgentSessionsTableFilterComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableFilterComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -7716,22 +6972,19 @@ class $$AgentSessionsTableFilterComposer
         referencedTable: $db.chapters,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$ChaptersTableFilterComposer(
               $db: $db,
               $table: $db.chapters,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 }
 
-class $$AgentSessionsTableOrderingComposer
-    extends Composer<_$AppDatabase, $AgentSessionsTable> {
+class $$AgentSessionsTableOrderingComposer extends Composer<_$AppDatabase, $AgentSessionsTable> {
   $$AgentSessionsTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -7739,18 +6992,17 @@ class $$AgentSessionsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get trigger => $composableBuilder(
-      column: $table.trigger, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get trigger =>
+      $composableBuilder(column: $table.trigger, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get messagesJson => $composableBuilder(
-      column: $table.messagesJson,
-      builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get messagesJson =>
+      $composableBuilder(column: $table.messagesJson, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
   $$AudioItemsTableOrderingComposer get audioId {
     final $$AudioItemsTableOrderingComposer composer = $composerBuilder(
@@ -7759,15 +7011,13 @@ class $$AgentSessionsTableOrderingComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableOrderingComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -7779,22 +7029,19 @@ class $$AgentSessionsTableOrderingComposer
         referencedTable: $db.chapters,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$ChaptersTableOrderingComposer(
               $db: $db,
               $table: $db.chapters,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 }
 
-class $$AgentSessionsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $AgentSessionsTable> {
+class $$AgentSessionsTableAnnotationComposer extends Composer<_$AppDatabase, $AgentSessionsTable> {
   $$AgentSessionsTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -7808,8 +7055,8 @@ class $$AgentSessionsTableAnnotationComposer
   GeneratedColumn<String> get trigger =>
       $composableBuilder(column: $table.trigger, builder: (column) => column);
 
-  GeneratedColumn<String> get messagesJson => $composableBuilder(
-      column: $table.messagesJson, builder: (column) => column);
+  GeneratedColumn<String> get messagesJson =>
+      $composableBuilder(column: $table.messagesJson, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -7821,15 +7068,13 @@ class $$AgentSessionsTableAnnotationComposer
         referencedTable: $db.audioItems,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$AudioItemsTableAnnotationComposer(
               $db: $db,
               $table: $db.audioItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -7841,15 +7086,13 @@ class $$AgentSessionsTableAnnotationComposer
         referencedTable: $db.chapters,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$ChaptersTableAnnotationComposer(
               $db: $db,
               $table: $db.chapters,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -7871,8 +7114,7 @@ class $$AgentSessionsTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () =>
-              $$AgentSessionsTableFilterComposer($db: db, $table: table),
+          createFilteringComposer: () => $$AgentSessionsTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
               $$AgentSessionsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
@@ -7914,46 +7156,29 @@ class $$AgentSessionsTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$AgentSessionsTableReferences(db, table, e)
-                  ))
+              .map((e) => (e.readTable(table), $$AgentSessionsTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({audioId = false, chapterId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
               addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
+                  T extends TableManagerState<dynamic, dynamic, dynamic, dynamic, dynamic, dynamic,
+                      dynamic, dynamic, dynamic, dynamic, dynamic>>(state) {
                 if (audioId) {
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.audioId,
-                    referencedTable:
-                        $$AgentSessionsTableReferences._audioIdTable(db),
-                    referencedColumn:
-                        $$AgentSessionsTableReferences._audioIdTable(db).id,
+                    referencedTable: $$AgentSessionsTableReferences._audioIdTable(db),
+                    referencedColumn: $$AgentSessionsTableReferences._audioIdTable(db).id,
                   ) as T;
                 }
                 if (chapterId) {
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.chapterId,
-                    referencedTable:
-                        $$AgentSessionsTableReferences._chapterIdTable(db),
-                    referencedColumn:
-                        $$AgentSessionsTableReferences._chapterIdTable(db).id,
+                    referencedTable: $$AgentSessionsTableReferences._chapterIdTable(db),
+                    referencedColumn: $$AgentSessionsTableReferences._chapterIdTable(db).id,
                   ) as T;
                 }
 
@@ -7979,16 +7204,14 @@ typedef $$AgentSessionsTableProcessedTableManager = ProcessedTableManager<
     (AgentSession, $$AgentSessionsTableReferences),
     AgentSession,
     PrefetchHooks Function({bool audioId, bool chapterId})>;
-typedef $$ReviewScheduleTableCreateCompanionBuilder = ReviewScheduleCompanion
-    Function({
+typedef $$ReviewScheduleTableCreateCompanionBuilder = ReviewScheduleCompanion Function({
   required String wordId,
   required DateTime nextReviewAt,
   Value<int> reviewCount,
   Value<String> lastResult,
   Value<int> rowid,
 });
-typedef $$ReviewScheduleTableUpdateCompanionBuilder = ReviewScheduleCompanion
-    Function({
+typedef $$ReviewScheduleTableUpdateCompanionBuilder = ReviewScheduleCompanion Function({
   Value<String> wordId,
   Value<DateTime> nextReviewAt,
   Value<int> reviewCount,
@@ -7996,14 +7219,12 @@ typedef $$ReviewScheduleTableUpdateCompanionBuilder = ReviewScheduleCompanion
   Value<int> rowid,
 });
 
-final class $$ReviewScheduleTableReferences extends BaseReferences<
-    _$AppDatabase, $ReviewScheduleTable, ReviewScheduleData> {
-  $$ReviewScheduleTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
+final class $$ReviewScheduleTableReferences
+    extends BaseReferences<_$AppDatabase, $ReviewScheduleTable, ReviewScheduleData> {
+  $$ReviewScheduleTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static $VocabularyTable _wordIdTable(_$AppDatabase db) =>
-      db.vocabulary.createAlias(
-          $_aliasNameGenerator(db.reviewSchedule.wordId, db.vocabulary.id));
+      db.vocabulary.createAlias($_aliasNameGenerator(db.reviewSchedule.wordId, db.vocabulary.id));
 
   $$VocabularyTableProcessedTableManager get wordId {
     final $_column = $_itemColumn<String>('word_id')!;
@@ -8012,13 +7233,11 @@ final class $$ReviewScheduleTableReferences extends BaseReferences<
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_wordIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
   }
 }
 
-class $$ReviewScheduleTableFilterComposer
-    extends Composer<_$AppDatabase, $ReviewScheduleTable> {
+class $$ReviewScheduleTableFilterComposer extends Composer<_$AppDatabase, $ReviewScheduleTable> {
   $$ReviewScheduleTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -8026,14 +7245,14 @@ class $$ReviewScheduleTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<DateTime> get nextReviewAt => $composableBuilder(
-      column: $table.nextReviewAt, builder: (column) => ColumnFilters(column));
+  ColumnFilters<DateTime> get nextReviewAt =>
+      $composableBuilder(column: $table.nextReviewAt, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get reviewCount => $composableBuilder(
-      column: $table.reviewCount, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get reviewCount =>
+      $composableBuilder(column: $table.reviewCount, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get lastResult => $composableBuilder(
-      column: $table.lastResult, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get lastResult =>
+      $composableBuilder(column: $table.lastResult, builder: (column) => ColumnFilters(column));
 
   $$VocabularyTableFilterComposer get wordId {
     final $$VocabularyTableFilterComposer composer = $composerBuilder(
@@ -8042,22 +7261,19 @@ class $$ReviewScheduleTableFilterComposer
         referencedTable: $db.vocabulary,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$VocabularyTableFilterComposer(
               $db: $db,
               $table: $db.vocabulary,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
 }
 
-class $$ReviewScheduleTableOrderingComposer
-    extends Composer<_$AppDatabase, $ReviewScheduleTable> {
+class $$ReviewScheduleTableOrderingComposer extends Composer<_$AppDatabase, $ReviewScheduleTable> {
   $$ReviewScheduleTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -8065,15 +7281,14 @@ class $$ReviewScheduleTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<DateTime> get nextReviewAt => $composableBuilder(
-      column: $table.nextReviewAt,
-      builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<DateTime> get nextReviewAt =>
+      $composableBuilder(column: $table.nextReviewAt, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get reviewCount => $composableBuilder(
-      column: $table.reviewCount, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get reviewCount =>
+      $composableBuilder(column: $table.reviewCount, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get lastResult => $composableBuilder(
-      column: $table.lastResult, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get lastResult =>
+      $composableBuilder(column: $table.lastResult, builder: (column) => ColumnOrderings(column));
 
   $$VocabularyTableOrderingComposer get wordId {
     final $$VocabularyTableOrderingComposer composer = $composerBuilder(
@@ -8082,15 +7297,13 @@ class $$ReviewScheduleTableOrderingComposer
         referencedTable: $db.vocabulary,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$VocabularyTableOrderingComposer(
               $db: $db,
               $table: $db.vocabulary,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -8105,14 +7318,14 @@ class $$ReviewScheduleTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<DateTime> get nextReviewAt => $composableBuilder(
-      column: $table.nextReviewAt, builder: (column) => column);
+  GeneratedColumn<DateTime> get nextReviewAt =>
+      $composableBuilder(column: $table.nextReviewAt, builder: (column) => column);
 
-  GeneratedColumn<int> get reviewCount => $composableBuilder(
-      column: $table.reviewCount, builder: (column) => column);
+  GeneratedColumn<int> get reviewCount =>
+      $composableBuilder(column: $table.reviewCount, builder: (column) => column);
 
-  GeneratedColumn<String> get lastResult => $composableBuilder(
-      column: $table.lastResult, builder: (column) => column);
+  GeneratedColumn<String> get lastResult =>
+      $composableBuilder(column: $table.lastResult, builder: (column) => column);
 
   $$VocabularyTableAnnotationComposer get wordId {
     final $$VocabularyTableAnnotationComposer composer = $composerBuilder(
@@ -8121,15 +7334,13 @@ class $$ReviewScheduleTableAnnotationComposer
         referencedTable: $db.vocabulary,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$VocabularyTableAnnotationComposer(
               $db: $db,
               $table: $db.vocabulary,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -8147,8 +7358,7 @@ class $$ReviewScheduleTableTableManager extends RootTableManager<
     (ReviewScheduleData, $$ReviewScheduleTableReferences),
     ReviewScheduleData,
     PrefetchHooks Function({bool wordId})> {
-  $$ReviewScheduleTableTableManager(
-      _$AppDatabase db, $ReviewScheduleTable table)
+  $$ReviewScheduleTableTableManager(_$AppDatabase db, $ReviewScheduleTable table)
       : super(TableManagerState(
           db: db,
           table: table,
@@ -8187,36 +7397,21 @@ class $$ReviewScheduleTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$ReviewScheduleTableReferences(db, table, e)
-                  ))
+              .map((e) => (e.readTable(table), $$ReviewScheduleTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({wordId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
               addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
+                  T extends TableManagerState<dynamic, dynamic, dynamic, dynamic, dynamic, dynamic,
+                      dynamic, dynamic, dynamic, dynamic, dynamic>>(state) {
                 if (wordId) {
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.wordId,
-                    referencedTable:
-                        $$ReviewScheduleTableReferences._wordIdTable(db),
-                    referencedColumn:
-                        $$ReviewScheduleTableReferences._wordIdTable(db).id,
+                    referencedTable: $$ReviewScheduleTableReferences._wordIdTable(db),
+                    referencedColumn: $$ReviewScheduleTableReferences._wordIdTable(db).id,
                   ) as T;
                 }
 
@@ -8242,16 +7437,14 @@ typedef $$ReviewScheduleTableProcessedTableManager = ProcessedTableManager<
     (ReviewScheduleData, $$ReviewScheduleTableReferences),
     ReviewScheduleData,
     PrefetchHooks Function({bool wordId})>;
-typedef $$WeaknessProfileTableCreateCompanionBuilder = WeaknessProfileCompanion
-    Function({
+typedef $$WeaknessProfileTableCreateCompanionBuilder = WeaknessProfileCompanion Function({
   Value<int> id,
   required String wordId,
   Value<String> weakType,
   Value<String> context_,
   Value<DateTime> detectedAt,
 });
-typedef $$WeaknessProfileTableUpdateCompanionBuilder = WeaknessProfileCompanion
-    Function({
+typedef $$WeaknessProfileTableUpdateCompanionBuilder = WeaknessProfileCompanion Function({
   Value<int> id,
   Value<String> wordId,
   Value<String> weakType,
@@ -8259,14 +7452,12 @@ typedef $$WeaknessProfileTableUpdateCompanionBuilder = WeaknessProfileCompanion
   Value<DateTime> detectedAt,
 });
 
-final class $$WeaknessProfileTableReferences extends BaseReferences<
-    _$AppDatabase, $WeaknessProfileTable, WeaknessProfileData> {
-  $$WeaknessProfileTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
+final class $$WeaknessProfileTableReferences
+    extends BaseReferences<_$AppDatabase, $WeaknessProfileTable, WeaknessProfileData> {
+  $$WeaknessProfileTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static $VocabularyTable _wordIdTable(_$AppDatabase db) =>
-      db.vocabulary.createAlias(
-          $_aliasNameGenerator(db.weaknessProfile.wordId, db.vocabulary.id));
+      db.vocabulary.createAlias($_aliasNameGenerator(db.weaknessProfile.wordId, db.vocabulary.id));
 
   $$VocabularyTableProcessedTableManager get wordId {
     final $_column = $_itemColumn<String>('word_id')!;
@@ -8275,13 +7466,11 @@ final class $$WeaknessProfileTableReferences extends BaseReferences<
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_wordIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
   }
 }
 
-class $$WeaknessProfileTableFilterComposer
-    extends Composer<_$AppDatabase, $WeaknessProfileTable> {
+class $$WeaknessProfileTableFilterComposer extends Composer<_$AppDatabase, $WeaknessProfileTable> {
   $$WeaknessProfileTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -8289,17 +7478,17 @@ class $$WeaknessProfileTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get weakType => $composableBuilder(
-      column: $table.weakType, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get weakType =>
+      $composableBuilder(column: $table.weakType, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get context_ => $composableBuilder(
-      column: $table.context_, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get context_ =>
+      $composableBuilder(column: $table.context_, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get detectedAt => $composableBuilder(
-      column: $table.detectedAt, builder: (column) => ColumnFilters(column));
+  ColumnFilters<DateTime> get detectedAt =>
+      $composableBuilder(column: $table.detectedAt, builder: (column) => ColumnFilters(column));
 
   $$VocabularyTableFilterComposer get wordId {
     final $$VocabularyTableFilterComposer composer = $composerBuilder(
@@ -8308,15 +7497,13 @@ class $$WeaknessProfileTableFilterComposer
         referencedTable: $db.vocabulary,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$VocabularyTableFilterComposer(
               $db: $db,
               $table: $db.vocabulary,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -8331,17 +7518,17 @@ class $$WeaknessProfileTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get weakType => $composableBuilder(
-      column: $table.weakType, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get weakType =>
+      $composableBuilder(column: $table.weakType, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get context_ => $composableBuilder(
-      column: $table.context_, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get context_ =>
+      $composableBuilder(column: $table.context_, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<DateTime> get detectedAt => $composableBuilder(
-      column: $table.detectedAt, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<DateTime> get detectedAt =>
+      $composableBuilder(column: $table.detectedAt, builder: (column) => ColumnOrderings(column));
 
   $$VocabularyTableOrderingComposer get wordId {
     final $$VocabularyTableOrderingComposer composer = $composerBuilder(
@@ -8350,15 +7537,13 @@ class $$WeaknessProfileTableOrderingComposer
         referencedTable: $db.vocabulary,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$VocabularyTableOrderingComposer(
               $db: $db,
               $table: $db.vocabulary,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -8373,8 +7558,7 @@ class $$WeaknessProfileTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
+  GeneratedColumn<int> get id => $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get weakType =>
       $composableBuilder(column: $table.weakType, builder: (column) => column);
@@ -8382,8 +7566,8 @@ class $$WeaknessProfileTableAnnotationComposer
   GeneratedColumn<String> get context_ =>
       $composableBuilder(column: $table.context_, builder: (column) => column);
 
-  GeneratedColumn<DateTime> get detectedAt => $composableBuilder(
-      column: $table.detectedAt, builder: (column) => column);
+  GeneratedColumn<DateTime> get detectedAt =>
+      $composableBuilder(column: $table.detectedAt, builder: (column) => column);
 
   $$VocabularyTableAnnotationComposer get wordId {
     final $$VocabularyTableAnnotationComposer composer = $composerBuilder(
@@ -8392,15 +7576,13 @@ class $$WeaknessProfileTableAnnotationComposer
         referencedTable: $db.vocabulary,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
+                {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
             $$VocabularyTableAnnotationComposer(
               $db: $db,
               $table: $db.vocabulary,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
+              $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
             ));
     return composer;
   }
@@ -8418,8 +7600,7 @@ class $$WeaknessProfileTableTableManager extends RootTableManager<
     (WeaknessProfileData, $$WeaknessProfileTableReferences),
     WeaknessProfileData,
     PrefetchHooks Function({bool wordId})> {
-  $$WeaknessProfileTableTableManager(
-      _$AppDatabase db, $WeaknessProfileTable table)
+  $$WeaknessProfileTableTableManager(_$AppDatabase db, $WeaknessProfileTable table)
       : super(TableManagerState(
           db: db,
           table: table,
@@ -8458,36 +7639,21 @@ class $$WeaknessProfileTableTableManager extends RootTableManager<
             detectedAt: detectedAt,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$WeaknessProfileTableReferences(db, table, e)
-                  ))
+              .map((e) => (e.readTable(table), $$WeaknessProfileTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({wordId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
               addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
+                  T extends TableManagerState<dynamic, dynamic, dynamic, dynamic, dynamic, dynamic,
+                      dynamic, dynamic, dynamic, dynamic, dynamic>>(state) {
                 if (wordId) {
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.wordId,
-                    referencedTable:
-                        $$WeaknessProfileTableReferences._wordIdTable(db),
-                    referencedColumn:
-                        $$WeaknessProfileTableReferences._wordIdTable(db).id,
+                    referencedTable: $$WeaknessProfileTableReferences._wordIdTable(db),
+                    referencedColumn: $$WeaknessProfileTableReferences._wordIdTable(db).id,
                   ) as T;
                 }
 
@@ -8513,8 +7679,7 @@ typedef $$WeaknessProfileTableProcessedTableManager = ProcessedTableManager<
     (WeaknessProfileData, $$WeaknessProfileTableReferences),
     WeaknessProfileData,
     PrefetchHooks Function({bool wordId})>;
-typedef $$LearningPatternsTableCreateCompanionBuilder
-    = LearningPatternsCompanion Function({
+typedef $$LearningPatternsTableCreateCompanionBuilder = LearningPatternsCompanion Function({
   required String id,
   Value<String> estimatedLevel,
   Value<String> levelBasis,
@@ -8524,8 +7689,7 @@ typedef $$LearningPatternsTableCreateCompanionBuilder
   Value<DateTime> updatedAt,
   Value<int> rowid,
 });
-typedef $$LearningPatternsTableUpdateCompanionBuilder
-    = LearningPatternsCompanion Function({
+typedef $$LearningPatternsTableUpdateCompanionBuilder = LearningPatternsCompanion Function({
   Value<String> id,
   Value<String> estimatedLevel,
   Value<String> levelBasis,
@@ -8545,28 +7709,26 @@ class $$LearningPatternsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get estimatedLevel => $composableBuilder(
-      column: $table.estimatedLevel,
-      builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get estimatedLevel =>
+      $composableBuilder(column: $table.estimatedLevel, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get levelBasis => $composableBuilder(
-      column: $table.levelBasis, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get levelBasis =>
+      $composableBuilder(column: $table.levelBasis, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get activeHours => $composableBuilder(
-      column: $table.activeHours, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get activeHours =>
+      $composableBuilder(column: $table.activeHours, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get avgSessionMin => $composableBuilder(
-      column: $table.avgSessionMin, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get avgSessionMin =>
+      $composableBuilder(column: $table.avgSessionMin, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get preferredTopics => $composableBuilder(
-      column: $table.preferredTopics,
-      builder: (column) => ColumnFilters(column));
+      column: $table.preferredTopics, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+  ColumnFilters<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => ColumnFilters(column));
 }
 
 class $$LearningPatternsTableOrderingComposer
@@ -8578,29 +7740,26 @@ class $$LearningPatternsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get estimatedLevel => $composableBuilder(
-      column: $table.estimatedLevel,
-      builder: (column) => ColumnOrderings(column));
+      column: $table.estimatedLevel, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get levelBasis => $composableBuilder(
-      column: $table.levelBasis, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get levelBasis =>
+      $composableBuilder(column: $table.levelBasis, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get activeHours => $composableBuilder(
-      column: $table.activeHours, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get activeHours =>
+      $composableBuilder(column: $table.activeHours, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get avgSessionMin => $composableBuilder(
-      column: $table.avgSessionMin,
-      builder: (column) => ColumnOrderings(column));
+      column: $table.avgSessionMin, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get preferredTopics => $composableBuilder(
-      column: $table.preferredTopics,
-      builder: (column) => ColumnOrderings(column));
+      column: $table.preferredTopics, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
 }
 
 class $$LearningPatternsTableAnnotationComposer
@@ -8615,20 +7774,20 @@ class $$LearningPatternsTableAnnotationComposer
   GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<String> get estimatedLevel => $composableBuilder(
-      column: $table.estimatedLevel, builder: (column) => column);
+  GeneratedColumn<String> get estimatedLevel =>
+      $composableBuilder(column: $table.estimatedLevel, builder: (column) => column);
 
-  GeneratedColumn<String> get levelBasis => $composableBuilder(
-      column: $table.levelBasis, builder: (column) => column);
+  GeneratedColumn<String> get levelBasis =>
+      $composableBuilder(column: $table.levelBasis, builder: (column) => column);
 
-  GeneratedColumn<String> get activeHours => $composableBuilder(
-      column: $table.activeHours, builder: (column) => column);
+  GeneratedColumn<String> get activeHours =>
+      $composableBuilder(column: $table.activeHours, builder: (column) => column);
 
-  GeneratedColumn<int> get avgSessionMin => $composableBuilder(
-      column: $table.avgSessionMin, builder: (column) => column);
+  GeneratedColumn<int> get avgSessionMin =>
+      $composableBuilder(column: $table.avgSessionMin, builder: (column) => column);
 
-  GeneratedColumn<String> get preferredTopics => $composableBuilder(
-      column: $table.preferredTopics, builder: (column) => column);
+  GeneratedColumn<String> get preferredTopics =>
+      $composableBuilder(column: $table.preferredTopics, builder: (column) => column);
 
   GeneratedColumn<DateTime> get updatedAt =>
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
@@ -8643,14 +7802,10 @@ class $$LearningPatternsTableTableManager extends RootTableManager<
     $$LearningPatternsTableAnnotationComposer,
     $$LearningPatternsTableCreateCompanionBuilder,
     $$LearningPatternsTableUpdateCompanionBuilder,
-    (
-      LearningPattern,
-      BaseReferences<_$AppDatabase, $LearningPatternsTable, LearningPattern>
-    ),
+    (LearningPattern, BaseReferences<_$AppDatabase, $LearningPatternsTable, LearningPattern>),
     LearningPattern,
     PrefetchHooks Function()> {
-  $$LearningPatternsTableTableManager(
-      _$AppDatabase db, $LearningPatternsTable table)
+  $$LearningPatternsTableTableManager(_$AppDatabase db, $LearningPatternsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
@@ -8700,9 +7855,8 @@ class $$LearningPatternsTableTableManager extends RootTableManager<
             updatedAt: updatedAt,
             rowid: rowid,
           ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
+          withReferenceMapper: (p0) =>
+              p0.map((e) => (e.readTable(table), BaseReferences(db, table, e))).toList(),
           prefetchHooksCallback: null,
         ));
 }
@@ -8716,10 +7870,7 @@ typedef $$LearningPatternsTableProcessedTableManager = ProcessedTableManager<
     $$LearningPatternsTableAnnotationComposer,
     $$LearningPatternsTableCreateCompanionBuilder,
     $$LearningPatternsTableUpdateCompanionBuilder,
-    (
-      LearningPattern,
-      BaseReferences<_$AppDatabase, $LearningPatternsTable, LearningPattern>
-    ),
+    (LearningPattern, BaseReferences<_$AppDatabase, $LearningPatternsTable, LearningPattern>),
     LearningPattern,
     PrefetchHooks Function()>;
 
@@ -8728,12 +7879,10 @@ class $AppDatabaseManager {
   $AppDatabaseManager(this._db);
   $$AudioItemsTableTableManager get audioItems =>
       $$AudioItemsTableTableManager(_db, _db.audioItems);
-  $$ChaptersTableTableManager get chapters =>
-      $$ChaptersTableTableManager(_db, _db.chapters);
+  $$ChaptersTableTableManager get chapters => $$ChaptersTableTableManager(_db, _db.chapters);
   $$TranscriptsTableTableManager get transcripts =>
       $$TranscriptsTableTableManager(_db, _db.transcripts);
-  $$WordsTableTableManager get words =>
-      $$WordsTableTableManager(_db, _db.words);
+  $$WordsTableTableManager get words => $$WordsTableTableManager(_db, _db.words);
   $$VocabularyTableTableManager get vocabulary =>
       $$VocabularyTableTableManager(_db, _db.vocabulary);
   $$PlaybackStateTableTableManager get playbackState =>

@@ -10,8 +10,7 @@ final isLoggedInProvider = FutureProvider<bool>((ref) async {
   return authService.isLoggedIn();
 });
 
-final authStateProvider =
-    StateNotifierProvider<AuthStateNotifier, AuthState>((ref) {
+final authStateProvider = StateNotifierProvider<AuthStateNotifier, AuthState>((ref) {
   return AuthStateNotifier(ref.read(authServiceProvider));
 });
 

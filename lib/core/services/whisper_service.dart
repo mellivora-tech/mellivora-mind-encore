@@ -49,9 +49,8 @@ class WhisperService {
       }
 
       // 2. Get audio item
-      final item = await (_db.select(_db.audioItems)
-            ..where((t) => t.id.equals(audioId)))
-          .getSingleOrNull();
+      final item =
+          await (_db.select(_db.audioItems)..where((t) => t.id.equals(audioId))).getSingleOrNull();
       if (item == null) return false;
 
       // 3. Update status
@@ -117,8 +116,7 @@ class WhisperService {
     required int offsetMs,
   }) async {
     final formData = FormData.fromMap({
-      'file': await MultipartFile.fromFile(file.path,
-          filename: file.path.split('/').last),
+      'file': await MultipartFile.fromFile(file.path, filename: file.path.split('/').last),
       'model': 'whisper-1',
       'response_format': 'verbose_json',
       'timestamp_granularities[]': ['word', 'segment'],
@@ -161,8 +159,8 @@ class WhisperService {
 
       // Write chunk to temp file
       final tempDir = Directory.systemTemp;
-      final chunkFile = File(
-          '${tempDir.path}/whisper_chunk_${audioId}_$i${_fileExtension(file.path)}');
+      final chunkFile =
+          File('${tempDir.path}/whisper_chunk_${audioId}_$i${_fileExtension(file.path)}');
       await chunkFile.writeAsBytes(chunkBytes);
 
       try {
@@ -215,9 +213,7 @@ class WhisperService {
           ..orderBy([(t) => OrderingTerm.desc(t.segmentIndex)])
           ..limit(1))
         .getSingleOrNull();
-    int segmentOffset = existingTranscripts != null
-        ? existingTranscripts.segmentIndex + 1
-        : 0;
+    int segmentOffset = existingTranscripts != null ? existingTranscripts.segmentIndex + 1 : 0;
 
     // Map of segment index → transcript ID for word linking
     final segmentTranscriptIds = <int, String>{};
@@ -247,19 +243,15 @@ class WhisperService {
     // Write words — link each word to the nearest segment by time
     for (final w in words) {
       final word = w as Map<String, dynamic>;
-      final wordStartMs =
-          ((word['start'] as num).toDouble() * 1000).round() + offsetMs;
-      final wordEndMs =
-          ((word['end'] as num).toDouble() * 1000).round() + offsetMs;
+      final wordStartMs = ((word['start'] as num).toDouble() * 1000).round() + offsetMs;
+      final wordEndMs = ((word['end'] as num).toDouble() * 1000).round() + offsetMs;
 
       // Find the transcript this word belongs to (by time overlap)
       String? transcriptId;
       for (int i = 0; i < segments.length; i++) {
         final seg = segments[i] as Map<String, dynamic>;
-        final segStart =
-            ((seg['start'] as num).toDouble() * 1000).round() + offsetMs;
-        final segEnd =
-            ((seg['end'] as num).toDouble() * 1000).round() + offsetMs;
+        final segStart = ((seg['start'] as num).toDouble() * 1000).round() + offsetMs;
+        final segEnd = ((seg['end'] as num).toDouble() * 1000).round() + offsetMs;
         if (wordStartMs >= segStart && wordStartMs <= segEnd) {
           transcriptId = segmentTranscriptIds[seg['id'] as int? ?? i];
           break;
@@ -282,8 +274,7 @@ class WhisperService {
   }
 
   Future<void> _setStatus(String audioId, String status) async {
-    await (_db.update(_db.audioItems)
-          ..where((t) => t.id.equals(audioId)))
+    await (_db.update(_db.audioItems)..where((t) => t.id.equals(audioId)))
         .write(AudioItemsCompanion(
       transcriptionStatus: Value(status),
     ));

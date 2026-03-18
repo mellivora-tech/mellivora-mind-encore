@@ -71,8 +71,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
     // Load push settings
     final prefs = await SharedPreferences.getInstance();
-    _practiceReminderEnabled =
-        prefs.getBool('agent_practice_push_enabled') ?? true;
+    _practiceReminderEnabled = prefs.getBool('agent_practice_push_enabled') ?? true;
     _practiceReminderTime = TimeOfDay(
       hour: prefs.getInt('agent_practice_push_hour') ?? 8,
       minute: prefs.getInt('agent_practice_push_minute') ?? 0,
@@ -195,8 +194,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       await db.delete(db.words).go();
       // Reset transcription status so user can re-trigger
       await db.update(db.audioItems).write(
-            const AudioItemsCompanion(
-                transcriptionStatus: Value('pending')),
+            const AudioItemsCompanion(transcriptionStatus: Value('pending')),
           );
       _calculateStorageSize();
       if (mounted) {
@@ -326,8 +324,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               if (provider != null) ...[
                                 const SizedBox(width: 8),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 6, vertical: 1),
+                                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                                   decoration: BoxDecoration(
                                     color: _kAccent.withOpacity(0.12),
                                     borderRadius: BorderRadius.circular(4),
@@ -379,16 +376,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       borderRadius: BorderRadius.circular(8),
                       borderSide: BorderSide.none,
                     ),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _apiKeyObscured ? Icons.visibility_off : Icons.visibility,
                         color: _kText40,
                         size: 20,
                       ),
-                      onPressed: () =>
-                          setState(() => _apiKeyObscured = !_apiKeyObscured),
+                      onPressed: () => setState(() => _apiKeyObscured = !_apiKeyObscured),
                     ),
                   ),
                 ),
@@ -445,8 +440,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             child: Column(
               children: [
                 SwitchListTile(
-                  title: const Text('专项练习提醒',
-                      style: TextStyle(color: _kTextPrimary, fontSize: 15)),
+                  title: const Text('专项练习提醒', style: TextStyle(color: _kTextPrimary, fontSize: 15)),
                   subtitle: Text(
                     '每天 ${_practiceReminderTime.format(context)} 检查高频查词',
                     style: const TextStyle(color: _kText40, fontSize: 12),
@@ -460,8 +454,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 ),
                 if (_practiceReminderEnabled)
                   ListTile(
-                    title: const Text('提醒时间',
-                        style: TextStyle(color: _kText70, fontSize: 14)),
+                    title: const Text('提醒时间', style: TextStyle(color: _kText70, fontSize: 14)),
                     trailing: Text(
                       _practiceReminderTime.format(context),
                       style: const TextStyle(color: _kAccent, fontSize: 14),
@@ -470,8 +463,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   ),
                 const Divider(height: 1, color: _kText20, indent: 16, endIndent: 16),
                 SwitchListTile(
-                  title: const Text('学习周报',
-                      style: TextStyle(color: _kTextPrimary, fontSize: 15)),
+                  title: const Text('学习周报', style: TextStyle(color: _kTextPrimary, fontSize: 15)),
                   subtitle: const Text(
                     '每周日 20:00 推送本周学习数据',
                     style: TextStyle(color: _kText40, fontSize: 12),
@@ -485,8 +477,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.bar_chart, color: _kText40, size: 20),
-                  title: const Text('查看本周报告',
-                      style: TextStyle(color: _kText70, fontSize: 14)),
+                  title: const Text('查看本周报告', style: TextStyle(color: _kText70, fontSize: 14)),
                   trailing: const Icon(Icons.chevron_right, color: _kText40, size: 20),
                   onTap: () {
                     Navigator.of(context).push(
@@ -510,8 +501,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             child: Column(
               children: [
                 ListTile(
-                  title: const Text('App 数据大小',
-                      style: TextStyle(color: _kTextPrimary, fontSize: 15)),
+                  title:
+                      const Text('App 数据大小', style: TextStyle(color: _kTextPrimary, fontSize: 15)),
                   trailing: Text(
                     _storageSizeText,
                     style: const TextStyle(color: _kText70, fontSize: 14),
@@ -519,8 +510,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 ),
                 const Divider(height: 1, color: _kText20, indent: 16, endIndent: 16),
                 ListTile(
-                  title: const Text('清除已转录缓存',
-                      style: TextStyle(color: _kTextPrimary, fontSize: 15)),
+                  title:
+                      const Text('清除已转录缓存', style: TextStyle(color: _kTextPrimary, fontSize: 15)),
                   subtitle: const Text(
                     '保留音频文件，清除字幕和词汇数据',
                     style: TextStyle(color: _kText40, fontSize: 12),
@@ -541,8 +532,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             ),
             child: ListTile(
               leading: const Icon(Icons.logout, color: _kRed, size: 20),
-              title: const Text('退出登录',
-                  style: TextStyle(color: _kRed, fontSize: 15)),
+              title: const Text('退出登录', style: TextStyle(color: _kRed, fontSize: 15)),
               onTap: _confirmSignOut,
             ),
           ),

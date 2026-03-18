@@ -37,10 +37,10 @@ target 'Runner' do
   end
 end
 
-target 'ShareExtension' do
-  use_frameworks!
-  use_modular_headers!
-end
+# target 'ShareExtension' do
+#   use_frameworks!
+#   use_modular_headers!
+# end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

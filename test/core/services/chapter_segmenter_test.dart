@@ -216,7 +216,7 @@ void main() {
 
     test('custom parameters are respected', () {
       final customSegmenter = ChapterSegmenter(
-        pauseThresholdMs: 500,  // lower threshold
+        pauseThresholdMs: 500, // lower threshold
         targetMinMinutes: 1.0,
         targetMaxMinutes: 2.0,
         hardMaxMinutes: 3.0,
@@ -282,9 +282,8 @@ List<WhisperSegment> _generateSegments({
   for (int i = 0; i < count; i++) {
     final start = currentMs + gapMs;
     final end = start + durationMs;
-    final text = addSentenceEnd
-        ? 'Segment number $i content here.'
-        : 'Segment number $i content here';
+    final text =
+        addSentenceEnd ? 'Segment number $i content here.' : 'Segment number $i content here';
     segments.add(WhisperSegment(
       index: i,
       text: text,

@@ -76,8 +76,7 @@ class AgentChatNotifier extends StateNotifier<AgentChatState> {
   final OpenAIService _openai;
   static const _uuid = Uuid();
 
-  AgentChatNotifier(this._ref, this._db, this._openai)
-      : super(const AgentChatState());
+  AgentChatNotifier(this._ref, this._db, this._openai) : super(const AgentChatState());
 
   /// Start a new chat session with a given mode.
   void startSession(AgentMode mode, {String? initialWord}) {
@@ -223,8 +222,7 @@ class AgentChatNotifier extends StateNotifier<AgentChatState> {
       }
 
       // Finalize assistant message
-      final assistantMsg =
-          ChatMessage(role: 'assistant', content: buffer.toString());
+      final assistantMsg = ChatMessage(role: 'assistant', content: buffer.toString());
       state = state.copyWith(
         messages: [...messages, assistantMsg],
         isStreaming: false,
@@ -261,18 +259,17 @@ class AgentChatNotifier extends StateNotifier<AgentChatState> {
 
     try {
       final ctx = _ref.read(agentContextProvider);
-      final messagesJson =
-          jsonEncode(state.messages.map((m) => m.toJson()).toList());
+      final messagesJson = jsonEncode(state.messages.map((m) => m.toJson()).toList());
 
       await _db.into(_db.agentSessions).insertOnConflictUpdate(
-        AgentSessionsCompanion(
-          id: Value(sessionId),
-          trigger: Value(ctx.trigger.name),
-          audioId: Value(ctx.audioTitle),
-          chapterId: Value(ctx.chapterTitle),
-          messagesJson: Value(messagesJson),
-        ),
-      );
+            AgentSessionsCompanion(
+              id: Value(sessionId),
+              trigger: Value(ctx.trigger.name),
+              audioId: Value(ctx.audioTitle),
+              chapterId: Value(ctx.chapterTitle),
+              messagesJson: Value(messagesJson),
+            ),
+          );
     } catch (e) {
       debugPrint('Failed to save agent session: $e');
     }
@@ -284,8 +281,7 @@ class AgentChatNotifier extends StateNotifier<AgentChatState> {
   }
 }
 
-final agentChatProvider =
-    StateNotifierProvider<AgentChatNotifier, AgentChatState>((ref) {
+final agentChatProvider = StateNotifierProvider<AgentChatNotifier, AgentChatState>((ref) {
   final db = ref.read(databaseProvider);
   final openai = ref.read(openAIServiceProvider);
   return AgentChatNotifier(ref, db, openai);

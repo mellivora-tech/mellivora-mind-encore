@@ -17,8 +17,7 @@ class ChapterDraft {
   int get durationMs => endMs - startMs;
 
   @override
-  String toString() =>
-      'ChapterDraft(${startMs}ms-${endMs}ms, ${segmentIndexes.length} segs, '
+  String toString() => 'ChapterDraft(${startMs}ms-${endMs}ms, ${segmentIndexes.length} segs, '
       '${(durationMs / 1000 / 60).toStringAsFixed(1)}min)';
 }
 
@@ -152,7 +151,8 @@ class ChapterSegmenter {
     }
 
     // Handle any remaining segments not yet added
-    if (chapterStart < segments.length && (chapters.isEmpty || chapters.last.segmentIndexes.last != segments.last.index)) {
+    if (chapterStart < segments.length &&
+        (chapters.isEmpty || chapters.last.segmentIndexes.last != segments.last.index)) {
       chapters.add(_createChapter(segments, chapterStart, segments.length - 1));
     }
 

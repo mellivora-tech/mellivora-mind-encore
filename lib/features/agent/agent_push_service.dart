@@ -19,8 +19,7 @@ class AgentPushService {
   static const _kPracticeMinuteKey = 'agent_practice_push_minute';
   static const _kNotificationId = 9001;
 
-  final FlutterLocalNotificationsPlugin _plugin =
-      FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _plugin = FlutterLocalNotificationsPlugin();
 
   bool _tzInitialized = false;
 
@@ -85,8 +84,7 @@ class AgentPushService {
 
     final rows = await (db.select(db.wordMemory)
           ..where((t) =>
-              t.queryCount.isBiggerOrEqualValue(3) &
-              t.lastQueriedAt.isBiggerOrEqualValue(weekAgo)))
+              t.queryCount.isBiggerOrEqualValue(3) & t.lastQueriedAt.isBiggerOrEqualValue(weekAgo)))
         .get();
 
     if (rows.isEmpty) return;

@@ -111,8 +111,7 @@ class SessionMemoryChecker {
 
   Future<void> recordInteraction() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(
-        'last_agent_interaction_ms', DateTime.now().millisecondsSinceEpoch);
+    await prefs.setInt('last_agent_interaction_ms', DateTime.now().millisecondsSinceEpoch);
   }
 }
 
@@ -128,12 +127,10 @@ class SessionMemoryCardWidget extends ConsumerStatefulWidget {
   const SessionMemoryCardWidget({super.key});
 
   @override
-  ConsumerState<SessionMemoryCardWidget> createState() =>
-      _SessionMemoryCardWidgetState();
+  ConsumerState<SessionMemoryCardWidget> createState() => _SessionMemoryCardWidgetState();
 }
 
-class _SessionMemoryCardWidgetState
-    extends ConsumerState<SessionMemoryCardWidget> {
+class _SessionMemoryCardWidgetState extends ConsumerState<SessionMemoryCardWidget> {
   MemoryCardInfo? _cardInfo;
   bool _visible = true;
 
@@ -161,19 +158,15 @@ class _SessionMemoryCardWidgetState
     switch (_cardInfo!.type) {
       case MemoryCardType.weakWords:
         ref.read(agentChatProvider.notifier).startSession(AgentMode.quiz);
-        ref
-            .read(agentContextProvider.notifier)
-            .setTrigger(AgentTrigger.sessionOpen);
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const AgentChatPage()));
+        ref.read(agentContextProvider.notifier).setTrigger(AgentTrigger.sessionOpen);
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => const AgentChatPage()));
         break;
       case MemoryCardType.continueAudio:
         // Navigate to player — handled by parent
         break;
       case MemoryCardType.review:
         ref.read(agentChatProvider.notifier).startSession(AgentMode.quiz);
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const AgentChatPage()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => const AgentChatPage()));
         break;
       case MemoryCardType.none:
         break;
@@ -236,8 +229,7 @@ class _SessionMemoryCardWidgetState
               GestureDetector(
                 onTap: _onAccept,
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
                     color: _kAccent,
                     borderRadius: BorderRadius.circular(10),
@@ -256,8 +248,7 @@ class _SessionMemoryCardWidgetState
               GestureDetector(
                 onTap: _onDismiss,
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
                     border: Border.all(color: _kText20, width: 1),
                     borderRadius: BorderRadius.circular(10),

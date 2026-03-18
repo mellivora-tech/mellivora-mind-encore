@@ -19,8 +19,7 @@ class WeaknessService {
       final weakWords = await (_db.select(_db.wordMemory)
             ..where((t) =>
                 t.weakFlag.equals(true) |
-                (t.queryCount.isBiggerOrEqualValue(3) &
-                    t.masteryLevel.isSmallerThanValue(2.0))))
+                (t.queryCount.isBiggerOrEqualValue(3) & t.masteryLevel.isSmallerThanValue(2.0))))
           .get();
 
       // Write to weakness_profile
@@ -32,10 +31,10 @@ class WeaknessService {
 
         if (existing == null) {
           await _db.into(_db.weaknessProfile).insert(
-            WeaknessProfileCompanion.insert(
-              wordId: wm.wordId,
-            ),
-          );
+                WeaknessProfileCompanion.insert(
+                  wordId: wm.wordId,
+                ),
+              );
         }
       }
     } catch (e) {
@@ -58,12 +57,9 @@ class WeaknessService {
     final allMemory = await _db.select(_db.wordMemory).get();
     if (allMemory.isEmpty) return;
 
-    final totalAttempts =
-        allMemory.fold<int>(0, (sum, m) => sum + m.quizAttempts);
-    final totalCorrect =
-        allMemory.fold<int>(0, (sum, m) => sum + m.quizCorrect);
-    final correctRate =
-        totalAttempts > 0 ? totalCorrect / totalAttempts : 0.0;
+    final totalAttempts = allMemory.fold<int>(0, (sum, m) => sum + m.quizAttempts);
+    final totalCorrect = allMemory.fold<int>(0, (sum, m) => sum + m.quizCorrect);
+    final correctRate = totalAttempts > 0 ? totalCorrect / totalAttempts : 0.0;
 
     // Simple level estimation
     String level;
@@ -84,34 +80,31 @@ class WeaknessService {
 
     // Upsert learning_patterns
     await _db.into(_db.learningPatterns).insertOnConflictUpdate(
-      LearningPatternsCompanion(
-        id: const Value('default'),
-        estimatedLevel: Value(level),
-        levelBasis: Value(basis),
-        updatedAt: Value(DateTime.now()),
-      ),
-    );
+          LearningPatternsCompanion(
+            id: const Value('default'),
+            estimatedLevel: Value(level),
+            levelBasis: Value(basis),
+            updatedAt: Value(DateTime.now()),
+          ),
+        );
   }
 
   /// Get current estimated level.
   Future<String> getEstimatedLevel() async {
-    final row = await (_db.select(_db.learningPatterns)
-          ..where((t) => t.id.equals('default')))
+    final row = await (_db.select(_db.learningPatterns)..where((t) => t.id.equals('default')))
         .getSingleOrNull();
     return row?.estimatedLevel ?? 'B1';
   }
 
   /// Get level basis description.
   Future<String> getLevelBasis() async {
-    final row = await (_db.select(_db.learningPatterns)
-          ..where((t) => t.id.equals('default')))
+    final row = await (_db.select(_db.learningPatterns)..where((t) => t.id.equals('default')))
         .getSingleOrNull();
     return row?.levelBasis ?? '';
   }
 
   /// #47: Get example sentences for a weak word from transcripts.
-  Future<List<String>> getWeakWordExamples(
-      String word, {int limit = 3}) async {
+  Future<List<String>> getWeakWordExamples(String word, {int limit = 3}) async {
     final transcripts = await (_db.select(_db.transcripts)
           ..where((t) => t.text_.like('%$word%'))
           ..orderBy([(t) => OrderingTerm.desc(t.startMs)])

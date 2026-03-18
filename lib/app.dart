@@ -21,8 +21,7 @@ class _EncoreAppState extends ConsumerState<EncoreApp> {
   void initState() {
     super.initState();
     // Poll for pending notification taps (checked every 500ms after startup)
-    _notificationCheckTimer =
-        Timer.periodic(const Duration(milliseconds: 500), (_) {
+    _notificationCheckTimer = Timer.periodic(const Duration(milliseconds: 500), (_) {
       _handlePendingNotification();
     });
   }

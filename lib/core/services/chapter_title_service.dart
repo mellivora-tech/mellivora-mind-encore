@@ -72,8 +72,7 @@ class ChapterTitleService {
         fallbackIndex: chapter.index + 1, // 1-based
       );
 
-      await (_db.update(_db.chapters)
-            ..where((t) => t.id.equals(chapter.id)))
+      await (_db.update(_db.chapters)..where((t) => t.id.equals(chapter.id)))
           .write(ChaptersCompanion(title: Value(title)));
     } finally {
       _releaseSemaphore();
@@ -138,10 +137,7 @@ class ChapterTitleService {
         final content = message?['content'] as String?;
         if (content != null && content.trim().isNotEmpty) {
           // Clean up: remove quotes, periods, extra whitespace
-          return content
-              .trim()
-              .replaceAll(RegExp('^[「『"\' ]+|[」』"\' 。.]+\$'), '')
-              .trim();
+          return content.trim().replaceAll(RegExp('^[「『"\' ]+|[」』"\' 。.]+\$'), '').trim();
         }
       }
 
@@ -220,13 +216,9 @@ Future<String> generateSingleTitle({
     final data = response.data as Map<String, dynamic>;
     final choices = data['choices'] as List<dynamic>?;
     if (choices != null && choices.isNotEmpty) {
-      final content =
-          (choices[0]['message'] as Map<String, dynamic>?)?['content'] as String?;
+      final content = (choices[0]['message'] as Map<String, dynamic>?)?['content'] as String?;
       if (content != null && content.trim().isNotEmpty) {
-        return content
-            .trim()
-            .replaceAll(RegExp('^[「『"\' ]+|[」』"\' 。.]+\$'), '')
-            .trim();
+        return content.trim().replaceAll(RegExp('^[「『"\' ]+|[」』"\' 。.]+\$'), '').trim();
       }
     }
     return '第 $fallbackIndex 章';

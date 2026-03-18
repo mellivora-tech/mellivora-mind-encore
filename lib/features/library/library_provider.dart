@@ -41,9 +41,7 @@ final heardChapterCountProvider = StreamProvider.family<int, String>((ref, audio
 /// Watch playback state for a specific audio item
 final playbackStateProvider = StreamProvider.family<PlaybackStateData?, String>((ref, audioId) {
   final db = ref.read(databaseProvider);
-  return (db.select(db.playbackState)
-        ..where((t) => t.audioId.equals(audioId)))
-      .watchSingleOrNull();
+  return (db.select(db.playbackState)..where((t) => t.audioId.equals(audioId))).watchSingleOrNull();
 });
 
 final libraryActionsProvider = Provider<LibraryActions>((ref) {

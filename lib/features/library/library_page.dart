@@ -85,8 +85,7 @@ class LibraryPage extends ConsumerWidget {
     );
   }
 
-  Future<void> _importFromFilePicker(
-      BuildContext context, WidgetRef ref) async {
+  Future<void> _importFromFilePicker(BuildContext context, WidgetRef ref) async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.audio,
       allowMultiple: false,
@@ -179,8 +178,7 @@ class LibraryPage extends ConsumerWidget {
     }
   }
 
-  void _showDeleteConfirmDialog(
-      BuildContext context, WidgetRef ref, AudioItem item) {
+  void _showDeleteConfirmDialog(BuildContext context, WidgetRef ref, AudioItem item) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -207,8 +205,7 @@ class LibraryPage extends ConsumerWidget {
     );
   }
 
-  Future<void> _performDelete(
-      BuildContext context, WidgetRef ref, String audioId) async {
+  Future<void> _performDelete(BuildContext context, WidgetRef ref, String audioId) async {
     try {
       final repo = ref.read(audioRepositoryProvider);
       await repo.deleteAudio(audioId);
@@ -274,8 +271,7 @@ class _EmptyState extends StatelessWidget {
             GestureDetector(
               onTap: onImport,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 decoration: BoxDecoration(
                   color: _kAccent,
                   borderRadius: BorderRadius.circular(24),
@@ -365,8 +361,7 @@ class _AudioItemTileState extends ConsumerState<_AudioItemTile>
     final chapterCount = chapterCountAsync.valueOrNull ?? 0;
     final heardCount = heardCountAsync.valueOrNull ?? 0;
     final isFullyHeard = chapterCount > 0 && heardCount >= chapterCount;
-    final progressFraction =
-        chapterCount > 0 ? heardCount / chapterCount : 0.0;
+    final progressFraction = chapterCount > 0 ? heardCount / chapterCount : 0.0;
 
     return SlideTransition(
       position: _slideAnimation,
@@ -448,8 +443,7 @@ class _AudioItemTileState extends ConsumerState<_AudioItemTile>
                     ),
                     const SizedBox(height: 4),
                     // Subtitle: transcription progress or chapter info
-                    if (progress != null &&
-                        progress.status == 'transcribing') ...[
+                    if (progress != null && progress.status == 'transcribing') ...[
                       Row(
                         children: [
                           Expanded(

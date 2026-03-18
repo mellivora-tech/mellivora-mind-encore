@@ -70,8 +70,7 @@ class _WordsPageState extends ConsumerState<WordsPage> {
                       ));
                     },
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: _kAccent,
                         borderRadius: BorderRadius.circular(14),
@@ -125,8 +124,7 @@ class _WordsPageState extends ConsumerState<WordsPage> {
                   decoration: const InputDecoration(
                     hintText: '搜索单词或释义...',
                     hintStyle: TextStyle(color: _kText40, fontSize: 14),
-                    prefixIcon:
-                        Icon(Icons.search, color: _kText40, size: 20),
+                    prefixIcon: Icon(Icons.search, color: _kText40, size: 20),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(vertical: 10),
                   ),
@@ -156,15 +154,12 @@ class _WordsPageState extends ConsumerState<WordsPage> {
             // Word list
             Expanded(
               child: vocabAsync.when(
-                data: (items) => items.isEmpty
-                    ? _buildEmptyState()
-                    : _buildWordList(items),
+                data: (items) => items.isEmpty ? _buildEmptyState() : _buildWordList(items),
                 loading: () => const Center(
                   child: CircularProgressIndicator(color: _kAccent),
                 ),
                 error: (e, _) => Center(
-                  child: Text('Error: $e',
-                      style: const TextStyle(color: _kRed)),
+                  child: Text('Error: $e', style: const TextStyle(color: _kRed)),
                 ),
               ),
             ),
@@ -174,8 +169,7 @@ class _WordsPageState extends ConsumerState<WordsPage> {
     );
   }
 
-  Widget _buildFilterTab(
-      String label, WordsFilter tab, WordsFilter current) {
+  Widget _buildFilterTab(String label, WordsFilter tab, WordsFilter current) {
     final isSelected = tab == current;
     return GestureDetector(
       onTap: () => ref.read(wordsFilterProvider.notifier).state = tab,
@@ -184,9 +178,7 @@ class _WordsPageState extends ConsumerState<WordsPage> {
         decoration: BoxDecoration(
           color: isSelected ? _kAccent : Colors.transparent,
           borderRadius: BorderRadius.circular(14),
-          border: isSelected
-              ? null
-              : Border.all(color: _kText13, width: 1),
+          border: isSelected ? null : Border.all(color: _kText13, width: 1),
         ),
         child: Text(
           label,
@@ -205,8 +197,7 @@ class _WordsPageState extends ConsumerState<WordsPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.bookmark_border_rounded,
-              color: _kText20, size: 56),
+          Icon(Icons.bookmark_border_rounded, color: _kText20, size: 56),
           const SizedBox(height: 16),
           const Text(
             '查词后收藏的词会出现在这里',
@@ -234,10 +225,8 @@ class _WordsPageState extends ConsumerState<WordsPage> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: _kBgLayer2,
-        title: const Text('删除词汇',
-            style: TextStyle(color: _kTextPrimary)),
-        content: Text('确定删除 "${vocab.word}"？',
-            style: const TextStyle(color: _kText70)),
+        title: const Text('删除词汇', style: TextStyle(color: _kTextPrimary)),
+        content: Text('确定删除 "${vocab.word}"？', style: const TextStyle(color: _kText70)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
@@ -275,9 +264,7 @@ class _WordsPageState extends ConsumerState<WordsPage> {
 
     // Seek after a short delay to let player load
     Future.delayed(const Duration(milliseconds: 500), () {
-      ref
-          .read(audioPlayerProvider.notifier)
-          .seekTo(Duration(milliseconds: vocab.sourceOffsetMs));
+      ref.read(audioPlayerProvider.notifier).seekTo(Duration(milliseconds: vocab.sourceOffsetMs));
     });
   }
 }
@@ -334,16 +321,14 @@ class _WordTile extends StatelessWidget {
                 const SizedBox(width: 8),
                 if (vocab.pos.isNotEmpty)
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                     decoration: BoxDecoration(
                       color: _kAccent.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(3),
                     ),
                     child: Text(
                       vocab.pos,
-                      style:
-                          const TextStyle(color: _kAccent, fontSize: 10),
+                      style: const TextStyle(color: _kAccent, fontSize: 10),
                     ),
                   ),
                 const Spacer(),
@@ -361,9 +346,8 @@ class _WordTile extends StatelessWidget {
                       ? vocab.definition
                       : '释义加载中',
               style: TextStyle(
-                color: vocab.meaning.isNotEmpty || vocab.definition.isNotEmpty
-                    ? _kText70
-                    : _kText40,
+                color:
+                    vocab.meaning.isNotEmpty || vocab.definition.isNotEmpty ? _kText70 : _kText40,
                 fontSize: 14,
               ),
             ),
@@ -373,17 +357,14 @@ class _WordTile extends StatelessWidget {
                 onTap: onTapSource,
                 child: Row(
                   children: [
-                    const Text('\u{1F4FB}',
-                        style: TextStyle(fontSize: 12)),
+                    const Text('\u{1F4FB}', style: TextStyle(fontSize: 12)),
                     const SizedBox(width: 4),
                     Text(
                       _formatOffset(vocab.sourceOffsetMs),
-                      style:
-                          const TextStyle(color: _kText40, fontSize: 12),
+                      style: const TextStyle(color: _kText40, fontSize: 12),
                     ),
                     const SizedBox(width: 2),
-                    const Icon(Icons.north_east,
-                        color: _kText40, size: 10),
+                    const Icon(Icons.north_east, color: _kText40, size: 10),
                   ],
                 ),
               ),

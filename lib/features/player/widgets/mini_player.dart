@@ -112,9 +112,7 @@ class MiniPlayer extends ConsumerWidget {
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
-                          playerState.isPlaying
-                              ? Icons.pause_rounded
-                              : Icons.play_arrow_rounded,
+                          playerState.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
                           color: _kTextPrimary,
                           size: 20,
                         ),

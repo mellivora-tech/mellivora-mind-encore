@@ -16,8 +16,7 @@ class WeeklyReportService {
   static const _kReportEnabledKey = 'weekly_report_push_enabled';
   static const _kNotificationId = 9002;
 
-  final FlutterLocalNotificationsPlugin _plugin =
-      FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _plugin = FlutterLocalNotificationsPlugin();
 
   bool _tzInitialized = false;
 

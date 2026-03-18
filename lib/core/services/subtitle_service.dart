@@ -55,14 +55,16 @@ class SubtitleService extends StateNotifier<SubtitleState> {
       return;
     }
 
-    final segments = rows.map((r) => TranscriptSegment(
-      id: r.id,
-      segmentIndex: r.segmentIndex,
-      text: r.text_,
-      startMs: r.startMs,
-      endMs: r.endMs,
-      offsetAdjust: r.offsetAdjust,
-    )).toList();
+    final segments = rows
+        .map((r) => TranscriptSegment(
+              id: r.id,
+              segmentIndex: r.segmentIndex,
+              text: r.text_,
+              startMs: r.startMs,
+              endMs: r.endMs,
+              offsetAdjust: r.offsetAdjust,
+            ))
+        .toList();
 
     state = state.copyWith(
       segments: segments,
@@ -101,8 +103,7 @@ class SubtitleService extends StateNotifier<SubtitleState> {
     // If no exact match, check the closest result
     if (result >= 0) {
       final seg = segments[result];
-      if (adjustedPos >= seg.effectiveStartMs &&
-          adjustedPos < seg.effectiveEndMs) {
+      if (adjustedPos >= seg.effectiveStartMs && adjustedPos < seg.effectiveEndMs) {
         return result;
       }
     }
@@ -205,8 +206,7 @@ class SubtitleState {
 }
 
 /// Riverpod provider for SubtitleService.
-final subtitleServiceProvider =
-    StateNotifierProvider<SubtitleService, SubtitleState>((ref) {
+final subtitleServiceProvider = StateNotifierProvider<SubtitleService, SubtitleState>((ref) {
   final db = ref.read(databaseProvider);
   final player = ref.read(audioPlayerProvider.notifier).player;
   return SubtitleService(db, player);
