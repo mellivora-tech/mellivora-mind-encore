@@ -123,37 +123,31 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
 
           // ── Mini Player (above Tab Bar) ──
           // #25: FadeTransition synced with overlay animation
-          // #26: AnimatedPadding adjusts with keyboard, curve Curves.easeOut
-          Positioned(
+          // #26: AnimatedPositioned moves with keyboard, 250ms easeOut
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeOut,
             left: 0,
             right: 0,
-            bottom: navBarTotal,
-            child: AnimatedPadding(
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeOut, // #26
-              padding: EdgeInsets.only(
-                bottom: hasKeyboard ? bottomInset : 0,
-              ),
-              child: FadeTransition(
-                opacity: _miniPlayerFade,
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
-                  height: miniBarHeight,
-                  child: miniPlayerVisible
-                      ? MiniPlayer(
-                          onTap: () {
-                            // #25: open player overlay
-                            ref
-                                .read(playerOverlayVisibleProvider.notifier)
-                                .state = true;
-                            // Also trigger directly for edge case (tap during reverse)
-                            setState(() => _showOverlay = true);
-                            _overlayController.animateTo(1.0,
-                                curve: _kEaseOutExpo);
-                          },
-                        )
-                      : const SizedBox.shrink(),
-                ),
+            bottom: navBarTotal + bottomInset,
+            child: FadeTransition(
+              opacity: _miniPlayerFade,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                height: miniBarHeight,
+                child: miniPlayerVisible
+                    ? MiniPlayer(
+                        onTap: () {
+                          // #25: open player overlay
+                          ref
+                              .read(playerOverlayVisibleProvider.notifier)
+                              .state = true;
+                          setState(() => _showOverlay = true);
+                          _overlayController.animateTo(1.0,
+                              curve: _kEaseOutExpo);
+                        },
+                      )
+                    : const SizedBox.shrink(),
               ),
             ),
           ),
