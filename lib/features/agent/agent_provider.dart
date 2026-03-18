@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
@@ -233,9 +234,10 @@ class AgentChatNotifier extends StateNotifier<AgentChatState> {
       // Save to DB
       _saveSession();
     } catch (e) {
+      debugPrint('Agent stream error: $e');
       final errorMsg = ChatMessage(
         role: 'assistant',
-        content: '抱歉，请求出错了。请检查网络和 API Key 配置。',
+        content: '网络异常，请重试。',
       );
       state = state.copyWith(
         messages: [...messages, errorMsg],
@@ -257,19 +259,23 @@ class AgentChatNotifier extends StateNotifier<AgentChatState> {
     final sessionId = state.sessionId;
     if (sessionId == null) return;
 
-    final ctx = _ref.read(agentContextProvider);
-    final messagesJson =
-        jsonEncode(state.messages.map((m) => m.toJson()).toList());
+    try {
+      final ctx = _ref.read(agentContextProvider);
+      final messagesJson =
+          jsonEncode(state.messages.map((m) => m.toJson()).toList());
 
-    await _db.into(_db.agentSessions).insertOnConflictUpdate(
-      AgentSessionsCompanion(
-        id: Value(sessionId),
-        trigger: Value(ctx.trigger.name),
-        audioId: Value(ctx.audioTitle),
-        chapterId: Value(ctx.chapterTitle),
-        messagesJson: Value(messagesJson),
-      ),
-    );
+      await _db.into(_db.agentSessions).insertOnConflictUpdate(
+        AgentSessionsCompanion(
+          id: Value(sessionId),
+          trigger: Value(ctx.trigger.name),
+          audioId: Value(ctx.audioTitle),
+          chapterId: Value(ctx.chapterTitle),
+          messagesJson: Value(messagesJson),
+        ),
+      );
+    } catch (e) {
+      debugPrint('Failed to save agent session: $e');
+    }
   }
 
   /// Clear current session.

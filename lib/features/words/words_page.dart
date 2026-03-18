@@ -353,13 +353,20 @@ class _WordTile extends StatelessWidget {
                 ),
               ],
             ),
-            if (vocab.meaning.isNotEmpty) ...[
-              const SizedBox(height: 4),
-              Text(
-                vocab.meaning,
-                style: const TextStyle(color: _kText70, fontSize: 14),
+            const SizedBox(height: 4),
+            Text(
+              vocab.meaning.isNotEmpty
+                  ? vocab.meaning
+                  : vocab.definition.isNotEmpty
+                      ? vocab.definition
+                      : '释义加载中',
+              style: TextStyle(
+                color: vocab.meaning.isNotEmpty || vocab.definition.isNotEmpty
+                    ? _kText70
+                    : _kText40,
+                fontSize: 14,
               ),
-            ],
+            ),
             if (vocab.sourceOffsetMs > 0) ...[
               const SizedBox(height: 8),
               GestureDetector(

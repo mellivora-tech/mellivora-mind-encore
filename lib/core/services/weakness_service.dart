@@ -14,34 +14,46 @@ class WeaknessService {
   /// Analyze weak words and write to weakness_profile table.
   /// Run in background via compute().
   Future<void> analyzeWeakness() async {
-    // Get weak words: weak_flag=true OR (query_count>=3 AND mastery<2)
-    final weakWords = await (_db.select(_db.wordMemory)
-          ..where((t) =>
-              t.weakFlag.equals(true) |
-              (t.queryCount.isBiggerOrEqualValue(3) &
-                  t.masteryLevel.isSmallerThanValue(2.0))))
-        .get();
+    try {
+      // Get weak words: weak_flag=true OR (query_count>=3 AND mastery<2)
+      final weakWords = await (_db.select(_db.wordMemory)
+            ..where((t) =>
+                t.weakFlag.equals(true) |
+                (t.queryCount.isBiggerOrEqualValue(3) &
+                    t.masteryLevel.isSmallerThanValue(2.0))))
+          .get();
 
-    // Write to weakness_profile
-    for (final wm in weakWords) {
-      // Check if already tracked
-      final existing = await (_db.select(_db.weaknessProfile)
-            ..where((t) => t.wordId.equals(wm.wordId)))
-          .getSingleOrNull();
+      // Write to weakness_profile
+      for (final wm in weakWords) {
+        // Check if already tracked
+        final existing = await (_db.select(_db.weaknessProfile)
+              ..where((t) => t.wordId.equals(wm.wordId)))
+            .getSingleOrNull();
 
-      if (existing == null) {
-        await _db.into(_db.weaknessProfile).insert(
-          WeaknessProfileCompanion.insert(
-            wordId: wm.wordId,
-          ),
-        );
+        if (existing == null) {
+          await _db.into(_db.weaknessProfile).insert(
+            WeaknessProfileCompanion.insert(
+              wordId: wm.wordId,
+            ),
+          );
+        }
       }
+    } catch (e) {
+      debugPrint('WeaknessService.analyzeWeakness failed: $e');
     }
   }
 
   /// Update estimated level in learning_patterns.
   /// Based on: average CEFR of queried words + quiz correct rate.
   Future<void> updateEstimatedLevel() async {
+    try {
+      await _updateEstimatedLevelInner();
+    } catch (e) {
+      debugPrint('WeaknessService.updateEstimatedLevel failed: $e');
+    }
+  }
+
+  Future<void> _updateEstimatedLevelInner() async {
     // Get quiz stats
     final allMemory = await _db.select(_db.wordMemory).get();
     if (allMemory.isEmpty) return;

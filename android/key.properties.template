@@ -1,0 +1,4 @@
+storePassword=PLACEHOLDER
+keyPassword=PLACEHOLDER
+keyAlias=mellivora
+storeFile=../mellivora-release.jks

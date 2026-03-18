@@ -1,0 +1,27 @@
+# iOS Build — TestFlight 构建模板
+# 注意：需要设置 APPLE_CERT, APPLE_PROFILE, APPLE_TEAM_ID 等 Secrets
+# 本文件是模板，实际 CI 需由超哥配置签名证书 Secrets
+name: iOS Build
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.x'
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate code
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build iOS (no codesign)
+        run: flutter build ios --release --no-codesign

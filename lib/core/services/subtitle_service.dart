@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -46,7 +47,13 @@ class SubtitleService extends StateNotifier<SubtitleState> {
       ..where((t) => t.audioId.equals(audioId))
       ..orderBy([(t) => OrderingTerm.asc(t.startMs)]);
 
-    final rows = await query.get();
+    late final List<Transcript> rows;
+    try {
+      rows = await query.get();
+    } catch (e) {
+      debugPrint('Failed to load subtitles: $e');
+      return;
+    }
 
     final segments = rows.map((r) => TranscriptSegment(
       id: r.id,

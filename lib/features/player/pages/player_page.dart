@@ -99,6 +99,12 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
 
     if (audioItem == null) return;
 
+    // Verify audio file exists on disk
+    if (!File(audioItem.filePath).existsSync()) {
+      debugPrint('Audio file not found: ${audioItem.filePath}');
+      return;
+    }
+
     final savedState =
         await AudioPlayerNotifier.getPlaybackState(db, widget.audioId);
 

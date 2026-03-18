@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -408,9 +409,13 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
           // Mark previous chapter as heard
           if (i > state.currentChapterIndex) {
             final prevChapter = state.chapters[state.currentChapterIndex];
-            (_db.update(_db.chapters)
-                  ..where((t) => t.id.equals(prevChapter.id)))
-                .write(const ChaptersCompanion(isHeard: Value(true)));
+            try {
+              (_db.update(_db.chapters)
+                    ..where((t) => t.id.equals(prevChapter.id)))
+                  .write(const ChaptersCompanion(isHeard: Value(true)));
+            } catch (e) {
+              debugPrint('Failed to mark chapter heard: $e');
+            }
           }
           state = state.copyWith(currentChapterIndex: i);
         }
@@ -452,9 +457,13 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
     // Mark current/last chapter as heard
     if (state.chapters.isNotEmpty) {
       final lastChapter = state.chapters[state.currentChapterIndex];
-      (_db.update(_db.chapters)
-            ..where((t) => t.id.equals(lastChapter.id)))
-          .write(const ChaptersCompanion(isHeard: Value(true)));
+      try {
+        (_db.update(_db.chapters)
+              ..where((t) => t.id.equals(lastChapter.id)))
+            .write(const ChaptersCompanion(isHeard: Value(true)));
+      } catch (e) {
+        debugPrint('Failed to mark chapter heard: $e');
+      }
     }
 
     if (state.loopMode == ChapterLoopMode.all) {
