@@ -9,6 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../database/app_database.dart';
 import '../database/database_provider.dart';
 
+// ── Loop Mode (#22) ─────────────────────────────────────────
+enum ChapterLoopMode { none, chapter, all }
+
 // ── AudioHandler (audio_service integration) ─────────────────
 class EncoreAudioHandler extends BaseAudioHandler with SeekHandler {
   final AudioPlayer _player;
@@ -103,7 +106,9 @@ class PlayerState {
   final int currentChapterIndex;
   final List<Chapter> chapters;
   final double speed;
-  final bool isLooping;
+  final ChapterLoopMode loopMode;
+  final int? loopingChapterIndex; // which chapter is set to loop (for chapter mode)
+  final bool isCompleted; // #23: all chapters played
 
   const PlayerState({
     this.audioId,
@@ -114,8 +119,15 @@ class PlayerState {
     this.currentChapterIndex = 0,
     this.chapters = const [],
     this.speed = 1.0,
-    this.isLooping = false,
+    this.loopMode = ChapterLoopMode.none,
+    this.loopingChapterIndex,
+    this.isCompleted = false,
   });
+
+  /// Helper: is the current chapter in single-chapter loop mode
+  bool get isCurrentChapterLooping =>
+      loopMode == ChapterLoopMode.chapter &&
+      loopingChapterIndex == currentChapterIndex;
 
   PlayerState copyWith({
     String? audioId,
@@ -126,7 +138,9 @@ class PlayerState {
     int? currentChapterIndex,
     List<Chapter>? chapters,
     double? speed,
-    bool? isLooping,
+    ChapterLoopMode? loopMode,
+    int? Function()? loopingChapterIndex,
+    bool? isCompleted,
   }) {
     return PlayerState(
       audioId: audioId ?? this.audioId,
@@ -137,7 +151,11 @@ class PlayerState {
       currentChapterIndex: currentChapterIndex ?? this.currentChapterIndex,
       chapters: chapters ?? this.chapters,
       speed: speed ?? this.speed,
-      isLooping: isLooping ?? this.isLooping,
+      loopMode: loopMode ?? this.loopMode,
+      loopingChapterIndex: loopingChapterIndex != null
+          ? loopingChapterIndex()
+          : this.loopingChapterIndex,
+      isCompleted: isCompleted ?? this.isCompleted,
     );
   }
 }
@@ -204,6 +222,7 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
       duration: duration ?? Duration.zero,
       currentChapterIndex: startChapterIndex,
       position: startPosition,
+      isCompleted: false,
     );
 
     // Update media item for lock screen
@@ -229,6 +248,15 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
       await _player.pause();
       state = state.copyWith(isPlaying: false);
     } else {
+      // If completed, restart from beginning
+      if (state.isCompleted) {
+        await _player.seek(Duration.zero);
+        state = state.copyWith(
+          isCompleted: false,
+          currentChapterIndex: 0,
+          position: Duration.zero,
+        );
+      }
       await _player.play();
       state = state.copyWith(isPlaying: true);
     }
@@ -236,7 +264,7 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
 
   Future<void> seekTo(Duration position) async {
     await _player.seek(position);
-    state = state.copyWith(position: position);
+    state = state.copyWith(position: position, isCompleted: false);
     _updateCurrentChapterFromPosition(position);
   }
 
@@ -269,6 +297,7 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
     state = state.copyWith(
       currentChapterIndex: index,
       position: position,
+      isCompleted: false,
     );
 
     if (!_player.playing) {
@@ -280,7 +309,7 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
   void skipToNextChapter() {
     if (state.currentChapterIndex < state.chapters.length - 1) {
       seekToChapter(state.currentChapterIndex + 1);
-    } else if (state.isLooping) {
+    } else if (state.loopMode == ChapterLoopMode.all) {
       seekToChapter(0);
     }
   }
@@ -313,12 +342,49 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
     state = state.copyWith(speed: speed);
   }
 
-  // ── Loop Control ──
+  // ── Loop Control (#22) ──
 
-  void toggleLoop() {
-    final newLooping = !state.isLooping;
-    _player.setLoopMode(newLooping ? LoopMode.all : LoopMode.off);
-    state = state.copyWith(isLooping: newLooping);
+  /// Cycle loop mode: none → chapter → all → none
+  void cycleLoopMode() {
+    switch (state.loopMode) {
+      case ChapterLoopMode.none:
+        // Switch to chapter loop for current chapter
+        state = state.copyWith(
+          loopMode: ChapterLoopMode.chapter,
+          loopingChapterIndex: () => state.currentChapterIndex,
+        );
+        break;
+      case ChapterLoopMode.chapter:
+        // Switch to all loop
+        state = state.copyWith(
+          loopMode: ChapterLoopMode.all,
+          loopingChapterIndex: () => null,
+        );
+        break;
+      case ChapterLoopMode.all:
+        // Switch to none
+        state = state.copyWith(
+          loopMode: ChapterLoopMode.none,
+          loopingChapterIndex: () => null,
+        );
+        break;
+    }
+  }
+
+  /// Set single chapter loop for a specific chapter (#21 long-press menu)
+  void setChapterLoop(int chapterIndex) {
+    state = state.copyWith(
+      loopMode: ChapterLoopMode.chapter,
+      loopingChapterIndex: () => chapterIndex,
+    );
+  }
+
+  /// Clear loop mode
+  void clearLoop() {
+    state = state.copyWith(
+      loopMode: ChapterLoopMode.none,
+      loopingChapterIndex: () => null,
+    );
   }
 
   // ── Position Tracking & Chapter Detection ──
@@ -327,6 +393,7 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
     _positionSub = _player.positionStream.listen((position) {
       state = state.copyWith(position: position);
       _updateCurrentChapterFromPosition(position);
+      _handleChapterBoundary(position);
     });
   }
 
@@ -352,27 +419,75 @@ class AudioPlayerNotifier extends StateNotifier<PlayerState> {
     }
   }
 
-  // ── Processing State (auto-advance / completion) ──
+  /// #22: Handle chapter boundary for single-chapter loop
+  void _handleChapterBoundary(Duration position) {
+    if (state.loopMode != ChapterLoopMode.chapter) return;
+    if (state.chapters.isEmpty) return;
+
+    final loopIdx = state.loopingChapterIndex;
+    if (loopIdx == null || loopIdx >= state.chapters.length) return;
+
+    final chapter = state.chapters[loopIdx];
+    final posMs = position.inMilliseconds;
+
+    // If we've reached the end of the looping chapter, seek back to start
+    if (posMs >= chapter.endMs - 200) {
+      // 200ms tolerance
+      _player.seek(Duration(milliseconds: chapter.startMs));
+    }
+  }
+
+  // ── Processing State (#23: auto-advance / completion) ──
 
   void _startProcessingStateListener() {
     _processingStateSub =
         _player.processingStateStream.listen((processingState) {
       if (processingState == ProcessingState.completed) {
-        // Mark last chapter as heard
-        if (state.chapters.isNotEmpty) {
-          final lastChapter = state.chapters[state.currentChapterIndex];
-          (_db.update(_db.chapters)
-                ..where((t) => t.id.equals(lastChapter.id)))
-              .write(const ChaptersCompanion(isHeard: Value(true)));
-        }
-
-        if (state.isLooping) {
-          seekToChapter(0);
-        } else {
-          state = state.copyWith(isPlaying: false);
-        }
+        _onPlaybackCompleted();
       }
     });
+  }
+
+  void _onPlaybackCompleted() {
+    // Mark current/last chapter as heard
+    if (state.chapters.isNotEmpty) {
+      final lastChapter = state.chapters[state.currentChapterIndex];
+      (_db.update(_db.chapters)
+            ..where((t) => t.id.equals(lastChapter.id)))
+          .write(const ChaptersCompanion(isHeard: Value(true)));
+    }
+
+    if (state.loopMode == ChapterLoopMode.all) {
+      // Loop all: restart from chapter 0
+      seekToChapter(0);
+    } else if (state.loopMode == ChapterLoopMode.chapter) {
+      // Single chapter loop: seek back to looping chapter start
+      final loopIdx = state.loopingChapterIndex ?? state.currentChapterIndex;
+      if (loopIdx < state.chapters.length) {
+        _player.seek(Duration(milliseconds: state.chapters[loopIdx].startMs));
+        _player.play();
+      }
+    } else {
+      // #23: Mark as completed, update playback_state
+      state = state.copyWith(isPlaying: false, isCompleted: true);
+      _markAudioCompleted();
+    }
+  }
+
+  /// #23: Mark playback_state.completed = true in DB
+  Future<void> _markAudioCompleted() async {
+    final audioId = state.audioId;
+    if (audioId == null) return;
+
+    await _db.into(_db.playbackState).insertOnConflictUpdate(
+          PlaybackStateCompanion(
+            audioId: Value(audioId),
+            lastPositionMs: Value(state.duration.inMilliseconds),
+            lastChapterId: Value(state.chapters.isNotEmpty
+                ? state.chapters.last.id
+                : null),
+          ),
+        );
   }
 
   // ── Playback Persistence (#18) — save every 5 seconds ──

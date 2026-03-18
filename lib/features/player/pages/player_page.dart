@@ -2,12 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/database/app_database.dart';
 import '../../../core/database/database_provider.dart';
 import '../../../core/services/audio_player_service.dart';
+import '../../../shared/providers/app_providers.dart';
+import '../widgets/player_overlay.dart';
 
 // ── Design tokens (小美原型 — pixel-perfect) ──────────────────
 const _kBgLayer1 = Color(0xFF1A1814);
@@ -19,6 +22,7 @@ const _kText40 = Color(0x66F0EBE0); // 40% opacity
 const _kText30 = Color(0x4DF0EBE0); // 30% opacity
 const _kText20 = Color(0x33F0EBE0); // 20% opacity
 const _kText13 = Color(0x21F0EBE0); // 13% opacity
+const _kGreen = Color(0xFF4CAF50);
 const _kSpringCurve = Cubic(0.16, 1, 0.3, 1);
 
 class PlayerPage extends ConsumerStatefulWidget {
@@ -71,6 +75,9 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
 
     // Already playing this audio
     if (currentState.audioId == widget.audioId && currentState.isPlaying) {
+      // Just make sure mini player is visible
+      ref.read(miniPlayerVisibleProvider.notifier).state = true;
+      ref.read(currentAudioIdProvider.notifier).state = widget.audioId;
       return;
     }
 
@@ -123,6 +130,12 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
         filePath: audioItem.filePath,
         title: audioItem.title,
       );
+    }
+
+    // Mark mini player visible
+    if (mounted) {
+      ref.read(miniPlayerVisibleProvider.notifier).state = true;
+      ref.read(currentAudioIdProvider.notifier).state = widget.audioId;
     }
   }
 
@@ -231,9 +244,16 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
       height: 52,
       child: Row(
         children: [
-          // Back button
+          // Back button — close overlay or pop route
           GestureDetector(
-            onTap: () => context.pop(),
+            onTap: () {
+              final overlayVisible = ref.read(playerOverlayVisibleProvider);
+              if (overlayVisible) {
+                ref.read(playerOverlayVisibleProvider.notifier).state = false;
+              } else {
+                context.pop();
+              }
+            },
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Row(
@@ -276,7 +296,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
     );
   }
 
-  // ── Chapter Navigation (#20) ───────────────────────────────
+  // ── Chapter Navigation (#20 + #21 long-press) ──────────────
   Widget _buildChapterNav(PlayerState playerState) {
     if (playerState.chapters.isEmpty) {
       return const SizedBox(height: 74);
@@ -290,18 +310,145 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
         padding: const EdgeInsets.symmetric(horizontal: 12),
         itemCount: playerState.chapters.length,
         itemBuilder: (context, index) {
+          final isLoopingThis = playerState.loopMode == ChapterLoopMode.chapter &&
+              playerState.loopingChapterIndex == index;
           return _ChapterChip(
             chapter: playerState.chapters[index],
             index: index,
             isCurrent: index == playerState.currentChapterIndex,
             isDone: playerState.chapters[index].isHeard,
+            isLooping: isLoopingThis,
             currentPosition: playerState.position,
             onTap: () =>
                 ref.read(audioPlayerProvider.notifier).seekToChapter(index),
+            onLongPress: () => _showChapterContextMenu(context, index, playerState),
           );
         },
       ),
     );
+  }
+
+  // ── #21: Chapter Long-press Context Menu ────────────────────
+  void _showChapterContextMenu(
+      BuildContext context, int index, PlayerState playerState) {
+    // Haptic feedback
+    HapticFeedback.mediumImpact();
+
+    final notifier = ref.read(audioPlayerProvider.notifier);
+    final isLoopingThis = playerState.loopMode == ChapterLoopMode.chapter &&
+        playerState.loopingChapterIndex == index;
+
+    if (Platform.isIOS) {
+      showCupertinoModalPopup(
+        context: context,
+        builder: (ctx) => CupertinoActionSheet(
+          title: Text('第${index + 1}章'),
+          actions: [
+            CupertinoActionSheetAction(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                if (isLoopingThis) {
+                  notifier.clearLoop();
+                } else {
+                  notifier.setChapterLoop(index);
+                }
+              },
+              child: Text(isLoopingThis ? '取消循环' : '↺ 循环这段'),
+            ),
+            CupertinoActionSheetAction(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                notifier.seekToChapter(index);
+              },
+              child: const Text('跳到这里'),
+            ),
+            CupertinoActionSheetAction(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                // TODO: Open CC overlay
+              },
+              child: const Text('查看字幕'),
+            ),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('取消'),
+          ),
+        ),
+      );
+    } else {
+      showModalBottomSheet(
+        context: context,
+        backgroundColor: _kBgLayer2,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        ),
+        builder: (ctx) => SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 12),
+              Container(
+                width: 36,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: _kText20,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                '第${index + 1}章',
+                style: const TextStyle(
+                  color: _kText70,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 8),
+              ListTile(
+                leading: Icon(
+                  Icons.repeat_one_rounded,
+                  color: isLoopingThis ? _kAccent : _kText40,
+                ),
+                title: Text(
+                  isLoopingThis ? '取消循环' : '↺ 循环这段',
+                  style: const TextStyle(color: _kTextPrimary),
+                ),
+                onTap: () {
+                  Navigator.of(ctx).pop();
+                  if (isLoopingThis) {
+                    notifier.clearLoop();
+                  } else {
+                    notifier.setChapterLoop(index);
+                  }
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.skip_next_rounded, color: _kText40),
+                title: const Text('跳到这里',
+                    style: TextStyle(color: _kTextPrimary)),
+                onTap: () {
+                  Navigator.of(ctx).pop();
+                  notifier.seekToChapter(index);
+                },
+              ),
+              ListTile(
+                leading:
+                    const Icon(Icons.closed_caption_rounded, color: _kText40),
+                title: const Text('查看字幕',
+                    style: TextStyle(color: _kTextPrimary)),
+                onTap: () {
+                  Navigator.of(ctx).pop();
+                  // TODO: Open CC overlay
+                },
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   void _scrollToCurrentChapter(int index) {
@@ -556,7 +703,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
     );
   }
 
-  // ── Speed + Loop + Agent ───────────────────────────────────
+  // ── Speed + Loop + Agent (#22 loop mode UI) ────────────────
   Widget _buildSpeedAndExtras(PlayerState playerState) {
     final notifier = ref.read(audioPlayerProvider.notifier);
 
@@ -584,13 +731,52 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
 
         const SizedBox(width: 16),
 
-        // Loop button
+        // Loop button (#22: three states with badge)
         GestureDetector(
-          onTap: notifier.toggleLoop,
-          child: Icon(
-            Icons.repeat_rounded,
-            color: playerState.isLooping ? _kAccent : _kText30,
-            size: 22,
+          onTap: notifier.cycleLoopMode,
+          child: SizedBox(
+            width: 30,
+            height: 30,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Center(
+                  child: Icon(
+                    playerState.loopMode == ChapterLoopMode.chapter
+                        ? Icons.repeat_one_rounded
+                        : Icons.repeat_rounded,
+                    color: playerState.loopMode != ChapterLoopMode.none
+                        ? _kAccent
+                        : _kText30,
+                    size: 22,
+                  ),
+                ),
+                // "1" badge for chapter mode
+                if (playerState.loopMode == ChapterLoopMode.chapter)
+                  Positioned(
+                    right: -2,
+                    bottom: -2,
+                    child: Container(
+                      width: 14,
+                      height: 14,
+                      decoration: const BoxDecoration(
+                        color: _kAccent,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Center(
+                        child: Text(
+                          '1',
+                          style: TextStyle(
+                            color: _kBgLayer1,
+                            fontSize: 8,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
 
@@ -632,28 +818,33 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
   }
 }
 
-// ── Chapter Chip Widget (#20) ────────────────────────────────
+// ── Chapter Chip Widget (#20 + #21 long-press + #22 loop badge) ─
 class _ChapterChip extends StatelessWidget {
   final Chapter chapter;
   final int index;
   final bool isCurrent;
   final bool isDone;
+  final bool isLooping;
   final Duration currentPosition;
   final VoidCallback onTap;
+  final VoidCallback onLongPress;
 
   const _ChapterChip({
     required this.chapter,
     required this.index,
     required this.isCurrent,
     required this.isDone,
+    required this.isLooping,
     required this.currentPosition,
     required this.onTap,
+    required this.onLongPress,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -672,13 +863,13 @@ class _ChapterChip extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Chapter number + done indicator
+            // Chapter number + done/loop indicators
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (isDone && !isCurrent) ...[
                   const Icon(Icons.check_circle,
-                      color: Color(0xFF4CAF50), size: 11),
+                      color: _kGreen, size: 11),
                   const SizedBox(width: 3),
                 ],
                 if (isCurrent) ...[
@@ -692,6 +883,15 @@ class _ChapterChip extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                   ),
+                ],
+                // Loop indicator (#22)
+                if (isLooping) ...[
+                  Icon(
+                    Icons.repeat_one_rounded,
+                    color: isCurrent ? Colors.white : _kAccent,
+                    size: 11,
+                  ),
+                  const SizedBox(width: 2),
                 ],
                 Text(
                   '第${index + 1}章',

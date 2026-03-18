@@ -8,6 +8,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/database/app_database.dart';
 import '../../core/services/transcription_queue.dart';
+import '../../shared/providers/app_providers.dart';
+import '../player/widgets/player_overlay.dart';
 import 'library_provider.dart';
 
 // ── Design tokens (小美原型) ──────────────────────────────────
@@ -375,7 +377,10 @@ class _AudioItemTileState extends ConsumerState<_AudioItemTile>
           if (item.transcriptionStatus == 'error') {
             ref.read(transcriptionQueueProvider).enqueue(item.id);
           } else {
-            context.push('/player/${item.id}');
+            // Set current audio and open player overlay (#24)
+            ref.read(currentAudioIdProvider.notifier).state = item.id;
+            ref.read(miniPlayerVisibleProvider.notifier).state = true;
+            ref.read(playerOverlayVisibleProvider.notifier).state = true;
           }
         },
         child: Container(
@@ -404,7 +409,7 @@ class _AudioItemTileState extends ConsumerState<_AudioItemTile>
                       ),
                     ),
                   ),
-                  // Heard checkmark
+                  // #23: Fully heard green checkmark badge
                   if (isFullyHeard)
                     Positioned(
                       top: 2,
@@ -413,13 +418,13 @@ class _AudioItemTileState extends ConsumerState<_AudioItemTile>
                         width: 16,
                         height: 16,
                         decoration: const BoxDecoration(
-                          color: _kAccent,
+                          color: Color(0xFF4CAF50),
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
                           Icons.check,
                           size: 10,
-                          color: _kBgLayer1,
+                          color: Colors.white,
                         ),
                       ),
                     ),

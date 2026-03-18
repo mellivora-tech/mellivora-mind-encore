@@ -32,6 +32,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/login',
         builder: (context, state) => const LoginPage(),
       ),
+      // Keep player route for deep links / direct navigation
       GoRoute(
         path: '/player/:audioId',
         parentNavigatorKey: _rootNavigatorKey,
