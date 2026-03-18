@@ -10,7 +10,6 @@ import '../../../core/database/app_database.dart';
 import '../../../core/database/database_provider.dart';
 import '../../../core/services/audio_player_service.dart';
 import '../../../shared/providers/app_providers.dart';
-import '../widgets/player_overlay.dart';
 
 // ── Design tokens (小美原型 — pixel-perfect) ──────────────────
 const _kBgLayer1 = Color(0xFF1A1814);

@@ -9,7 +9,6 @@ import 'package:go_router/go_router.dart';
 import '../../core/database/app_database.dart';
 import '../../core/services/transcription_queue.dart';
 import '../../shared/providers/app_providers.dart';
-import '../player/widgets/player_overlay.dart';
 import 'library_provider.dart';
 
 // ── Design tokens (小美原型) ──────────────────────────────────

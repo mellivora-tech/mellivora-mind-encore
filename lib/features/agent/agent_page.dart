@@ -6,6 +6,9 @@ class AgentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // #26: Chat page handles keyboard inset manually
+      // so MiniPlayer stays visible above keyboard
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Agent'),
       ),

@@ -10,9 +10,6 @@ import '../../shared/providers/app_providers.dart';
 const _kBgLayer1 = Color(0xFF1A1814);
 const _kBgLayer2 = Color(0xFF242018);
 const _kAccent = Color(0xFFF5A623);
-const _kText30 = Color(0x4DF0EBE0);
-const _kTextPrimary = Color(0xFFF0EBE0);
-const _kSpringCurve = Cubic(0.16, 1, 0.3, 1);
 
 class ShellScaffold extends ConsumerWidget {
   final StatefulNavigationShell navigationShell;
@@ -29,101 +26,119 @@ class ShellScaffold extends ConsumerWidget {
     // #26: keyboard bottom inset
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     final hasKeyboard = bottomInset > 0;
+    final safePadBottom = MediaQuery.of(context).viewPadding.bottom;
 
-    // Mini player effective height (animated via AnimatedContainer)
+    // Nav bar height: Material 3 standard 80 + safe area
+    const navBarH = 80.0;
+    final navBarTotal = navBarH + safePadBottom;
+
+    // Mini player effective height (animated)
     final miniBarHeight = miniPlayerVisible ? kMiniPlayerHeight : 0.0;
 
     return Scaffold(
       backgroundColor: _kBgLayer1,
+      resizeToAvoidBottomInset: false, // #26: handle keyboard manually
       body: Stack(
         children: [
-          // ── Main tab content ──
-          // Pushed up by mini player + nav bar
+          // ── Tab content (IndexedStack via GoRouter) ──
+          // #24: all 4 tabs share the same Stack
           Positioned.fill(
-            bottom: 0, // Content extends to bottom; nav bar overlays
-            child: Column(
-              children: [
-                Expanded(child: navigationShell),
-                // Space for mini player (animated)
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  curve: _kSpringCurve,
-                  height: miniBarHeight,
-                ),
-              ],
+            child: AnimatedPadding(
+              duration: const Duration(milliseconds: 250),
+              padding: EdgeInsets.only(bottom: navBarTotal + miniBarHeight),
+              child: navigationShell,
             ),
+          ),
+
+          // ── Bottom Navigation Bar ──
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: _buildNavBar(context, safePadBottom),
           ),
 
           // ── Mini Player (above Tab Bar) ──
           // #24: positioned above bottom nav bar
-          // #26: adjusts with keyboard via bottomInset
-          if (miniPlayerVisible)
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: _navBarHeight(context) + (hasKeyboard ? bottomInset : 0),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                curve: _kSpringCurve,
-                height: miniBarHeight,
-                child: MiniPlayer(
-                  onTap: () {
-                    // #25: open player overlay
-                    ref.read(playerOverlayVisibleProvider.notifier).state = true;
-                  },
+          // #25: opacity fades out when overlay is open
+          // #26: adjusts with keyboard via AnimatedPadding
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: navBarTotal,
+            child: AnimatedPadding(
+              duration: const Duration(milliseconds: 250),
+              padding: EdgeInsets.only(
+                bottom: hasKeyboard ? bottomInset : 0,
+              ),
+              child: AnimatedOpacity(
+                opacity: playerOverlayVisible ? 0.0 : 1.0,
+                duration: const Duration(milliseconds: 250),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 250),
+                  height: miniBarHeight,
+                  child: miniPlayerVisible
+                      ? MiniPlayer(
+                          onTap: () {
+                            // #25: open player overlay
+                            ref
+                                .read(playerOverlayVisibleProvider.notifier)
+                                .state = true;
+                          },
+                        )
+                      : const SizedBox.shrink(),
                 ),
               ),
             ),
+          ),
 
           // ── Player Overlay (full screen, above everything) ──
+          // #25: z-index 500 equivalent — last in Stack
           if (playerOverlayVisible) const PlayerOverlay(),
         ],
-      ),
-      bottomNavigationBar: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        // #26: when keyboard is up, optionally hide nav bar or keep it
-        child: NavigationBar(
-          backgroundColor: _kBgLayer2,
-          surfaceTintColor: Colors.transparent,
-          indicatorColor: _kAccent.withOpacity(0.15),
-          selectedIndex: navigationShell.currentIndex,
-          onDestinationSelected: (index) {
-            navigationShell.goBranch(
-              index,
-              initialLocation: index == navigationShell.currentIndex,
-            );
-          },
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.library_music_outlined),
-              selectedIcon: Icon(Icons.library_music),
-              label: 'Library',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.smart_toy_outlined),
-              selectedIcon: Icon(Icons.smart_toy),
-              label: 'Agent',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.abc_outlined),
-              selectedIcon: Icon(Icons.abc),
-              label: 'Words',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.person_outline),
-              selectedIcon: Icon(Icons.person),
-              label: '我的',
-            ),
-          ],
-        ),
       ),
     );
   }
 
-  /// Get the nav bar height for positioning mini player above it
-  double _navBarHeight(BuildContext context) {
-    // Standard Material 3 NavigationBar height is 80
-    // Plus safe area bottom padding
-    return 80 + MediaQuery.of(context).viewPadding.bottom;
+  Widget _buildNavBar(BuildContext context, double safePadBottom) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: _kBgLayer2,
+      ),
+      child: NavigationBar(
+        backgroundColor: _kBgLayer2,
+        surfaceTintColor: Colors.transparent,
+        indicatorColor: _kAccent.withOpacity(0.15),
+        selectedIndex: navigationShell.currentIndex,
+        onDestinationSelected: (index) {
+          navigationShell.goBranch(
+            index,
+            initialLocation: index == navigationShell.currentIndex,
+          );
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.library_music_outlined),
+            selectedIcon: Icon(Icons.library_music),
+            label: 'Library',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.smart_toy_outlined),
+            selectedIcon: Icon(Icons.smart_toy),
+            label: 'Agent',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.abc_outlined),
+            selectedIcon: Icon(Icons.abc),
+            label: 'Words',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            selectedIcon: Icon(Icons.person),
+            label: '我的',
+          ),
+        ],
+      ),
+    );
   }
 }

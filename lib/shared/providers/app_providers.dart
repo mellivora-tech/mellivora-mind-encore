@@ -8,3 +8,6 @@ final miniPlayerVisibleProvider = StateProvider<bool>((ref) => false);
 
 /// Currently playing audio ID
 final currentAudioIdProvider = StateProvider<String?>((ref) => null);
+
+/// Player overlay visibility state (#25)
+final playerOverlayVisibleProvider = StateProvider<bool>((ref) => false);

@@ -4,10 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../shared/providers/app_providers.dart';
 import '../pages/player_page.dart';
 
-const _kSpringCurve = Cubic(0.16, 1, 0.3, 1);
-
-/// Provider to control the player overlay visibility
-final playerOverlayVisibleProvider = StateProvider<bool>((ref) => false);
+const _kEaseOutExpo = Cubic(0.16, 1, 0.3, 1);
 
 /// Full-screen Player overlay that slides up from bottom (#25)
 class PlayerOverlay extends ConsumerStatefulWidget {
@@ -35,18 +32,16 @@ class _PlayerOverlayState extends ConsumerState<PlayerOverlay>
     );
     _slideAnimation = CurvedAnimation(
       parent: _controller,
-      curve: _kSpringCurve,
+      curve: _kEaseOutExpo,
     );
+    // Start open animation immediately
+    _controller.forward();
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
-  void _open() {
-    _controller.forward();
   }
 
   void _close() {
@@ -57,19 +52,14 @@ class _PlayerOverlayState extends ConsumerState<PlayerOverlay>
     });
   }
 
+  /// Expose animation value for mini player opacity sync
+  double get animationValue => _slideAnimation.value;
+
   @override
   Widget build(BuildContext context) {
-    final isVisible = ref.watch(playerOverlayVisibleProvider);
     final audioId = ref.watch(currentAudioIdProvider);
 
-    if (!isVisible || audioId == null) return const SizedBox.shrink();
-
-    // Trigger open animation
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (isVisible && !_controller.isCompleted && !_controller.isAnimating) {
-        _open();
-      }
-    });
+    if (audioId == null) return const SizedBox.shrink();
 
     final screenHeight = MediaQuery.of(context).size.height;
 
