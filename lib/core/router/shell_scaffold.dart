@@ -10,8 +10,9 @@ import '../../shared/providers/app_providers.dart';
 const _kBgLayer1 = Color(0xFF1A1814);
 const _kBgLayer2 = Color(0xFF242018);
 const _kAccent = Color(0xFFF5A623);
+const _kEaseOutExpo = Cubic(0.16, 1, 0.3, 1);
 
-class ShellScaffold extends ConsumerWidget {
+class ShellScaffold extends ConsumerStatefulWidget {
   final StatefulNavigationShell navigationShell;
 
   const ShellScaffold({
@@ -20,9 +21,61 @@ class ShellScaffold extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ShellScaffold> createState() => _ShellScaffoldState();
+}
+
+class _ShellScaffoldState extends ConsumerState<ShellScaffold>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _overlayController;
+  late final Animation<Offset> _slideAnimation;
+  late final Animation<double> _miniPlayerFade;
+
+  /// Keep overlay in widget tree during reverse animation.
+  bool _showOverlay = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // #25: AnimationController managed here, drives both overlay slide
+    // and mini player fade.
+    _overlayController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 440),
+    );
+
+    // SlideTransition: Offset(0,1) → Offset(0,0)
+    // Curve applied via animateTo(), so drag remains linear.
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 1),
+      end: Offset.zero,
+    ).animate(_overlayController);
+
+    // FadeTransition synced: opacity 1 when closed, 0 when open
+    _miniPlayerFade = Tween<double>(
+      begin: 1.0,
+      end: 0.0,
+    ).animate(_overlayController);
+
+    _overlayController.addStatusListener((status) {
+      if (status == AnimationStatus.dismissed && mounted) {
+        setState(() => _showOverlay = false);
+        ref.read(playerOverlayVisibleProvider.notifier).state = false;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _overlayController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final miniPlayerVisible = ref.watch(miniPlayerVisibleProvider);
     final playerOverlayVisible = ref.watch(playerOverlayVisibleProvider);
+
     // #26: keyboard bottom inset
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     final hasKeyboard = bottomInset > 0;
@@ -35,6 +88,16 @@ class ShellScaffold extends ConsumerWidget {
     // Mini player effective height (animated)
     final miniBarHeight = miniPlayerVisible ? kMiniPlayerHeight : 0.0;
 
+    // #25: react to overlay visibility changes from any source (e.g. back button)
+    ref.listen(playerOverlayVisibleProvider, (prev, next) {
+      if (next) {
+        setState(() => _showOverlay = true);
+        _overlayController.animateTo(1.0, curve: _kEaseOutExpo);
+      } else {
+        _overlayController.animateTo(0.0, curve: _kEaseOutExpo);
+      }
+    });
+
     return Scaffold(
       backgroundColor: _kBgLayer1,
       resizeToAvoidBottomInset: false, // #26: handle keyboard manually
@@ -46,7 +109,7 @@ class ShellScaffold extends ConsumerWidget {
             child: AnimatedPadding(
               duration: const Duration(milliseconds: 250),
               padding: EdgeInsets.only(bottom: navBarTotal + miniBarHeight),
-              child: navigationShell,
+              child: widget.navigationShell,
             ),
           ),
 
@@ -59,21 +122,20 @@ class ShellScaffold extends ConsumerWidget {
           ),
 
           // ── Mini Player (above Tab Bar) ──
-          // #24: positioned above bottom nav bar
-          // #25: opacity fades out when overlay is open
-          // #26: adjusts with keyboard via AnimatedPadding
+          // #25: FadeTransition synced with overlay animation
+          // #26: AnimatedPadding adjusts with keyboard, curve Curves.easeOut
           Positioned(
             left: 0,
             right: 0,
             bottom: navBarTotal,
             child: AnimatedPadding(
               duration: const Duration(milliseconds: 250),
+              curve: Curves.easeOut, // #26
               padding: EdgeInsets.only(
                 bottom: hasKeyboard ? bottomInset : 0,
               ),
-              child: AnimatedOpacity(
-                opacity: playerOverlayVisible ? 0.0 : 1.0,
-                duration: const Duration(milliseconds: 250),
+              child: FadeTransition(
+                opacity: _miniPlayerFade,
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 250),
                   height: miniBarHeight,
@@ -84,6 +146,10 @@ class ShellScaffold extends ConsumerWidget {
                             ref
                                 .read(playerOverlayVisibleProvider.notifier)
                                 .state = true;
+                            // Also trigger directly for edge case (tap during reverse)
+                            setState(() => _showOverlay = true);
+                            _overlayController.animateTo(1.0,
+                                curve: _kEaseOutExpo);
                           },
                         )
                       : const SizedBox.shrink(),
@@ -93,8 +159,16 @@ class ShellScaffold extends ConsumerWidget {
           ),
 
           // ── Player Overlay (full screen, above everything) ──
-          // #25: z-index 500 equivalent — last in Stack
-          if (playerOverlayVisible) const PlayerOverlay(),
+          // #25: SlideTransition begin: Offset(0,1) → end: Offset(0,0), 440ms
+          if (_showOverlay)
+            Positioned.fill(
+              child: SlideTransition(
+                position: _slideAnimation,
+                child: PlayerOverlay(
+                  animationController: _overlayController,
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -109,11 +183,11 @@ class ShellScaffold extends ConsumerWidget {
         backgroundColor: _kBgLayer2,
         surfaceTintColor: Colors.transparent,
         indicatorColor: _kAccent.withOpacity(0.15),
-        selectedIndex: navigationShell.currentIndex,
+        selectedIndex: widget.navigationShell.currentIndex,
         onDestinationSelected: (index) {
-          navigationShell.goBranch(
+          widget.navigationShell.goBranch(
             index,
-            initialLocation: index == navigationShell.currentIndex,
+            initialLocation: index == widget.navigationShell.currentIndex,
           );
         },
         destinations: const [
