@@ -61,11 +61,16 @@ class Words extends Table {
 class Vocabulary extends Table {
   TextColumn get id => text()();
   TextColumn get word => text()();
+  TextColumn get phonetic => text().withDefault(const Constant(''))();
+  TextColumn get pos => text().withDefault(const Constant(''))();
+  TextColumn get meaning => text().withDefault(const Constant(''))();
   TextColumn get definition => text().withDefault(const Constant(''))();
   TextColumn get audioId =>
       text().references(AudioItems, #id)();
   TextColumn get chapterId =>
       text().nullable().references(Chapters, #id)();
+  IntColumn get sourceOffsetMs =>
+      integer().withDefault(const Constant(0))();
   DateTimeColumn get createdAt =>
       dateTime().withDefault(currentDateAndTime)();
   IntColumn get reviewCount =>
@@ -151,4 +156,36 @@ class ReviewSchedule extends Table {
 
   @override
   Set<Column> get primaryKey => {wordId};
+}
+
+/// 11. weakness_profile — detected weak areas per word
+class WeaknessProfile extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get wordId =>
+      text().references(Vocabulary, #id)();
+  TextColumn get weakType =>
+      text().withDefault(const Constant('vocabulary'))();
+  TextColumn get context_ => text().named('context').withDefault(const Constant(''))();
+  DateTimeColumn get detectedAt =>
+      dateTime().withDefault(currentDateAndTime)();
+}
+
+/// 12. learning_patterns — user learning behavior analytics
+class LearningPatterns extends Table {
+  TextColumn get id => text()();
+  TextColumn get estimatedLevel =>
+      text().withDefault(const Constant('B1'))();
+  TextColumn get levelBasis =>
+      text().withDefault(const Constant(''))();
+  TextColumn get activeHours =>
+      text().withDefault(const Constant(''))();
+  IntColumn get avgSessionMin =>
+      integer().withDefault(const Constant(0))();
+  TextColumn get preferredTopics =>
+      text().withDefault(const Constant(''))();
+  DateTimeColumn get updatedAt =>
+      dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }

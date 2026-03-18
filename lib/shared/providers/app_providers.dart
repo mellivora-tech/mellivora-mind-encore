@@ -11,3 +11,6 @@ final currentAudioIdProvider = StateProvider<String?>((ref) => null);
 
 /// Player overlay visibility state (#25)
 final playerOverlayVisibleProvider = StateProvider<bool>((ref) => false);
+
+/// #28: CC subtitle overlay visible state
+final subtitleVisibleProvider = StateProvider<bool>((ref) => false);

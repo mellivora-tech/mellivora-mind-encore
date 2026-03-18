@@ -19,6 +19,8 @@ part 'app_database.g.dart';
   ContentMemory,
   AgentSessions,
   ReviewSchedule,
+  WeaknessProfile,
+  LearningPatterns,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
