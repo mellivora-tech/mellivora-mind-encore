@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../../core/database/app_database.dart';
@@ -17,6 +18,32 @@ final audioRepositoryProvider = Provider<AudioRepository>((ref) {
 final audioItemsStreamProvider = StreamProvider<List<AudioItem>>((ref) {
   final repo = ref.read(audioRepositoryProvider);
   return repo.watchAllAudioItems();
+});
+
+/// Watch chapter count for a specific audio item
+final chapterCountProvider = StreamProvider.family<int, String>((ref, audioId) {
+  final db = ref.read(databaseProvider);
+  final query = db.selectOnly(db.chapters)
+    ..addColumns([db.chapters.id.count()])
+    ..where(db.chapters.audioId.equals(audioId));
+  return query.watchSingle().map((row) => row.read(db.chapters.id.count()) ?? 0);
+});
+
+/// Watch heard chapter count for a specific audio item
+final heardChapterCountProvider = StreamProvider.family<int, String>((ref, audioId) {
+  final db = ref.read(databaseProvider);
+  final query = db.selectOnly(db.chapters)
+    ..addColumns([db.chapters.id.count()])
+    ..where(db.chapters.audioId.equals(audioId) & db.chapters.isHeard.equals(true));
+  return query.watchSingle().map((row) => row.read(db.chapters.id.count()) ?? 0);
+});
+
+/// Watch playback state for a specific audio item
+final playbackStateProvider = StreamProvider.family<PlaybackStateData?, String>((ref, audioId) {
+  final db = ref.read(databaseProvider);
+  return (db.select(db.playbackState)
+        ..where((t) => t.audioId.equals(audioId)))
+      .watchSingleOrNull();
 });
 
 final libraryActionsProvider = Provider<LibraryActions>((ref) {
