@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:drift/drift.dart' show OrderingTerm;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -719,7 +720,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage>
         ),
         const SizedBox(width: 24),
         _controlButton(
-          icon: Icons.forward_15,
+          icon: Icons.forward_10,
           size: 28,
           onTap: () => notifier
               .seekRelative(const Duration(seconds: 15)),

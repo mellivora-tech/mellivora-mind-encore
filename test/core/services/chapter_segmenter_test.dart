@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mellivora_mind_encore/core/services/chapter_segmenter.dart';
+import 'package:mellivora_english_app/core/services/chapter_segmenter.dart';
 
 void main() {
   late ChapterSegmenter segmenter;

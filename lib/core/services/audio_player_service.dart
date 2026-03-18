@@ -92,8 +92,9 @@ class EncoreAudioHandler extends BaseAudioHandler with SeekHandler {
   @override
   Future<void> setSpeed(double speed) => _player.setSpeed(speed);
 
-  void updateMediaItem(MediaItem item) {
-    mediaItem.add(item);
+  @override
+  Future<void> updateMediaItem(MediaItem mediaItem) async {
+    this.mediaItem.add(mediaItem);
   }
 }
 

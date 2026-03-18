@@ -140,7 +140,7 @@ class ChapterTitleService {
           // Clean up: remove quotes, periods, extra whitespace
           return content
               .trim()
-              .replaceAll(RegExp(r'^[「『"\']+|[」』"\'。.]+$'), '')
+              .replaceAll(RegExp('^[「『"\' ]+|[」』"\' 。.]+\$'), '')
               .trim();
         }
       }
@@ -225,7 +225,7 @@ Future<String> generateSingleTitle({
       if (content != null && content.trim().isNotEmpty) {
         return content
             .trim()
-            .replaceAll(RegExp(r'^[「『"\']+|[」』"\'。.]+$'), '')
+            .replaceAll(RegExp('^[「『"\' ]+|[」』"\' 。.]+\$'), '')
             .trim();
       }
     }

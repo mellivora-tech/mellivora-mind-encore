@@ -36,7 +36,7 @@ class TranscriptSegment {
 class SubtitleService extends StateNotifier<SubtitleState> {
   final AppDatabase _db;
   final AudioPlayer _player;
-  StreamSubscription<Duration>? _positionSub;
+  StreamSubscription<int>? _positionSub;
   int _globalOffsetMs = 0;
 
   SubtitleService(this._db, this._player) : super(const SubtitleState());
